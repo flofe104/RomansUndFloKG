@@ -40,8 +40,14 @@ public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : Instantiable
 
     protected override void OnInstantiate(GameObject instance)
     {
+        AddWeaponBehaviour(instance);
+    }
+
+    protected WeaponBehaviour AddWeaponBehaviour(GameObject instance)
+    {
         WeaponBehaviour weapon = instance.AddComponent<WeaponBehaviour>();
-        weapon.weaponStats = (ItemStats)this;
+        weapon.WeaponStats = (ItemStats)this;
+        return weapon;
     }
 
 }

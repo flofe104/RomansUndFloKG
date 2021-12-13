@@ -12,7 +12,22 @@ public abstract class EquipedWeapon<WeaponBehaviour, ItemStats> : MonoBehaviour
     where WeaponBehaviour : EquipedWeapon<WeaponBehaviour, ItemStats>
 {
 
-    public ItemStats weaponStats;
+    protected ItemStats weaponStats;
+
+    public ItemStats WeaponStats
+    {
+        get
+        {
+            return weaponStats; 
+        }
+        set
+        {
+            weaponStats = value;
+            OnWeaponStatsAssigned(weaponStats);
+        }
+    }
+
+    protected virtual void OnWeaponStatsAssigned(ItemStats stats) { }
 
     public bool IsInAttack { get; protected set; }
 

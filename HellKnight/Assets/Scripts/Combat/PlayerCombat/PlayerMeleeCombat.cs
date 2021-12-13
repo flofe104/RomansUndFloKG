@@ -11,8 +11,13 @@ public class PlayerMeleeCombat : MeleeWeaponCombat
     {
         if (Input.GetButton(ATTACK_BUTTON_NAME))
         {
-            weaponBehaviour.Attack();
+            weaponBehaviour.Attack(DamageEnemiesFilter);
         }
+    }
+
+    protected bool DamageEnemiesFilter(IHealth health)
+    {
+        return !(health is PlayerHealth);
     }
 
 }
