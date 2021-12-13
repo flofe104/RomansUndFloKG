@@ -8,6 +8,6 @@ public class InventoryItem : ScriptableObject
     public string itemName;
 
     [Range(0,100)]
-    public int cost;
+    public int itemValue;
 
 }

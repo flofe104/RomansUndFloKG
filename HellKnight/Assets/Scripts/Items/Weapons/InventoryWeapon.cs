@@ -3,7 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : InstantiableInventoryItem 
+/// <summary>
+/// Class for all inventory weapons
+/// </summary>
+/// <typeparam name="WeaponBehaviour">Generic type of the behaviour that will controll weapons of this type</typeparam>
+/// <typeparam name="ItemStats">Generic type of the Itemstats the weaponbehaviour will use. Choose always the type that inherits from this class</typeparam>
+public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : InstantiableInventoryItem, IInstantiatableWeapon<WeaponBehaviour,ItemStats>
     where WeaponBehaviour : EquipedWeapon<WeaponBehaviour,ItemStats> 
     where ItemStats : InventoryWeapon<WeaponBehaviour,ItemStats>
 {
@@ -14,6 +19,12 @@ public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : Instantiable
     [Tooltip("Time in seconds before the next attack can be started")]
     [Range(0, 2)]
     public float attackDuration;
+
+    public WeaponBehaviour CreateInstanceAndGetBehaviour(Transform parent)
+    {
+        GameObject instance = CreateInstance(parent);
+        return instance.GetComponent<WeaponBehaviour>();
+    }
 
     protected override void OnInstantiate(GameObject instance)
     {

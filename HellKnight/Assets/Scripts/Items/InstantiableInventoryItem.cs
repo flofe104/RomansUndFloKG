@@ -6,16 +6,24 @@ public class InstantiableInventoryItem : InventoryItem, IInstantiatableItem
 {
 
     [Tooltip("Gameobject to instantiate when the item is equiped")]
-    public GameObject prefab;
+    [SerializeField]
+    protected GameObject prefab;
 
     [Tooltip("Image to display in inventory view")]
-    public Sprite uiImage;
+    [SerializeField]
+    protected Sprite uiImage;
 
-    public Vector3 equipPosition;
+    [SerializeField]
+    protected Vector3 equipPosition;
+    public Vector3 EquipPosition => equipPosition;
 
-    public Vector3 equipEulerAngle;
-                 
-    public Vector3 equipScale = Vector3.one;
+    [SerializeField]
+    protected Vector3 equipEulerAngle;
+    public Vector3 EquipEulerAngle => equipEulerAngle;
+
+    [SerializeField]
+    protected Vector3 equipScale = Vector3.one;
+    public Vector3 EquipScale => equipScale;
 
     public GameObject CreateInstance(Transform parent)
     {
