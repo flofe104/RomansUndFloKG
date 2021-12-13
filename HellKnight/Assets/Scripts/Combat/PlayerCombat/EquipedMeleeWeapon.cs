@@ -59,10 +59,16 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
         } while (timeInAttack < weaponStats.AttackAnimationDuration);
 
 
+        ///Check if the angle of the rotation of the weapon after the rotation time matches the expected rotation 
+        ///with an allowed error (due to floating point precision) of 0.001 degree
+        Assert.AreApproximatelyEqual(Quaternion.Angle(Quaternion.Euler(WeaponStats.EquipEulerAngle), transform.localRotation), WeaponStats.rotationAngle, 0.001f);
+
         weaponCollider.enabled = false;
         yield return new WaitForSeconds(weaponStats.AttackCooldownAfterAnimation);
         EndAttack();
 
+        ///Check if the weapon ends its rotation where it started
+        Assert.AreEqual(transform.localEulerAngles, WeaponStats.EquipEulerAngle);
     }
 
     protected void ApplyDamageCollider()
