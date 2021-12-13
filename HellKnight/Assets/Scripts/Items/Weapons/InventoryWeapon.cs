@@ -14,11 +14,23 @@ public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : Instantiable
 {
     [Tooltip("Damage the weapon deals on hit")]
     [Range(1, 100)]
-    public int damage;
+    [SerializeField]
+    protected int damage;
+    public int Damage => damage;
 
-    [Tooltip("Time in seconds before the next attack can be started")]
+    [Tooltip("Time in seconds for the attack animation")]
     [Range(0, 2)]
-    public float attackDuration;
+    [SerializeField]
+    protected float attackAnimationDuration;
+    public float AttackAnimationDuration => attackAnimationDuration;
+
+    [Tooltip("Time in seconds after animation finished, before next attack can begin")]
+    [Range(0, 2)]
+    [SerializeField]
+    protected float attackCooldownAfterAnimation;
+    public float AttackCooldownAfterAnimation => attackCooldownAfterAnimation;
+
+    public float TotalAttackTime => attackAnimationDuration + attackCooldownAfterAnimation;
 
     public WeaponBehaviour CreateInstanceAndGetBehaviour(Transform parent)
     {

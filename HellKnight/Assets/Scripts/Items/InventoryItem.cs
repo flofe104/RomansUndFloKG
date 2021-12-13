@@ -5,9 +5,14 @@ using UnityEngine;
 public class InventoryItem : ScriptableObject
 {
 
-    public string itemName;
+    [SerializeField]
+    protected string itemName;
+    public string ItemName => itemName;
 
+    [Tooltip("Value of the item for selling or buying")]
     [Range(0,100)]
-    public int itemValue;
+    [SerializeField]
+    protected int itemValue;
+    public int ItemValue => itemValue;
 
 }

@@ -11,7 +11,7 @@ public class PlayerMeleeCombat : MeleeWeaponCombat
     {
         if (Input.GetButton(ATTACK_BUTTON_NAME))
         {
-            
+            weaponBehaviour.Attack();
         }
     }
 

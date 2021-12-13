@@ -16,4 +16,6 @@ public abstract class EquipedWeapon<WeaponBehaviour, ItemStats> : MonoBehaviour
 
     public bool IsInAttack { get; protected set; }
 
+    public virtual bool CanStartAttack => !IsInAttack;
+
 }

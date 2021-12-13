@@ -25,18 +25,22 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
         {
             yield return null;
             timeInAttack += Time.deltaTime;
-            float attackProgress = timeInAttack / weaponStats.attackDuration;
+            float attackProgress = timeInAttack / weaponStats.AttackAnimationDuration;
             float rotateProgress = Mathf.Lerp(0, weaponStats.rotationAngle, attackProgress);
             ResetWeaponRotation();
             transform.Rotate(0, 0, rotateProgress, Space.Self);
-        } while (timeInAttack < weaponStats.attackDuration);
+        } while (timeInAttack < weaponStats.AttackAnimationDuration);
+        yield return new WaitForSeconds(weaponStats.AttackCooldownAfterAnimation);
         EndAttack();
     }
 
     protected void StartAttack()
     {
+        if (!CanStartAttack)
+            return;
+
         IsInAttack = true;
-        this.DoDelayed(weaponStats.attackDuration, EndAttack);
+        AnimateMeleeWeaponAttack();
     }
 
     protected void ResetWeaponRotation()
@@ -52,8 +56,8 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
     protected void EndAttack()
     {
         IsInAttack = false;
-        StopCoroutine(attackAnimation);
         attackAnimation = null;
+        ResetWeaponRotation();
         OnAttackEnded();
     }
 
