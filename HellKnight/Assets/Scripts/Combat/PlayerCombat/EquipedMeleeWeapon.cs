@@ -48,6 +48,7 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
     protected IEnumerator RotateWeapon()
     {
         float timeInAttack = 0;
+        weaponCollider.enabled = true;
         do
         {
             yield return null;
@@ -66,20 +67,12 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
         weaponCollider.enabled = false;
         yield return new WaitForSeconds(weaponStats.AttackCooldownAfterAnimation);
         EndAttack();
-
-        ///Check if the weapon ends its rotation where it started
-        Assert.AreEqual(transform.localEulerAngles, WeaponStats.EquipEulerAngle);
     }
 
-    protected void ApplyDamageCollider()
-    {
-        Ray ray = new Ray(transform.position, transform.forward);
-        RaycastHit[] attackHits = Physics.SphereCastAll(ray, weaponStats.range, 0.1f);
 
-        foreach (RaycastHit hit in attackHits)
-        {
-            EvaluateHitCollider(hit.collider);
-        }
+    private void OnTriggerEnter(Collider other)
+    {
+        EvaluateHitCollider(other);
     }
 
     protected void EvaluateHitCollider(Collider collider)
@@ -107,10 +100,10 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
 
     protected override void OnWeaponStatsAssigned(InventoryMeleeWeapon stats)
     {
-        CreateWeaponCollider();
+        ApplyWeaponStatsToCollider();
     }
 
-    public void CreateWeaponCollider()
+    public void ApplyWeaponStatsToCollider()
     {
         WeaponCollider.size = new Vector3(0.5f,weaponStats.range, 0.5f);
         WeaponCollider.center = new Vector3(0, weaponStats.range / 2, 0);
@@ -119,12 +112,17 @@ public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMel
     protected void OnAttackEnded()
     {
         IsInAttack = false;
+        weaponCollider.enabled = false;
+
+        ResetWeaponRotation();
+
+        ///Check if the weapon rotation matches its start rotation after the attack ended
+        Assert.AreEqual(transform.localEulerAngles, WeaponStats.EquipEulerAngle);
     }
 
     protected void EndAttack()
     {
         attackAnimation = null;
-        ResetWeaponRotation();
         OnAttackEnded();
     }
 
