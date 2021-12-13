@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
+        
         if (isJumping && collision.collider.name == "Ground")
         {
             //Debug.Log("Collision with Ground!");
