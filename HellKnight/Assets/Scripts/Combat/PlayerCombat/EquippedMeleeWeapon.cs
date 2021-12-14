@@ -7,7 +7,7 @@ using UnityEngine.Assertions;
 /// <summary>
 /// Behaviour controller of a melee weapon
 /// </summary>
-public class EquipedMeleeWeapon : EquipedWeapon<EquipedMeleeWeapon, InventoryMeleeWeapon>
+public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
 {
 
     public void Attack(Func<IHealth, bool> damageColliders)

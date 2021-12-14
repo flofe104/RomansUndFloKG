@@ -7,8 +7,8 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The behaviour to controll the weapon with</typeparam>
 /// <typeparam name="WeaponType">the weapontype to control</typeparam>
-public abstract class WeaponCombat<WeaponBehaviour, WeaponType> : MonoBehaviour 
-    where WeaponBehaviour : EquipedWeapon<WeaponBehaviour, WeaponType> 
+public abstract class WeaponUser<WeaponBehaviour, WeaponType> : MonoBehaviour 
+    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponType> 
     where WeaponType : InventoryWeapon<WeaponBehaviour, WeaponType>
 {
 

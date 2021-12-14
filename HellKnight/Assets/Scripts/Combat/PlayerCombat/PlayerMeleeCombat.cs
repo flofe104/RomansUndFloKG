@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMeleeCombat : MeleeWeaponCombat
+public class PlayerMeleeCombat : MeleeWeaponUser
 {
 
     public const string ATTACK_BUTTON_NAME = "PrimaryAttack";

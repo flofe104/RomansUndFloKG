@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The type that controlls the inventory weapon. Choose always the type that inherits from this class</typeparam>
 /// <typeparam name="ItemStats"></typeparam>
-public abstract class EquipedWeapon<WeaponBehaviour, ItemStats> : MonoBehaviour 
+public abstract class EquippedWeapon<WeaponBehaviour, ItemStats> : MonoBehaviour 
     where ItemStats : InventoryWeapon<WeaponBehaviour, ItemStats> 
-    where WeaponBehaviour : EquipedWeapon<WeaponBehaviour, ItemStats>
+    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, ItemStats>
 {
 
     protected ItemStats weaponStats;
