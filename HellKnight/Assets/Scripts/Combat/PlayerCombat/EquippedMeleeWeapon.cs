@@ -68,19 +68,19 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         {
             yield return null;
             timeInAttack += Time.deltaTime;
-            float attackProgress = timeInAttack / weaponStats.AttackAnimationDuration;
-            float rotateProgress = Mathf.Lerp(0, weaponStats.rotationAngle, attackProgress);
+            float attackProgress = timeInAttack / weapon.AttackAnimationDuration;
+            float rotateProgress = Mathf.Lerp(0, weapon.rotationAngle, attackProgress);
             ResetWeaponRotation();
             transform.Rotate(0, 0, rotateProgress, Space.Self);
-        } while (timeInAttack < weaponStats.AttackAnimationDuration);
+        } while (timeInAttack < weapon.AttackAnimationDuration);
 
 
         ///Check if the angle of the rotation of the weapon after the rotation time matches the expected rotation 
         ///with an allowed error (due to floating point precision) of 0.001 degree
-        Assert.AreApproximatelyEqual(Quaternion.Angle(Quaternion.Euler(WeaponStats.EquipEulerAngle), transform.localRotation), WeaponStats.rotationAngle, 0.001f);
+        Assert.AreApproximatelyEqual(Quaternion.Angle(Quaternion.Euler(Weapon.EquipEulerAngle), transform.localRotation), Weapon.rotationAngle, 0.001f);
 
         weaponCollider.enabled = false;
-        yield return new WaitForSeconds(weaponStats.AttackCooldownAfterAnimation);
+        yield return new WaitForSeconds(weapon.AttackCooldownAfterAnimation);
         EndAttack();
     }
 
@@ -95,7 +95,7 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         IHealth health = collider.GetComponent<IHealth>();
         if (health != null && healthDamageFilter(health))
         {
-            health.Damage(weaponStats.Damage);
+            health.Damage(weapon.Damage);
         }
     }
 
@@ -110,7 +110,7 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
 
     protected void ResetWeaponRotation()
     {
-        transform.localEulerAngles = weaponStats.EquipEulerAngle;
+        transform.localEulerAngles = weapon.EquipEulerAngle;
     }
 
     protected override void OnWeaponStatsAssigned(InventoryMeleeWeapon stats)
@@ -120,8 +120,8 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
 
     public void ApplyWeaponStatsToCollider()
     {
-        WeaponCollider.size = new Vector3(0.5f,weaponStats.range, 0.5f);
-        WeaponCollider.center = new Vector3(0, weaponStats.range / 2, 0);
+        WeaponCollider.size = new Vector3(0.5f,weapon.range, 0.5f);
+        WeaponCollider.center = new Vector3(0, weapon.range / 2, 0);
     }
 
     protected void OnAttackEnded()
@@ -132,7 +132,7 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         ResetWeaponRotation();
 
         ///Check if the weapon rotation matches its start rotation after the attack ended
-        Assert.AreEqual(transform.localEulerAngles, WeaponStats.EquipEulerAngle);
+        Assert.AreEqual(transform.localEulerAngles, Weapon.EquipEulerAngle);
     }
 
     protected void EndAttack()

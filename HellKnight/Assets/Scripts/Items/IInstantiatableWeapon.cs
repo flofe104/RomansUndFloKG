@@ -6,10 +6,10 @@ using UnityEngine;
 /// Interface for all equipable weapons
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The behaviour to controll the weapon with</typeparam>
-/// <typeparam name="WeaponType">the weapontype to control</typeparam>
-public interface IInstantiatableWeapon<WeaponBehaviour, WeaponType> : IInstantiatableItem
-    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponType>
-    where WeaponType : InventoryWeapon<WeaponBehaviour, WeaponType>
+/// <typeparam name="WeaponStats">the weapontype to control</typeparam>
+public interface IInstantiatableWeapon<WeaponBehaviour, WeaponStats> : IInstantiatableItem
+    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponStats>
+    where WeaponStats : InventoryWeapon<WeaponBehaviour, WeaponStats>
 {
 
     WeaponBehaviour CreateInstanceAndGetBehaviour(Transform parent);

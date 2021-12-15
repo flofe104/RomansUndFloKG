@@ -7,10 +7,10 @@ using UnityEngine;
 /// Class for all inventory weapons
 /// </summary>
 /// <typeparam name="WeaponBehaviour">Generic type of the behaviour that will controll weapons of this type</typeparam>
-/// <typeparam name="ItemStats">Generic type of the Itemstats the weaponbehaviour will use. Choose always the type that inherits from this class</typeparam>
-public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : InstantiableInventoryItem, IInstantiatableWeapon<WeaponBehaviour,ItemStats>
-    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour,ItemStats> 
-    where ItemStats : InventoryWeapon<WeaponBehaviour,ItemStats>
+/// <typeparam name="WeaponStats">Generic type of the Itemstats the weaponbehaviour will use. Choose always the type that inherits from this class</typeparam>
+public abstract class InventoryWeapon<WeaponBehaviour, WeaponStats> : InstantiableInventoryItem, IInstantiatableWeapon<WeaponBehaviour,WeaponStats>
+    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour,WeaponStats> 
+    where WeaponStats : InventoryWeapon<WeaponBehaviour,WeaponStats>
 {
     [Tooltip("Damage the weapon deals on hit")]
     [Range(1, 100)]
@@ -46,7 +46,7 @@ public abstract class InventoryWeapon<WeaponBehaviour, ItemStats> : Instantiable
     protected WeaponBehaviour AddWeaponBehaviour(GameObject instance)
     {
         WeaponBehaviour weapon = instance.AddComponent<WeaponBehaviour>();
-        weapon.WeaponStats = (ItemStats)this;
+        weapon.Weapon = (WeaponStats)this;
         return weapon;
     }
 

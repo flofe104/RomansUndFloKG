@@ -6,28 +6,28 @@ using UnityEngine;
 /// Behaviour class to controll any inventory weapon
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The type that controlls the inventory weapon. Choose always the type that inherits from this class</typeparam>
-/// <typeparam name="ItemStats"></typeparam>
-public abstract class EquippedWeapon<WeaponBehaviour, ItemStats> : MonoBehaviour 
-    where ItemStats : InventoryWeapon<WeaponBehaviour, ItemStats> 
-    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, ItemStats>
+/// <typeparam name="WeaponStats"></typeparam>
+public abstract class EquippedWeapon<WeaponBehaviour, WeaponStats> : MonoBehaviour 
+    where WeaponStats : InventoryWeapon<WeaponBehaviour, WeaponStats> 
+    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponStats>
 {
 
-    protected ItemStats weaponStats;
+    protected WeaponStats weapon;
 
-    public ItemStats WeaponStats
+    public WeaponStats Weapon
     {
         get
         {
-            return weaponStats; 
+            return weapon; 
         }
         set
         {
-            weaponStats = value;
-            OnWeaponStatsAssigned(weaponStats);
+            weapon = value;
+            OnWeaponStatsAssigned(weapon);
         }
     }
 
-    protected virtual void OnWeaponStatsAssigned(ItemStats stats) { }
+    protected virtual void OnWeaponStatsAssigned(WeaponStats stats) { }
 
     public bool IsInAttack { get; protected set; }
 
