@@ -13,12 +13,12 @@ public class PlayerMovement : MonoBehaviour
     void Update()
     {
         float horizontalTranslation = Input.GetAxis("Horizontal");
-        bool jumpTriggered = Input.GetAxis("Vertical") != 0;
+        bool jumpTriggered = Input.GetAxis("Vertical") > 0;
 
         //Debug.Log("Moving player by " + horizontalTranslation);
         if (horizontalTranslation != 0)
         {
-            Move(Vector3.right * horizontalTranslation * Time.deltaTime);
+            Move(Vector3.forward * horizontalTranslation * Time.deltaTime);
         }
         if(jumpTriggered)
         {
