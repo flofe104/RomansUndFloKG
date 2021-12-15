@@ -10,9 +10,9 @@ using UnityEngine.Assertions;
 public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
 {
 
-    public void Attack(Func<IHealth, bool> damageColliders)
+    public void Attack(Func<IHealth, bool> healthDamageFilter)
     {
-        this.healthDamageFilter = damageColliders;
+        this.healthDamageFilter = healthDamageFilter;
         StartAttack();
     }
 
@@ -25,6 +25,9 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
     protected Func<IHealth, bool> healthDamageFilter;
 
     protected BoxCollider weaponCollider;
+
+    protected Rigidbody body;
+
     protected BoxCollider WeaponCollider
     {
         get
@@ -34,10 +37,22 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
                 weaponCollider = gameObject.AddComponent<BoxCollider>();
                 weaponCollider.isTrigger = true;
                 weaponCollider.enabled = false;
+                CreateRigidBodyIfNotExising();
             }
             return weaponCollider;
         }
     }
+
+    protected void CreateRigidBodyIfNotExising()
+    {
+        if (body == null)
+        {
+            body = gameObject.AddComponent<Rigidbody>();
+            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
+            body.useGravity = false;
+        }
+    }
+
 
     protected void AnimateMeleeWeaponAttack()
     {
