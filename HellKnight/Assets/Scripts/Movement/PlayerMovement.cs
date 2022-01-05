@@ -4,56 +4,34 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private CharacterController controller;
+    public float speed = 10;
+    public float jumpHeight = 10;
+    public float gravity = -5;
+
+    private Vector3 playerVelocity = new Vector3();
+
     void Start()
     {
+        controller = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float horizontalTranslation = Input.GetAxis("Horizontal");
+        playerVelocity.x = Input.GetAxis("Horizontal") * speed * Time.deltaTime;
+
+        if (controller.isGrounded && playerVelocity.y < 0)
+            playerVelocity.y = 0;
+
         bool jumpTriggered = Input.GetAxis("Vertical") > 0;
-
-        //Debug.Log("Moving player by " + horizontalTranslation);
-        if (horizontalTranslation != 0)
-        {
-            Move(Vector3.forward * horizontalTranslation * Time.deltaTime);
-        }
-        if(jumpTriggered)
-        {
-            Jump(Vector3.up);
-        }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        
-        if (isJumping && collision.collider.name == "Ground")
-        {
-            //Debug.Log("Collision with Ground!");
-            isJumping = false;
-        }
-    }
-
-    void Jump(Vector3 dir)
-    {
-        if (!isJumping)
+        if (jumpTriggered && controller.isGrounded)
         {
             //Debug.Log("Jumping");
-            GetComponent<Rigidbody>().velocity = dir * jumpPower;
-            isJumping = true;
+            playerVelocity.y += Mathf.Sqrt(jumpHeight * -0.01f * gravity);
         }
+
+        playerVelocity.y += gravity * Time.deltaTime;
+        controller.Move(playerVelocity);
+        //Debug.Log("Moving player by " + velocity);
     }
-
-    void Move(Vector3 dir)
-    {
-        transform.Translate(dir * speed);
-    }
-    CharacterController controller;
-    public float speed;
-    public float jumpPower;
-    private bool isJumping = false;// TODO: add to documentation
-
-
 }
