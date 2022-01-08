@@ -7,4 +7,6 @@ public interface IHealth
     
     public void Damage(int damage);
 
+    void AddDeathListener(IDeathListener listener)
+
 }
