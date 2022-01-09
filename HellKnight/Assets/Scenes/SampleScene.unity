@@ -130,13 +130,13 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 161179730, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1328100499}
     - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1.4223578
       objectReference: {fileID: 0}
     - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,27 +184,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
---- !u!1 &161179729 stripped
+--- !u!1 &302340222
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 9064506378114716341, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
-  m_PrefabInstance: {fileID: 161179728}
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &161179730
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 302340224}
+  - component: {fileID: 302340223}
+  m_Layer: 0
+  m_Name: Dungeon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &302340223
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 161179729}
+  m_GameObject: {fileID: 302340222}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd46f701c0fdd3147b7027a58ceae2e4, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f0246b2d43788b428a066001cd09a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCooldown: 2
-  projectileSpeed: 10
-  player: {fileID: 1328100499}
-  projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+  possibleEnemies:
+  - {fileID: 11400000, guid: 79e8c7535b4e30f41bce6b792d32aab6, type: 2}
+  seed: 0
+--- !u!4 &302340224
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 302340222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &647957427
 GameObject:
   m_ObjectHideFlags: 0

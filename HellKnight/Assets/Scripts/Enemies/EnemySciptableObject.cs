@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySciptableObject : ScriptableObject
+public class EnemySciptableObject : ScriptableObject, ISpawnableEnemy
 {
 
     [SerializeField]
@@ -36,4 +36,8 @@ public class EnemySciptableObject : ScriptableObject
         return gameObject;
     }
 
+    public GameObject Spawn()
+    {
+        return Instantiate();
+    }
 }

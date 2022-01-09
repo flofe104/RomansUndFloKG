@@ -212,6 +212,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2679621494065595842}
+  - component: {fileID: 161179730}
+  - component: {fileID: 3616465244737499188}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -228,7 +230,7 @@ Transform:
   m_GameObject: {fileID: 9064506378114716341}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.39, y: 2, z: -0.01}
-  m_LocalScale: {x: 1.0423259, y: 1.3276105, z: 1.3196888}
+  m_LocalScale: {x: 1.4223578, y: 1.3276105, z: 1.3196888}
   m_Children:
   - {fileID: 6226302018422177666}
   - {fileID: 7218825612366266988}
@@ -236,6 +238,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &161179730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064506378114716341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd46f701c0fdd3147b7027a58ceae2e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 2
+  projectileSpeed: 10
+  player: {fileID: 0}
+  projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+--- !u!114 &3616465244737499188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064506378114716341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b61df9ab47f7c604db7a56afab0a6e93, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9178963391055457026
 GameObject:
   m_ObjectHideFlags: 0
