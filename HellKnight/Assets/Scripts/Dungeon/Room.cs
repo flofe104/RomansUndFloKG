@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room : DungeonPart
+public class Room : DungeonPart, IDeathListener
 {
 
     public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies)
@@ -37,7 +37,7 @@ public class Room : DungeonPart
 
     protected List<ISpawnableEnemy> possibleEnemies;
 
-    protected HashSet<IEnemy> aliveEnemies;
+    protected HashSet<IHealth> aliveEnemies;
 
     public void Generate()
     {
@@ -71,15 +71,21 @@ public class Room : DungeonPart
     protected virtual void GenerateEnemies()
     {
         int enemyCount = rand.Next(MIN_ENEMIES,MAX_ENEMIES);
-        aliveEnemies = new HashSet<IEnemy>();
+        aliveEnemies = new HashSet<IHealth>();
 
         for (int i = 0; i < enemyCount; i++)
         {
             int enemyIndex = rand.Next(possibleEnemies.Count);
             ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
             GameObject g = enemy.Spawn();
+            IHealth health = g.GetComponent<IHealth>();
+            health.AddDeathListener(this);
+            aliveEnemies.Add(health);
         }
     }
 
-
+    public void OnDeath(IHealth died)
+    {
+        aliveEnemies.Remove(died);
+    }
 }
