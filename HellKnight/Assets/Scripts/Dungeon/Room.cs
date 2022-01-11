@@ -3,15 +3,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Room
+public class Room : DungeonPart
 {
 
-    public Room(int seed, List<ISpawnableEnemy> possibleEnemies)
+    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies)
     {
         this.seed = seed;
         this.possibleEnemies = possibleEnemies;
         rand = new System.Random(seed);
     }
+
+
+    protected override void DetermineDungeonPartSize()
+    {
+        dungeonPartSize = GetRoomSize();
+    }
+
 
     protected virtual Vector2Int GetRoomSize()
     {
@@ -21,16 +28,12 @@ public class Room
         return result;
     }
 
-    private void GenerateRoomLayout()
-    {
-        roomSize = GetRoomSize();
-        BuildRoomLayout();
-    }
-
     private void BuildRoomLayout()
     {
 
     }
+
+    protected List<RoomPlattform> plattforms;
 
     protected List<ISpawnableEnemy> possibleEnemies;
 
@@ -38,7 +41,6 @@ public class Room
 
     public void Generate()
     {
-        GenerateRoomLayout();
         GenerateInterior();
         if (!isCleared) 
         {
@@ -49,12 +51,12 @@ public class Room
 
     protected virtual void GenerateInterior()
     {
-        ///TODO: Spawn random amount of plattforms and connect overlapping ones and do max independant set. 
+        plattforms = PlattformGenerator.GeneratePlattformsInSpace(dungeonPartSize, rand);
+        plattforms.ForEach(p => p.Create());
     }
 
     protected System.Random rand;
 
-    protected Vector2Int roomSize;
 
     protected const int MIN_ENEMIES = 3;
     protected const int MAX_ENEMIES = 9;
@@ -62,11 +64,9 @@ public class Room
     protected const int MIN_WIDTH = 10;
     protected const int MAX_WIDTH = 20;
 
-    protected const float entranceHeight = 2;
-    protected const float entranceWidth = 0.5f;
-    protected const float entranceWayLength = 1.5f;
-
     protected bool isCleared;
+
+    private int seed;
 
     protected virtual void GenerateEnemies()
     {
@@ -80,9 +80,6 @@ public class Room
             GameObject g = enemy.Spawn();
         }
     }
-
-
-    private int seed;
 
 
 }

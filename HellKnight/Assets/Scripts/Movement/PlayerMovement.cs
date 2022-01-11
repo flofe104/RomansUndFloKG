@@ -11,7 +11,7 @@ public class PlayerMovement : MonoBehaviour
         playerMovement = new Movement(GetComponent<CharacterController>());
     }
 
-    void Update()
+    void FixedUpdate()
     {
         playerMovement.ApplyGravity(Time.deltaTime);
 
