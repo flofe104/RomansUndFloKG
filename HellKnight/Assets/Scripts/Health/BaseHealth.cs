@@ -5,7 +5,7 @@ using UnityEngine;
 public class BaseHealth : MonoBehaviour, IHealth
 {
 
-    protected List<IDeathListener> deathListeners;
+    protected List<IDeathListener> deathListeners = new List<IDeathListener>();
 
     protected int maxHealth;
 

@@ -40,6 +40,7 @@ public class Dungeon : MonoBehaviour
             AddRoom(i, ref offset);
         }
         rooms[0].Generate();
+        DisplayDungeon();
     }
 
     private void AddRoom(int index, ref Vector2 offset)
@@ -49,8 +50,7 @@ public class Dungeon : MonoBehaviour
         Room r = nextRoom.AddComponent<Room>();
         rooms[index] = r;
         r.Initialize(rand.Next(), enemies);
-        r.AddRoomLayoutToMeshData(tiling, vertices, triangles, uvCoords);
-        DisplayDungeon();
+        r.AddRoomLayoutToMeshData(tiling, vertices, triangles, colliderVertices,colliderTriangles, uvCoords);
     }
 
     protected void DisplayDungeon()
@@ -59,8 +59,17 @@ public class Dungeon : MonoBehaviour
         m.vertices = vertices.ToArray();
         m.triangles = triangles.ToArray();
         m.uv = uvCoords.ToArray();
-        meshCollider.sharedMesh = m;
         filter.mesh = m;
+
+        BuildCollider();
+    }
+
+    protected void BuildCollider()
+    {
+        Mesh m = new Mesh();
+        m.vertices = colliderVertices.ToArray();
+        m.triangles = colliderTriangles.ToArray();
+        meshCollider.sharedMesh = m;
     }
 
     protected System.Random rand;
@@ -74,6 +83,9 @@ public class Dungeon : MonoBehaviour
     protected List<Vector3> vertices = new List<Vector3>();
     protected List<int> triangles = new List<int>();
     protected List<Vector2> uvCoords = new List<Vector2>();
+
+    protected List<Vector3> colliderVertices = new List<Vector3>();
+    protected List<int> colliderTriangles = new List<int>();
 
     [SerializeField]
     protected MeshFilter filter;
