@@ -29,9 +29,12 @@ public abstract class DungeonPart : MonoBehaviour
 
         ///build collision mesh
         Vector3 collisionOrigin = transform.position + new Vector3(0, 0, COLLISION_WIDTH);
+        ///floor collider
         AddSquareToMesh(collisionOrigin, new Vector3(0, 0, - 2 * COLLISION_WIDTH), new Vector3(dungeonPartSize.x, 0, 0), tiling, colliderVerts, colliderTris, null);
-        AddSquareToMesh(collisionOrigin + new Vector3(0, dungeonPartSize.y,0), new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(dungeonPartSize.x, 0, 0), tiling, colliderVerts, colliderTris, null);
-        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, MAX_HEIGHT - transform.position.y - entryHeight, 0), tiling, colliderVerts, colliderTris, null);
+        ///ceiling collider
+        AddSquareToMesh(collisionOrigin + new Vector3(0, dungeonPartSize.y,0), new Vector3(dungeonPartSize.x, 0, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
+        ///left wall collider
+        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
 
     }
 
