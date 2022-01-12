@@ -42,7 +42,7 @@ public abstract class Movement : MonoBehaviour
         {
             if(hit.rigidbody != null)
             {
-                Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
+                //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
                 if (hit.distance <= 1.1 && hit.rigidbody.gameObject.name == "Ground")
                 {
                     isGrounded = true;
