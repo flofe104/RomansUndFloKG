@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -202,9 +202,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 2
-  projectileSpeed: 10
-  player: {fileID: 1328100499}
   projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+  player: {fileID: 1328100499}
 --- !u!1 &647957427
 GameObject:
   m_ObjectHideFlags: 0
@@ -476,7 +475,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910549689}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalPosition: {x: 0, y: 1, z: -16.99}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -516,6 +515,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42e136fe8b2618479a2a0f492dedf29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 10
+  jumpHeight: 0.02
+  gravity: 0.5
+  rotationSpeed: 500
 --- !u!136 &1328100501
 CapsuleCollider:
   m_ObjectHideFlags: 0

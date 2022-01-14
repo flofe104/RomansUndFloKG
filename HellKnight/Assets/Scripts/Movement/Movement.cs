@@ -42,9 +42,14 @@ public abstract class Movement : MonoBehaviour
             if(hit.rigidbody != null)
             {
                 //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
-                if (hit.distance <= 1.1 && hit.rigidbody.gameObject.name == "Ground")
+                if (hit.rigidbody.gameObject.name == "Ground")
                 {
-                    isGrounded = true;
+                    float collisionPoint = gameObject.GetComponent<CapsuleCollider>().height /2 + controller.skinWidth;
+                    if (hit.distance + velocity.y * Time.deltaTime <= collisionPoint)
+                    {
+                        isGrounded = true;
+                    }
+
                 }
             }
         }
