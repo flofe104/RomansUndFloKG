@@ -33,11 +33,11 @@ public abstract class DungeonPart : MonoBehaviour
         AddSquareToMesh(collisionOrigin, new Vector3(0, 0, - 2 * COLLISION_WIDTH), new Vector3(dungeonPartSize.x, 0, 0), tiling, colliderVerts, colliderTris, null);
         ///ceiling collider
         AddSquareToMesh(collisionOrigin + new Vector3(0, dungeonPartSize.y,0), new Vector3(dungeonPartSize.x, 0, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
-        ///left wall collider
-        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
 
+        OnAddedRoomPartToMesh(tiling,vertices,triangles,colliderVerts,colliderTris,materialCoordinates);
     }
 
+    protected virtual void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates) { }
 
     protected void AddSquareToMesh(Vector3 origin, Vector3 firstOffset, Vector3 sndOffset, float tiling, List<Vector3> vertices, List<int> triangles, List<Vector2> materialCoordinates)
     {
