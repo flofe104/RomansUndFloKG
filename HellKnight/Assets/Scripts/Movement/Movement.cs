@@ -42,10 +42,14 @@ public abstract class Movement : MonoBehaviour
         {
             if(hit.rigidbody != null)
             {
-                Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
-                if (hit.distance <= 1.1 && hit.rigidbody.gameObject.name == "Ground")
+                //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
+                if(hit.rigidbody.gameObject.name == "Ground")
                 {
-                    isGrounded = true;
+                    float contactPoint = transform.localScale.y / 2;
+                    if (hit.distance - velocity.y * Time.deltaTime <= contactPoint)
+                    {
+                        isGrounded = true;
+                    }
                 }
             }
         }
@@ -61,16 +65,6 @@ public abstract class Movement : MonoBehaviour
 
     public void Turn(float horizontalInput)
     {
-        if (facedForward && horizontalInput < 0)
-        {
-            turning = true;
-            endRotation = Quaternion.Euler(0, 270, 0);
-        }
-        else if (!facedForward && horizontalInput > 0)
-        {
-            turning = true;
-            endRotation = Quaternion.Euler(0, 90, 0);
-        }
 
         if (turning)
         {
@@ -89,7 +83,6 @@ public abstract class Movement : MonoBehaviour
 
     public void Update()
     {
-        CheckGround();
         ApplyGravity();
 
         float horizontalInput = GetHorizontalInput(); 
@@ -101,6 +94,8 @@ public abstract class Movement : MonoBehaviour
         Move(horizontalInput);
 
         Turn(horizontalInput);
+
+        CheckGround();
     }
 
 }
