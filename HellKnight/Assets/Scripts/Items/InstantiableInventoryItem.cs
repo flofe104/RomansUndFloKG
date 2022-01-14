@@ -9,10 +9,6 @@ public class InstantiableInventoryItem : InventoryItem, IInstantiatableItem
     [SerializeField]
     protected GameObject prefab;
 
-    [Tooltip("Image to display in inventory view")]
-    [SerializeField]
-    protected Sprite uiImage;
-
     [SerializeField]
     protected Vector3 equipPosition;
     public Vector3 EquipPosition => equipPosition;

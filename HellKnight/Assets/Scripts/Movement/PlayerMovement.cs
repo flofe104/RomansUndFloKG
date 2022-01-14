@@ -2,29 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : Movement
 {
-    private Movement playerMovement;
-
-    void Start()
+    public void Start()
     {
-        playerMovement = new Movement(GetComponent<CharacterController>());
+        controller = GetComponent<CharacterController>();
     }
 
-    void FixedUpdate()
+    public override float GetHorizontalInput()
     {
-        playerMovement.ApplyGravity(Time.deltaTime);
+        return Input.GetAxis("Horizontal");
+    }
 
-        // Get horizontal input
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        // Get vertical input
-        bool jumpTriggered = Input.GetAxis("Vertical") > 0;
-        if (jumpTriggered)
-        {
-            playerMovement.ApplyJumpForce();
-        }
-
-        playerMovement.Move(horizontalInput, Time.deltaTime);
+    public override float GetVerticalInput()
+    {
+        return Input.GetAxis("Vertical");
     }
 }

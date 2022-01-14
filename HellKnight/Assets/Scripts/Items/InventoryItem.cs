@@ -9,6 +9,10 @@ public class InventoryItem : ScriptableObject
     protected string itemName;
     public string ItemName => itemName;
 
+    [Tooltip("Image to display in inventory view")]
+    [SerializeField]
+    protected Sprite uiImage;
+
     [Tooltip("Value of the item for selling or buying")]
     [Range(0,100)]
     [SerializeField]
