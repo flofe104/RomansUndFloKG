@@ -8,7 +8,6 @@ public class EnemyCombat : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        enemyMovement = new Movement(GetComponent<CharacterController>());
     }
 
     // Update is called once per frame

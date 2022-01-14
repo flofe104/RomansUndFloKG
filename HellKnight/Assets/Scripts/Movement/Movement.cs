@@ -14,22 +14,22 @@ public abstract class Movement : MonoBehaviour
 
 
     public float speed = 10;
-    public float jumpHeight = 15;
-    public float gravity = -4;
+    public float jumpPower = 0.02f;
+    public float gravity = 0.5f;
     public float rotationSpeed = 500;
 
     public void ApplyJumpForce()
     {
         if (isGrounded)
         {
-            velocity.y += Mathf.Sqrt(jumpHeight * -0.01f * gravity);
+            velocity.y += Mathf.Sqrt(jumpPower * gravity);
             isGrounded = false;
         }
     }
 
     public void ApplyGravity()
     {
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y -= gravity * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
@@ -40,13 +40,13 @@ public abstract class Movement : MonoBehaviour
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
-            if(hit.rigidbody != null)
+            if (hit.rigidbody != null)
             {
                 //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
-                if(hit.rigidbody.gameObject.name == "Ground")
+                if (hit.rigidbody.gameObject.name == "Ground")
                 {
-                    float contactPoint = transform.localScale.y / 2;
-                    if (hit.distance - velocity.y * Time.deltaTime <= contactPoint)
+                    float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + controller.skinWidth;
+                    if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                     {
                         isGrounded = true;
                     }
@@ -59,23 +59,32 @@ public abstract class Movement : MonoBehaviour
     {
         velocity.x = input * speed * Time.deltaTime;
         //Debug.Log("Moving with velocity " + velocity);
-        controller.Move(velocity);
-
+        controller.Move(velocity);        
     }
 
-    public void Turn(float horizontalInput)
+    public void UpdateTurn(float horizontalInput)
     {
-
-        if (turning)
+        if (facedForward && horizontalInput < 0)
         {
+            turning = true;
+            endRotation = Quaternion.Euler(0, 270, 0);
+        }
+        else if (!facedForward && horizontalInput > 0)
+        {
+            turning = true;
+            endRotation = Quaternion.Euler(0, 90, 0);
+        }
+    }
+
+    public void Turn()
+    {
             var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
             transform.rotation = q;
             if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
             {
                 facedForward = !facedForward;
                 turning = false;
-            }
-        }           
+            } 
     }
 
     public abstract float GetHorizontalInput();
@@ -93,7 +102,9 @@ public abstract class Movement : MonoBehaviour
 
         Move(horizontalInput);
 
-        Turn(horizontalInput);
+        UpdateTurn(horizontalInput);
+        if (turning)
+            Turn();
 
         CheckGround();
     }
