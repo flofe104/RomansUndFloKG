@@ -14,5 +14,11 @@ public class AssetMenue : MonoBehaviour
         AssetCreator.CreateAsset<InventoryMeleeWeapon>(BASE_FOLDER_NAME + "MeleeWeapons");
     }
 
+    [MenuItem("Assets/Create/Custom/Enemies/Default")]
+    public static void NewDefaultEnemy()
+    {
+        AssetCreator.CreateAsset<EnemySciptableObject>(BASE_FOLDER_NAME + "DefaultEnemy");
+    }
+
 
 }

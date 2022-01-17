@@ -5,6 +5,16 @@ using UnityEngine;
 public static class MonoBehaviourExtensions
 {
 
+    public static T GetOrAddComponent<T>(this GameObject g) where T : Component
+    {
+        T result = g.GetComponent<T>();
+        if(result == null)
+        {
+            result = g.AddComponent<T>();
+        }
+        return result;
+    }
+
     /// <summary>
     /// starts a coroutine that executes the given action after "delayInSeconds" seconds
     /// </summary>
