@@ -14,22 +14,22 @@ public abstract class Movement : MonoBehaviour
 
 
     public float speed = 10;
-    public float jumpHeight = 15;
-    public float gravity = -4;
+    public float jumpHeight = 0.02f;
+    public float gravity = 0.5f;
     public float rotationSpeed = 500;
 
     public void ApplyJumpForce()
     {
         if (isGrounded)
         {
-            velocity.y += Mathf.Sqrt(jumpHeight * -0.01f * gravity);
+            velocity.y += Mathf.Sqrt(jumpHeight * gravity);
             isGrounded = false;
         }
     }
 
     public void ApplyGravity()
     {
-        velocity.y += gravity * Time.deltaTime;
+        velocity.y -= gravity * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
@@ -37,7 +37,6 @@ public abstract class Movement : MonoBehaviour
     public void CheckGround()
     {
         RaycastHit hit;
-        // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
             if(hit.rigidbody != null)
@@ -59,7 +58,7 @@ public abstract class Movement : MonoBehaviour
 
     }
 
-    public void Turn(float horizontalInput)
+    public void UpdateTurn(float horizontalInput)
     {
         if (facedForward && horizontalInput < 0)
         {
@@ -71,17 +70,17 @@ public abstract class Movement : MonoBehaviour
             turning = true;
             endRotation = Quaternion.Euler(0, 90, 0);
         }
+    }
 
-        if (turning)
+    public void Turn()
+    {
+        var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
+        transform.rotation = q;
+        if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
         {
-            var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = q;
-            if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
-            {
-                facedForward = !facedForward;
-                turning = false;
-            }
-        }           
+            facedForward = !facedForward;
+            turning = false;
+        }        
     }
 
     public abstract float GetHorizontalInput();
@@ -89,7 +88,6 @@ public abstract class Movement : MonoBehaviour
 
     public void Update()
     {
-        CheckGround();
         ApplyGravity();
 
         float horizontalInput = GetHorizontalInput(); 
@@ -100,7 +98,11 @@ public abstract class Movement : MonoBehaviour
 
         Move(horizontalInput);
 
-        Turn(horizontalInput);
+        UpdateTurn(horizontalInput);
+        if (turning)
+            Turn();
+
+        CheckGround();
     }
 
 }
