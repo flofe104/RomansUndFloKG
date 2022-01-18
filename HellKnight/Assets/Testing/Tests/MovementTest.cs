@@ -9,6 +9,8 @@ public class MovementTest : MonoBehaviour
 
     public GameObject test;
 
+    public Movement m;
+
     // A Test behaves as an ordinary method
     [Test]
     public void MovementTestSimplePasses()
