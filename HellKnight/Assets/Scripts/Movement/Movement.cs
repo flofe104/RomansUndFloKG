@@ -14,7 +14,7 @@ public abstract class Movement : MonoBehaviour
 
 
     public float speed = 10;
-    public float jumpHeight = 0.02f;
+    public float jumpPower = 0.02f;
     public float gravity = 0.5f;
     public float rotationSpeed = 500;
 
@@ -22,7 +22,7 @@ public abstract class Movement : MonoBehaviour
     {
         if (isGrounded)
         {
-            velocity.y += Mathf.Sqrt(jumpHeight * gravity);
+            velocity.y += Mathf.Sqrt(jumpPower * gravity);
             isGrounded = false;
         }
     }
@@ -37,19 +37,19 @@ public abstract class Movement : MonoBehaviour
     public void CheckGround()
     {
         RaycastHit hit;
+        // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
-            if(hit.rigidbody != null)
+            if (hit.rigidbody != null)
             {
                 //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
                 if (hit.rigidbody.gameObject.name == "Ground")
                 {
-                    float collisionPoint = gameObject.GetComponent<CapsuleCollider>().height /2 + controller.skinWidth;
-                    if (hit.distance + velocity.y * Time.deltaTime <= collisionPoint)
+                    float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + controller.skinWidth;
+                    if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                     {
                         isGrounded = true;
                     }
-
                 }
             }
         }
@@ -59,8 +59,7 @@ public abstract class Movement : MonoBehaviour
     {
         velocity.x = input * speed * Time.deltaTime;
         //Debug.Log("Moving with velocity " + velocity);
-        controller.Move(velocity);
-
+        controller.Move(velocity);        
     }
 
     public void UpdateTurn(float horizontalInput)
@@ -79,13 +78,13 @@ public abstract class Movement : MonoBehaviour
 
     public void Turn()
     {
-        var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
-        transform.rotation = q;
-        if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
-        {
-            facedForward = !facedForward;
-            turning = false;
-        }        
+            var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
+            transform.rotation = q;
+            if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
+            {
+                facedForward = !facedForward;
+                turning = false;
+            } 
     }
 
     public abstract float GetHorizontalInput();
