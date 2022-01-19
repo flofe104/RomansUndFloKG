@@ -4,10 +4,6 @@ using UnityEngine;
 
 public class PlayerMovement : Movement
 {
-    public void Start()
-    {
-        controller = GetComponent<CharacterController>();
-    }
 
     public override float GetHorizontalInput()
     {

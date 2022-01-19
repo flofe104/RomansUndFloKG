@@ -2,15 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CharacterController))]
 public abstract class Movement : MonoBehaviour
 {
-    protected CharacterController controller;
-    private Vector3 velocity;
-    private bool isGrounded = true;
 
-    private bool facedForward = true;
-    private bool turning = false;
-    private Quaternion endRotation;
+    [SerializeField]
+    protected CharacterController controller;
+
+    protected CharacterController Controller
+    {
+        get
+        {
+            if(controller == null)
+            {
+                controller = GetComponent<CharacterController>();
+            }
+            return controller;
+        }
+    }
+
+    protected Vector3 velocity;
+    protected bool isGrounded = true;
+
+    protected bool facedForward = true;
+    protected bool turning = false;
+    protected Quaternion endRotation;
 
 
     public float speed = 10;
@@ -22,10 +38,12 @@ public abstract class Movement : MonoBehaviour
     {
         if (isGrounded)
         {
-            velocity.y += Mathf.Sqrt(jumpPower * gravity);
+            velocity.y = GetJumpPower;
             isGrounded = false;
         }
     }
+
+    protected float GetJumpPower =>  Mathf.Sqrt(jumpPower * gravity);
 
     public void ApplyGravity()
     {
@@ -45,7 +63,7 @@ public abstract class Movement : MonoBehaviour
                 //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
                 if (hit.rigidbody.gameObject.name == "Ground")
                 {
-                    float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + controller.skinWidth;
+                    float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
                     if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                     {
                         isGrounded = true;
@@ -59,7 +77,7 @@ public abstract class Movement : MonoBehaviour
     {
         velocity.x = input * speed * Time.deltaTime;
         //Debug.Log("Moving with velocity " + velocity);
-        controller.Move(velocity);        
+        Controller.Move(velocity);        
     }
 
     public void UpdateTurn(float horizontalInput)
@@ -108,5 +126,6 @@ public abstract class Movement : MonoBehaviour
 
         CheckGround();
     }
+
 
 }
