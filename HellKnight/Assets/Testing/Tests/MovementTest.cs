@@ -4,27 +4,48 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class MovementTest : MonoBehaviour
+public class MovementTest : Movement
 {
 
-    public GameObject test;
+    public override float GetHorizontalInput()
+    {
+        return simulatedHorizontal;
+    }
 
-    public Movement m;
+    public override float GetVerticalInput()
+    {
+        return simulatedVertical;
+    }
+
+    protected float simulatedHorizontal;
+    protected float simulatedVertical;
 
     // A Test behaves as an ordinary method
     [Test]
-    public void MovementTestSimplePasses()
+    public void MovementTestJumpPower()
     {
-        Assert.AreNotEqual(test, null);
+        simulatedVertical = 1;
+        isGrounded = true;
+        ApplyJumpForce();
+        Assert.AreEqual(GetJumpPower, velocity.y);
     }
 
-    // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-    // `yield return null;` to skip a frame.
-    [UnityTest]
-    public IEnumerator MovementTestWithEnumeratorPasses()
+    [Test]
+    public void MovementTestGravity()
     {
-        // Use the Assert class to test conditions.
-        // Use yield to skip a frame.
-        yield return null;
+        isGrounded = false;
+        float velY = velocity.y;
+        ApplyGravity();
+        Assert.Less(velocity.y, velY);
     }
+
+
+    //[UnityTest]
+    //public IEnumerator MovementTestWithEnumeratorPasses()
+    //{
+    //    // Use the Assert class to test conditions.
+    //    // Use yield to skip a frame.
+    //    yield return null;
+    //}
+
 }
