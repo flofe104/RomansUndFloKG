@@ -11,9 +11,6 @@ public class Dungeon : MonoBehaviour
 
     private void Start()
     {
-        PlattformGenerator.plattformWidthEvaluator = plattformWidth;
-        PlattformGenerator.plattformHeightEvaluator = plattformHeight;
-        
         InitializeDungeon(seed);   
     }
 
