@@ -6,11 +6,15 @@ public class EnemyCombat : MonoBehaviour
 {
     public float attackCooldown = 2;
     public GameObject projectilePrefab;
-    public GameObject player;
 
     private Movement enemyMovement;
     private float timeSinceAttack = 0;
+    private GameObject player;
 
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
     void Update()
     {
         Attack();

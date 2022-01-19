@@ -51,23 +51,20 @@ public abstract class Movement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
-
+    
     public void CheckGround()
     {
         RaycastHit hit;
         // Does the ray intersect any objects excluding the player layer
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
-            if (hit.rigidbody != null)
+            //Debug.Log("Hit " + hit.collider.gameObject.name + " dist " + hit.distance + "isGrounded: " + isGrounded);
+            if (hit.collider.gameObject != gameObject)
             {
-                //Debug.Log("Hit " + hit.rigidbody.gameObject.name + " dist " + hit.distance);
-                if (hit.rigidbody.gameObject.name == "Ground")
+                float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
+                if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                 {
-                    float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
-                    if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
-                    {
-                        isGrounded = true;
-                    }
+                    isGrounded = true;
                 }
             }
         }
