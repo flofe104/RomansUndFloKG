@@ -22,7 +22,7 @@ public class EnemyCombat : MonoBehaviour
         if (timeSinceAttack >= attackCooldown)
         {
             var projectile = Instantiate(projectilePrefab, this.transform.position, Quaternion.identity);
-            projectile.GetComponent<BaseProjectile>().targetPosition = player.transform.position;
+            projectile.GetComponent<BaseProjectile>().TargetPosition = player.transform.position;
             timeSinceAttack = 0;
         }
     }
