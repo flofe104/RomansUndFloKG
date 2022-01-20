@@ -60,7 +60,7 @@ public abstract class Movement : MonoBehaviour
         {
             //Debug.Log("Hit " + hit.collider.gameObject.name + " dist " + hit.distance + "isGrounded: " + isGrounded);
             var hitName = hit.collider.gameObject.name;
-            if (hit.collider.gameObject != gameObject && hitName != "Enemy" && hitName !="Projectile")
+            if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
                 float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
                 if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
