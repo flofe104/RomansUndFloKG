@@ -31,7 +31,7 @@ public abstract class Movement : MonoBehaviour
 
     public float speed = 10;
     public float jumpPower = 0.02f;
-    public float gravity = 0.5f;
+    public float gravity = 0.3f;
     public float rotationSpeed = 500;
 
     public void ApplyJumpForce()
