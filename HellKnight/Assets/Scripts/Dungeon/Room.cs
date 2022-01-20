@@ -83,9 +83,13 @@ public class Room : DungeonPart, IDeathListener
 
         for (int i = 0; i < enemyCount; i++)
         {
+            float x = Mathf.Lerp(0, MAX_WIDTH, (float)rand.NextDouble());
+            float y = Mathf.Lerp(0, MAX_HEIGHT, (float)rand.NextDouble());
+            Vector3 position = new Vector3(x, y, 0);
+
             int enemyIndex = rand.Next(possibleEnemies.Count);
             ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
-            GameObject g = enemy.Spawn();
+            GameObject g = enemy.Spawn(position);
             IHealth health = g.GetComponent<IHealth>();
             health.AddDeathListener(this);
             aliveEnemies.Add(health);

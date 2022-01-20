@@ -95,7 +95,7 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         IHealth health = collider.GetComponent<IHealth>();
         if (health != null && healthDamageFilter(health))
         {
-            health.Damage(weapon.Damage);
+            health.TakeDamage(weapon.Damage);
         }
     }
 

@@ -27,15 +27,16 @@ public class BaseProjectile : MonoBehaviour
     {
         //Debug.Log("Hit " + other.gameObject.name);
         Destroy(gameObject);
-        if (other.gameObject.name == "Player")
+        PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
+        if (health != null)
         {
-            OnPlayerHit();
+            OnPlayerHit(health);
         }
     }
 
-    private void OnPlayerHit()
+    private void OnPlayerHit(PlayerHealth health)
     {
-        throw new System.NotImplementedException();
+        health.TakeDamage(15);
     }
 
     private void Move()

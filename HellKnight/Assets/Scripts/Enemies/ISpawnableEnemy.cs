@@ -5,6 +5,6 @@ using UnityEngine;
 public interface ISpawnableEnemy
 {
 
-    GameObject Spawn();
+    GameObject Spawn(Vector3 position);
 
 }
