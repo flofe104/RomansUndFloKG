@@ -34,6 +34,7 @@ public class BaseHealth : MonoBehaviour, IHealth
         this.maxHealth = maxHealth;
     }
 
+    protected bool IsDead => currentHealth <= 0;
 
     public void ResetWithMaxHealth(int maxHealth)
     {

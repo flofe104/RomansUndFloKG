@@ -12,7 +12,7 @@ public class BaseHealthTests : BaseHealth
         currentHealth = 1;
         var previousHealth = currentHealth;
         int heal = maxHealth - currentHealth - 1;
-        Heal(heal);
+        HealDamage(heal);
 
         Assert.AreEqual(currentHealth, previousHealth + heal);
     }
@@ -23,10 +23,10 @@ public class BaseHealthTests : BaseHealth
         int previousHealth = currentHealth;
         int damage = currentHealth - 1;
 
-        Damage(damage);
+        TakeDamage(damage);
 
         Assert.AreEqual(currentHealth, previousHealth - damage);
-        Assert.AreEqual(isDead, false);
+        Assert.AreEqual(IsDead, false);
     }
 
     [Test]
@@ -34,9 +34,20 @@ public class BaseHealthTests : BaseHealth
     {
         int damage = maxHealth;
 
-        Damage(damage);
+        TakeDamage(damage);
 
         Assert.AreEqual(currentHealth, 0);
-        Assert.AreEqual(isDead, true);
+        Assert.AreEqual(IsDead, true);
+    }
+
+
+    [Test]
+    public void TestNoRevive()
+    {
+        int damage = maxHealth;
+
+        TakeDamage(damage);
+        HealDamage(1);
+        Assert.AreEqual(IsDead, true);
     }
 }
