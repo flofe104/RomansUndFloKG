@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class PlattformGenerator
 {
-    protected const float maxJumpHeight = 5f;
-    protected const float maxJumpDistance = 4f;
+
+    public const float PLAYER_HEIGHT = 1.5f;
+
+    public const float maxJumpHeight = 5f;
+    public const float maxJumpDistance = 4f;
 
     private const int MIN_WIDTH = 1;
     private const int MAX_WIDTH = 5;
