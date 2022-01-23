@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +25,11 @@ public abstract class Movement : MonoBehaviour
     protected Vector3 velocity;
     protected bool isGrounded = true;
 
+    public void ApplyDashForce(Vector3 direction)
+    {
+        throw new NotImplementedException();
+    }
+
     protected bool facedForward = true;
     protected bool turning = false;
     protected Quaternion endRotation;
@@ -44,6 +50,7 @@ public abstract class Movement : MonoBehaviour
     }
 
     protected float GetJumpPower =>  Mathf.Sqrt(jumpPower * gravity);
+    protected float GetDashPower => throw new NotImplementedException();
 
     public void ApplyGravity()
     {
