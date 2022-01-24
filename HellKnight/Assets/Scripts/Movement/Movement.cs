@@ -31,7 +31,7 @@ public abstract class Movement : MonoBehaviour
 
     public float speed = 10;
     public float jumpPower = 0.02f;
-    public float gravity = 0.5f;
+    public float gravity = 0.3f;
     public float rotationSpeed = 500;
 
     public void ApplyJumpForce()
@@ -59,12 +59,17 @@ public abstract class Movement : MonoBehaviour
         if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
             //Debug.Log("Hit " + hit.collider.gameObject.name + " dist " + hit.distance + "isGrounded: " + isGrounded);
-            if (hit.collider.gameObject != gameObject)
+            var hitName = hit.collider.gameObject.name;
+            if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
                 float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
                 if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                 {
                     isGrounded = true;
+                }
+                else
+                {
+                    isGrounded = false;
                 }
             }
         }
