@@ -5,8 +5,8 @@ using UnityEngine;
 public abstract class DungeonPart : MonoBehaviour
 {
 
-    protected const float MAX_HEIGHT = 50;
-    protected const float MIN_HEIGHT = -50;
+    protected const int MAX_HEIGHT = 40;
+    protected const int MIN_HEIGHT = -40;
     protected const float COLLISION_WIDTH = 1;
 
     protected Vector2Int dungeonPartSize;
