@@ -32,7 +32,7 @@ public class Room : DungeonPart, IDeathListener
     {
         Vector2Int result = new Vector2Int();
         result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
-        result.y = rand.Next(MIN_WIDTH, MAX_WIDTH);
+        result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
         return result;
     }
 
@@ -66,11 +66,11 @@ public class Room : DungeonPart, IDeathListener
     protected System.Random rand;
 
 
-    protected const int MIN_ENEMIES = 3;
-    protected const int MAX_ENEMIES = 9;
+    protected const int MIN_ENEMIES = 2;
+    protected const int MAX_ENEMIES = 5;
 
     protected const int MIN_WIDTH = 10;
-    protected const int MAX_WIDTH = 20;
+    protected const int MAX_WIDTH = 40;
 
     protected bool isCleared;
 
@@ -83,8 +83,8 @@ public class Room : DungeonPart, IDeathListener
 
         for (int i = 0; i < enemyCount; i++)
         {
-            float x = Mathf.Lerp(0, MAX_WIDTH, (float)rand.NextDouble());
-            float y = Mathf.Lerp(0, MAX_HEIGHT, (float)rand.NextDouble());
+            float x = Mathf.Lerp(0, dungeonPartSize.x, (float)rand.NextDouble());
+            float y = Mathf.Lerp(0, dungeonPartSize.y, (float)rand.NextDouble());
             Vector3 position = new Vector3(x, y, 0);
 
             int enemyIndex = rand.Next(possibleEnemies.Count);
