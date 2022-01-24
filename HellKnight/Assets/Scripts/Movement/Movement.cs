@@ -155,8 +155,6 @@ public abstract class Movement : MonoBehaviour
             Dash(Vector3.left);
         else if (horizontalInput > 0)
             Dash(Vector3.right);
-        else
-            Dash(transform.forward.normalized);
 
         Move(horizontalInput);
 
