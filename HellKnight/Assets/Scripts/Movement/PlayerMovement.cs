@@ -12,6 +12,11 @@ public class PlayerMovement : Movement
 
     public override float GetVerticalInput()
     {
-        return Input.GetAxis("Vertical");
+        return Mathf.Max(Input.GetAxis("Vertical"), Input.GetAxis("Jump"));
+    }
+
+    public override bool GetDashInput()
+    {
+        return Input.GetKeyDown(KeyCode.LeftShift);
     }
 }

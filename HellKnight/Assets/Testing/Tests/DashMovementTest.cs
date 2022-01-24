@@ -16,7 +16,12 @@ public class DashMovementTest : Movement
     {
         return simulatedVertical;
     }
+    public override bool GetDashInput()
+    {
+        return simulatedDash;
+    }
 
+    protected bool simulatedDash;
     protected float simulatedHorizontal;
     protected float simulatedVertical;
 
@@ -24,9 +29,9 @@ public class DashMovementTest : Movement
     [Test]
     public void MovementTestDashPower()
     {
-        base.ApplyDashForce(Vector3.up);
-        Assert.AreEqual(velocity.magnitude, GetDashPower);
-        Assert.AreEqual(velocity.y, GetDashPower);
+        base.Dash(Vector3.up);
+        Assert.AreEqual(velocity.magnitude, dashPower);
+        Assert.AreEqual(velocity.y, dashPower);
     }
 
     [Test]
@@ -37,6 +42,7 @@ public class DashMovementTest : Movement
         ApplyGravity();
         Assert.Less(velocity.y, velY);
     }
+
 
 
     //[UnityTest]

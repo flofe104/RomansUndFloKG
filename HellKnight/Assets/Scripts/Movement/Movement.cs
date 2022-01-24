@@ -14,7 +14,7 @@ public abstract class Movement : MonoBehaviour
     {
         get
         {
-            if(controller == null)
+            if (controller == null)
             {
                 controller = GetComponent<CharacterController>();
             }
@@ -24,14 +24,11 @@ public abstract class Movement : MonoBehaviour
 
     protected Vector3 velocity;
     protected bool isGrounded = true;
-
-    public void ApplyDashForce(Vector3 direction)
-    {
-        throw new NotImplementedException();
-    }
-
     protected bool facedForward = true;
     protected bool turning = false;
+    protected bool dashing = false;
+    protected float dashTime = 0;
+    protected float dashTimestamp = 0;
     protected Quaternion endRotation;
 
 
@@ -39,6 +36,13 @@ public abstract class Movement : MonoBehaviour
     public float jumpPower = 0.02f;
     public float gravity = 0.3f;
     public float rotationSpeed = 500;
+    public AnimationCurve dashPattern;
+    public float dashCooldown = 1;
+    public float dashDistance= 0.1f;
+    public float dashPower = 0.25f;
+
+    protected float GetJumpPower => Mathf.Sqrt(jumpPower * gravity);
+    protected float GetDashEndTime => dashPattern.keys[dashPattern.keys.Length - 1].time;
 
     public void ApplyJumpForce()
     {
@@ -49,8 +53,20 @@ public abstract class Movement : MonoBehaviour
         }
     }
 
-    protected float GetJumpPower =>  Mathf.Sqrt(jumpPower * gravity);
-    protected float GetDashPower => throw new NotImplementedException();
+    public void Dash(Vector3 direction)
+    {
+        if (dashing)
+        {
+            //Debug.Log("Direction: " + direction);
+            dashTime += Time.deltaTime;
+            var val = 0.01f * dashDistance * dashPattern.Evaluate(dashTime / dashPower);
+            Controller.Move(direction * val);
+            if (GetDashEndTime <= dashTime)
+            {
+                dashing = false;
+            }
+        }
+    }
 
     public void ApplyGravity()
     {
@@ -58,7 +74,7 @@ public abstract class Movement : MonoBehaviour
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
-    
+
     public void CheckGround()
     {
         RaycastHit hit;
@@ -86,7 +102,7 @@ public abstract class Movement : MonoBehaviour
     {
         velocity.x = input * speed * Time.deltaTime;
         //Debug.Log("Moving with velocity " + velocity);
-        Controller.Move(velocity);        
+        Controller.Move(velocity);
     }
 
     public void UpdateTurn(float horizontalInput)
@@ -105,27 +121,42 @@ public abstract class Movement : MonoBehaviour
 
     public void Turn()
     {
-            var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
-            transform.rotation = q;
-            if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
-            {
-                facedForward = !facedForward;
-                turning = false;
-            } 
+        var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
+        transform.rotation = q;
+        if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
+        {
+            facedForward = !facedForward;
+            turning = false;
+        }
     }
 
     public abstract float GetHorizontalInput();
     public abstract float GetVerticalInput();
+    public abstract bool GetDashInput();
 
     public void Update()
     {
         ApplyGravity();
 
-        float horizontalInput = GetHorizontalInput(); 
+        float horizontalInput = GetHorizontalInput();
 
         bool jumpTriggered = GetVerticalInput() > 0;
         if (jumpTriggered)
             ApplyJumpForce();
+
+        bool dashTriggered = GetDashInput();
+        if (dashTriggered && !dashing && dashTimestamp + dashCooldown < Time.time)
+        {
+            dashing = true;
+            dashTimestamp = Time.time;
+            dashTime = 0;
+        }
+        if (horizontalInput < 0)
+            Dash(Vector3.left);
+        else if (horizontalInput > 0)
+            Dash(Vector3.right);
+        else
+            Dash(transform.forward.normalized);
 
         Move(horizontalInput);
 

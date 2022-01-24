@@ -16,7 +16,12 @@ public class MovementTest : Movement
     {
         return simulatedVertical;
     }
+    public override bool GetDashInput()
+    {
+        return simulatedDash;
+    }
 
+    protected bool simulatedDash;
     protected float simulatedHorizontal;
     protected float simulatedVertical;
 
@@ -38,6 +43,7 @@ public class MovementTest : Movement
         ApplyGravity();
         Assert.Less(velocity.y, velY);
     }
+
 
 
     //[UnityTest]

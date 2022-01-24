@@ -660,6 +660,33 @@ MonoBehaviour:
   jumpPower: 0.02
   gravity: 0.2
   rotationSpeed: 500
+  dashPattern:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.5199731
+      value: 0.70400476
+      inSlope: 2.272018
+      outSlope: 2.272018
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.027469376
+    - serializedVersion: 3
+      time: 0.9972464
+      value: 0.00000067742076
+      inSlope: -6.893846
+      outSlope: -6.893846
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.03984081
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashCooldown: 1
+  dashDistance: 8
+  dashPower: 0.2
 --- !u!136 &1328100501
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1115,6 +1142,15 @@ MonoBehaviour:
   jumpPower: 0.02
   gravity: 0.5
   rotationSpeed: 500
+  dashPattern:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashCooldown: 1
+  dashDistance: 10
+  dashPower: 1
 --- !u!143 &2007279561
 CharacterController:
   m_ObjectHideFlags: 0
