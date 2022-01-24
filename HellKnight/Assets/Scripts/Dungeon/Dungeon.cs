@@ -50,7 +50,7 @@ public class Dungeon : MonoBehaviour
         r.AddRoomLayoutToMeshData(tiling, vertices, triangles, colliderVertices,colliderTriangles, uvCoords);
     }
 
-    protected void DisplayDungeon()
+    protected virtual void DisplayDungeon()
     {
         Mesh m = new Mesh();
         m.vertices = vertices.ToArray();

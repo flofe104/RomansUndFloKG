@@ -7,14 +7,44 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     protected List<IDeathListener> deathListeners = new List<IDeathListener>();
 
-    protected int maxHealth;
+    public int maxHealth = 100;
 
-    protected int currentHealth;
+    public int currentHealth;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            HealDamage(10);
+        }
+    }
+
+    public void SetMaxHealth(int maxHealth)
+    {
+        this.maxHealth = maxHealth;
+    }
+
+    protected bool IsDead => currentHealth <= 0;
 
     public void ResetWithMaxHealth(int maxHealth)
     {
-        this.maxHealth = maxHealth;
+        SetMaxHealth(maxHealth);
         currentHealth = this.maxHealth;
+    }
+
+    public int GetCurrentHealth()
+    {
+        return currentHealth;
     }
 
     public void AddDeathListener(IDeathListener listener)
@@ -22,9 +52,22 @@ public class BaseHealth : MonoBehaviour, IHealth
         deathListeners.Add(listener);
     }
 
-    public void Damage(int damage)
+    public void TakeDamage(int damage)
     {
-        throw new System.NotImplementedException();
+        currentHealth -= damage;
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
+        }
+    }
+
+    public void HealDamage(int damage)
+    {
+        currentHealth += damage;
+        if (currentHealth >= maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
     }
 
 }

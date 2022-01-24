@@ -18,27 +18,32 @@ public class Cube2D
 
     protected float width;
 
+    public float GetWidth() => width;
+
     protected float height;
+
+    public float GetHeight() => height;
 
     protected Vector2 Width;
 
     protected Vector2 Height;
 
-    protected Vector2 BottomRight => bottomLeftAnchor + Width;
+    public Vector2 BottomRight => bottomLeftAnchor + Width;
 
-    protected Vector2 TopLeft => bottomLeftAnchor + Height;
+    public Vector2 TopLeft => bottomLeftAnchor + Height;
 
-    protected Vector2 TopRight => BottomRight + Height;
+    public Vector2 TopRight => BottomRight + Height;
 
-    protected Vector2 Center => bottomLeftAnchor + new Vector2(width / 2, height / 2);
+    public Vector2 Center => bottomLeftAnchor + new Vector2(width / 2, height / 2);
 
     protected Material mat;
 
     protected GameObject box; 
 
-    public void Create()
+    public GameObject Create()
     {
         Display();
+        return box;
     }
 
     protected void CreateBox()

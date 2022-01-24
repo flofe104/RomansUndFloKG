@@ -35,7 +35,7 @@ public class PlattformGenerator
         {
             float yOffset = Mathf.Lerp(MIN_Y_OFFSET, MAX_JUMP_HEIGHT - HEIGHT, (float)rand.NextDouble());
             float yPos = layerBaseHeight + yOffset;
-            if (yPos + HEIGHT + yBuffer > size.y)
+            if(yPos + HEIGHT + yBuffer > size.y)
             {
                 finished = true;
                 if (layerBaseHeight + MAX_JUMP_HEIGHT >= size.y)
@@ -50,7 +50,7 @@ public class PlattformGenerator
             float width = Mathf.Lerp(MIN_WIDTH, MAX_WIDTH, (float)rand.NextDouble());
             if (xPos + width > size.x)
             {
-                if (layerBaseWidth - xOffset - width > 0)
+                if(layerBaseWidth - xOffset - width > 0)
                 {
                     xPos = layerBaseWidth - xOffset - width;
                 }

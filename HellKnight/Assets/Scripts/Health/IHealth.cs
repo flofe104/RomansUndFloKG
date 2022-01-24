@@ -5,7 +5,9 @@ using UnityEngine;
 public interface IHealth
 {
     
-    public void Damage(int damage);
+    public void TakeDamage(int damage);
+
+    void HealDamage(int damage);
 
     void AddDeathListener(IDeathListener listener);
 

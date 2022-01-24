@@ -4,7 +4,18 @@ using UnityEngine;
 
 public class BaseProjectile : MonoBehaviour
 {
-    public Vector3 targetPosition = Vector3.zero;
+
+    protected Vector3 targetPosition;
+
+    public Vector3 TargetPosition
+    {
+        set
+        {
+            targetPosition = value;
+            targetDirection = (targetPosition - transform.position).normalized * projectileSpeed; 
+        }
+    }
+
     public float projectileSpeed = 10;
 
     private Vector3 targetDirection = Vector3.zero;
@@ -16,29 +27,21 @@ public class BaseProjectile : MonoBehaviour
     {
         //Debug.Log("Hit " + other.gameObject.name);
         Destroy(gameObject);
-        if (other.gameObject.name == "Player")
+        PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
+        if (health != null)
         {
-            OnPlayerHit();
+            OnPlayerHit(health);
         }
     }
 
-    private void OnPlayerHit()
+    private void OnPlayerHit(PlayerHealth health)
     {
-        throw new System.NotImplementedException();
+        health.TakeDamage(15);
     }
 
     private void Move()
     {
-        // set movement direction once
-        if(targetDirection == Vector3.zero && targetPosition != Vector3.zero)
-        {
-            targetDirection = (targetPosition - transform.position).normalized * projectileSpeed;
-        }
-
-        if(targetDirection != Vector3.zero)
-        {
-            transform.position += targetDirection * Time.deltaTime;
-        }
+        transform.position += targetDirection * Time.deltaTime;
     }
 
     void FixedUpdate()
