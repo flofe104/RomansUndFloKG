@@ -66,7 +66,7 @@ public class PlattformTest
                 {
                     next = ps[i];
                     Vector2 distance = DistanceBetweenColliders(coll, next);
-                    result = distance.y <= PlattformGenerator.maxJumpHeight && distance.x <= PlattformGenerator.maxJumpDistance;
+                    result = distance.y <= PlattformGenerator.MAX_JUMP_HEIGHT && distance.x <= PlattformGenerator.MAX_JUMP_DISTANCE;
                     coll = next;
                 }
                 return result;
