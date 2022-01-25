@@ -16,19 +16,6 @@ public class BaseHealth : MonoBehaviour, IHealth
         currentHealth = maxHealth;
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            TakeDamage(10);
-        }
-
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            HealDamage(10);
-        }
-    }
-
     public void SetMaxHealth(int maxHealth)
     {
         this.maxHealth = maxHealth;
