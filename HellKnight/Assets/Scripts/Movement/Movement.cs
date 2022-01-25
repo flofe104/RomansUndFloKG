@@ -83,9 +83,9 @@ public abstract class Movement : MonoBehaviour
             if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
                 float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
-                if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
+                if (hit.distance <= contactPoint + 0.001f)
                 {
-                    Debug.Log("Distance when grounded: " + hit.distance);
+                    //Debug.Log("Distance when grounded: " + hit.distance);
                     isGrounded = true;
                 }
                 else
