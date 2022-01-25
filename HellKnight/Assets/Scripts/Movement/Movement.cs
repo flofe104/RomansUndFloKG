@@ -33,24 +33,21 @@ public abstract class Movement : MonoBehaviour
 
 
     public float speed = 10;
-    public float jumpPower = 0.02f;
+    public float jumpPower = 3.5f;
     public float gravity = 0.3f;
-    public float rotationSpeed = 500;
+    public float rotationSpeed = 1000;
     public AnimationCurve dashPattern;
     public float dashCooldown = 1;
     public float dashDistance= 0.1f;
-    public float dashPower = 0.25f;
+    public float dashSpeed = 0.25f;
 
-    protected float GetJumpPower => Mathf.Sqrt(jumpPower * gravity);
+    protected float GetJumpPower => Mathf.Sqrt(1000f * jumpPower * gravity);
     protected float GetDashEndTime => dashPattern.keys[dashPattern.keys.Length - 1].time;
 
     public void ApplyJumpForce()
     {
-        if (isGrounded)
-        {
-            velocity.y = GetJumpPower;
-            isGrounded = false;
-        }
+        velocity.y = GetJumpPower;
+        isGrounded = false;
     }
 
     public void Dash(Vector3 direction)
@@ -59,7 +56,7 @@ public abstract class Movement : MonoBehaviour
         {
             //Debug.Log("Direction: " + direction);
             dashTime += Time.deltaTime;
-            var val = 0.01f * dashDistance * dashPattern.Evaluate(dashTime / dashPower);
+            var val = 0.01f * dashDistance * dashPattern.Evaluate(dashTime / dashSpeed);
             Controller.Move(direction * val);
             if (GetDashEndTime <= dashTime)
             {
@@ -70,7 +67,7 @@ public abstract class Movement : MonoBehaviour
 
     public void ApplyGravity()
     {
-        velocity.y -= gravity * Time.deltaTime;
+        velocity.y -= gravity;
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
@@ -88,6 +85,7 @@ public abstract class Movement : MonoBehaviour
                 float contactPoint = gameObject.GetComponent<CapsuleCollider>().height / 2 + Controller.skinWidth;
                 if (hit.distance + velocity.y * Time.deltaTime <= contactPoint)
                 {
+                    Debug.Log("Distance when grounded: " + hit.distance);
                     isGrounded = true;
                 }
                 else
@@ -100,9 +98,9 @@ public abstract class Movement : MonoBehaviour
 
     public void Move(float input)
     {
-        velocity.x = input * speed * Time.deltaTime;
+        velocity.x = input * speed;
         //Debug.Log("Moving with velocity " + velocity);
-        Controller.Move(velocity);
+        Controller.Move(velocity * Time.deltaTime);
     }
 
     public void UpdateTurn(float horizontalInput)
@@ -131,7 +129,7 @@ public abstract class Movement : MonoBehaviour
     }
 
     public abstract float GetHorizontalInput();
-    public abstract float GetVerticalInput();
+    public abstract bool GetVerticalInput();
     public abstract bool GetDashInput();
 
     public void Update()
@@ -140,8 +138,8 @@ public abstract class Movement : MonoBehaviour
 
         float horizontalInput = GetHorizontalInput();
 
-        bool jumpTriggered = GetVerticalInput() > 0;
-        if (jumpTriggered)
+        bool jumpTriggered = GetVerticalInput();
+        if (jumpTriggered && isGrounded)
             ApplyJumpForce();
 
         bool dashTriggered = GetDashInput();
