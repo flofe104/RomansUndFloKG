@@ -5,26 +5,28 @@ using UnityEngine;
 public abstract class DungeonPart : MonoBehaviour
 {
 
-    protected const int MAX_HEIGHT = 40;
-    protected const int MIN_HEIGHT = -40;
+    protected const int MAX_DUNGEON_HEIGHT = 40;
+    protected const int MIN_DUNGEON_HEIGHT = -40;
     protected const float COLLISION_WIDTH = 1;
 
     protected Vector2Int dungeonPartSize;
 
     protected float entryHeightOffset = 0;
-    protected float entryHeight = 2.5f;
 
+    public int Width => dungeonPartSize.x;
 
-    protected abstract void DetermineDungeonPartSize();
+    public int Height => dungeonPartSize.y;
 
-    public void AddRoomLayoutToMeshData(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
+    protected abstract Vector2Int DetermineDungeonPartSize();
+
+    public void AddDungeonPartToMeshLayout(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
     {
-        DetermineDungeonPartSize();
+        dungeonPartSize = DetermineDungeonPartSize();
         float startHeight = transform.position.y + dungeonPartSize.y;
-        float distanceToLowestHeight = transform.position.y - MIN_HEIGHT;
+        float distanceToLowestHeight = transform.position.y - MIN_DUNGEON_HEIGHT;
 
         ///build rendered mesh
-        AddSquareToMesh(transform.position + new Vector3(0, dungeonPartSize.y, 0), new Vector3(dungeonPartSize.x,0,0),new Vector3(0, MAX_HEIGHT - startHeight,0), tiling, vertices, triangles, materialCoordinates);
+        AddSquareToMesh(transform.position + new Vector3(0, dungeonPartSize.y, 0), new Vector3(dungeonPartSize.x,0,0),new Vector3(0, MAX_DUNGEON_HEIGHT - startHeight,0), tiling, vertices, triangles, materialCoordinates);
         AddSquareToMesh(transform.position - new Vector3(0, distanceToLowestHeight, 0), new Vector3(dungeonPartSize.x,0,0), new Vector3(0,distanceToLowestHeight,0), tiling, vertices, triangles, materialCoordinates);
 
         ///build collision mesh

@@ -13,18 +13,21 @@ public class Room : DungeonPart, IDeathListener
         rand = new System.Random(seed);
     }
 
+
+    protected float entryHeight = 2.5f;
+
     protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
     {
         Vector3 collisionOrigin = transform.position + new Vector3(0, 0, COLLISION_WIDTH);
         ///left wall collider
-        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
+        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_DUNGEON_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
         ///right wall collider
-        AddSquareToMesh(collisionOrigin + new Vector3(dungeonPartSize.x, entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, MAX_HEIGHT - transform.position.y - entryHeight, 0), tiling, colliderVerts, colliderTris, null);
+        AddSquareToMesh(collisionOrigin + new Vector3(dungeonPartSize.x, entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, MAX_DUNGEON_HEIGHT - transform.position.y - entryHeight, 0), tiling, colliderVerts, colliderTris, null);
     }
 
-    protected override void DetermineDungeonPartSize()
+    protected override Vector2Int DetermineDungeonPartSize()
     {
-        dungeonPartSize = GetRoomSize();
+       return GetRoomSize();
     }
 
 
@@ -60,7 +63,7 @@ public class Room : DungeonPart, IDeathListener
     protected virtual void GenerateInterior()
     {
         plattforms = PlattformGenerator.GeneratePlattformsInSpace(dungeonPartSize, rand);
-        plattforms.ForEach(p => p.Create());
+        plattforms.ForEach(p => p.Create(transform));
     }
 
     protected System.Random rand;
@@ -69,8 +72,11 @@ public class Room : DungeonPart, IDeathListener
     protected const int MIN_ENEMIES = 2;
     protected const int MAX_ENEMIES = 5;
 
-    protected const int MIN_WIDTH = 10;
+    protected const int MIN_WIDTH = 12;
     protected const int MAX_WIDTH = 40;
+
+    protected const int MIN_HEIGHT = 8;
+    protected const int MAX_HEIGHT = 15;
 
     protected bool isCleared;
 
@@ -89,7 +95,7 @@ public class Room : DungeonPart, IDeathListener
 
             int enemyIndex = rand.Next(possibleEnemies.Count);
             ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
-            GameObject g = enemy.Spawn(position);
+            GameObject g = enemy.Spawn(position, transform);
             IHealth health = g.GetComponent<IHealth>();
             health.AddDeathListener(this);
             aliveEnemies.Add(health);

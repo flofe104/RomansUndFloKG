@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using UnityEngine;
 public class Dungeon : MonoBehaviour
 {
 
-    protected const int NUMBER_OF_ROOMS = 1;
+    protected const int NUMBER_OF_ROOMS = 5;
 
     private void Start()
     {
@@ -31,23 +32,62 @@ public class Dungeon : MonoBehaviour
     {
         rooms = new Room[NUMBER_OF_ROOMS];
         Vector2 offset = new Vector2();
-        
+        BuildWall(ref offset);
         for (int i = 0; i < NUMBER_OF_ROOMS; i++)
         {
             AddRoom(i, ref offset);
+            if(i + 1 < NUMBER_OF_ROOMS)
+            {
+                AddConnector(ref offset);
+            }
         }
+        BuildWall(ref offset);
         rooms[0].Generate();
         DisplayDungeon();
     }
 
+    private void AddConnector(ref Vector2 offset)
+    {
+        CreateNewDungeonObject<RoomConnector>(ref offset);
+    }
+
+    private void BuildWall(ref Vector2 offset)
+    {
+        CreateNewDungeonObject<DungeonWall>(ref offset);
+    }
+
     private void AddRoom(int index, ref Vector2 offset)
     {
-        GameObject nextRoom = new GameObject();
-        nextRoom.transform.position = offset;
-        Room r = nextRoom.AddComponent<Room>();
+        CreateNewDungeonObject<Room>(ref offset, (r) => HandleNewRoom(r, index));
+    }
+
+    protected T CreateNewDungeonObject<T>(ref Vector2 offset, Action<T> Initialize = null) where T : DungeonPart
+    {
+        GameObject dungeonObject = new GameObject();
+        dungeonObject.name = typeof(T).Name;
+        dungeonObject.transform.parent = transform;
+        dungeonObject.transform.localPosition = offset;
+        T part = dungeonObject.AddComponent<T>();
+        Initialize?.Invoke(part);
+        AddDungeonPartToMesh(part, ref offset);
+        return part;
+    }
+
+    protected void HandleNewRoom(Room r, int index)
+    {
         rooms[index] = r;
         r.Initialize(rand.Next(), enemies);
-        r.AddRoomLayoutToMeshData(tiling, vertices, triangles, colliderVertices,colliderTriangles, uvCoords);
+    }
+
+    protected void AddDungeonPartToMesh(DungeonPart part, ref Vector2 offset)
+    {
+        part.AddDungeonPartToMeshLayout(tiling, vertices, triangles, colliderVertices, colliderTriangles, uvCoords);
+        MoveOffset(ref offset, part);
+    }
+
+    protected void MoveOffset(ref Vector2 offset, DungeonPart dungeonPart)
+    {
+        offset += new Vector2(dungeonPart.Width, 0);
     }
 
     protected virtual void DisplayDungeon()

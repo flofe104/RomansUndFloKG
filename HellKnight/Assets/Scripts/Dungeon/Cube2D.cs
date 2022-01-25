@@ -38,10 +38,13 @@ public class Cube2D
 
     protected Material mat;
 
-    protected GameObject box; 
+    protected GameObject box;
 
-    public GameObject Create()
+    protected Transform parent;
+
+    public GameObject Create(Transform parent = null)
     {
+        this.parent = parent;
         Display();
         return box;
     }
@@ -49,6 +52,7 @@ public class Cube2D
     protected void CreateBox()
     {
         box = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        box.transform.SetParent(parent);
         AdjustCube();
     }
 
