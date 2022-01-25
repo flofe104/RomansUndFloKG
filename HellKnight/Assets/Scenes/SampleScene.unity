@@ -500,6 +500,7 @@ GameObject:
   - component: {fileID: 910549692}
   - component: {fileID: 910549691}
   - component: {fileID: 910549690}
+  - component: {fileID: 910549693}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -566,12 +567,26 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 910549689}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 5.64, y: 10.1, z: -23.16}
+  m_LocalPosition: {x: 18.4, y: 15.8, z: -32.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &910549693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 910549689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0485cf91dcf6a6841ae9ae1ebc94855b, type: 3}
+  m_Name:
+  m_EditorClassIdentifier:
+  player: {fileID: 1328100499}
+  speed: 2
 --- !u!1 &1128185797
 GameObject:
   m_ObjectHideFlags: 0
@@ -824,7 +839,7 @@ MonoBehaviour:
   m_Name:
   m_EditorClassIdentifier:
   playerHealth: {fileID: 1328100508}
-  fillImage: {fileID: 0}
+  fillImage: {fileID: 622540680}
 --- !u!1 &1472677497
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,7 +930,7 @@ Transform:
   m_GameObject: {fileID: 1472677497}
   m_LocalRotation: {x: -0.70710707, y: -0, z: -0, w: 0.70710653}
   m_LocalPosition: {x: 0, y: 25, z: 25}
-  m_LocalScale: {x: 10, y: 1, z: 5}
+  m_LocalScale: {x: 28.552, y: 2.8552, z: 14.276}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -1128,6 +1143,15 @@ MonoBehaviour:
   jumpPower: 0.02
   gravity: 0.5
   rotationSpeed: 500
+  dashPattern:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  dashCooldown: 1
+  dashDistance: 10
+  dashPower: 1
 --- !u!143 &2007279561
 CharacterController:
   m_ObjectHideFlags: 0

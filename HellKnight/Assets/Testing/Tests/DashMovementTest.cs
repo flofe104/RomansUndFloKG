@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class MovementTest : Movement
+public class DashMovementTest : Movement
 {
 
     public override float GetHorizontalInput()
@@ -27,12 +27,11 @@ public class MovementTest : Movement
 
     // A Test behaves as an ordinary method
     [Test]
-    public void MovementTestJumpPower()
+    public void MovementTestDashPower()
     {
-        simulatedVertical = 1;
-        isGrounded = true;
-        ApplyJumpForce();
-        Assert.AreEqual(GetJumpPower, velocity.y);
+        base.Dash(Vector3.up);
+        Assert.AreEqual(velocity.magnitude, dashPower);
+        Assert.AreEqual(velocity.y, dashPower);
     }
 
     [Test]

@@ -27,9 +27,10 @@ public class EnemySciptableObject : ScriptableObject, ISpawnableEnemy
         }
     }
 
-    public GameObject Spawn(Vector3 position)
+    public GameObject Spawn(Vector3 position, Transform parent)
     {
         GameObject gameObject = Instantiate(prefab, position, Prefab.transform.rotation);
+        gameObject.transform.SetParent(parent, false);
         BaseHealth health = gameObject.GetComponent<BaseHealth>();
         health.ResetWithMaxHealth(Health);
         return gameObject;

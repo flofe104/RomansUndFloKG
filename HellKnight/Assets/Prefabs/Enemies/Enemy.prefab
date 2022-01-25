@@ -249,8 +249,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackCooldown: 2
-  projectileSpeed: 10
-  player: {fileID: 0}
+  hoverSpeed: 10
+  hoverPatternX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.08063319
+      value: 0.5875327
+      inSlope: -5.999307
+      outSlope: -5.999307
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.014317411
+    - serializedVersion: 3
+      time: 0.7223186
+      value: 0.60237396
+      inSlope: -5.343255
+      outSlope: -5.343255
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.040901363
+      outWeight: 0
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  hoverPatternY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.35234195
+      value: 0.57602626
+      inSlope: -4.913228
+      outSlope: -4.913228
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.037762735
+    - serializedVersion: 3
+      time: 0.6259857
+      value: 0.5752732
+      inSlope: -5.5125923
+      outSlope: -5.5125923
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.037021857
+      outWeight: 0
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4
   projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
 --- !u!1 &9178963391055457026
 GameObject:
