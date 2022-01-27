@@ -16,10 +16,13 @@ public class BaseHealth : MonoBehaviour, IHealth
         deathListeners.ForEach(deathListener => deathListener.OnDeath(this));
     }
 
-    protected virtual void OnDeath()
+    private void OnDeath()
     {
         NotifyListenersOnDeath();
+        OnEntityDied();
     }
+
+    protected virtual void OnEntityDied() { }
 
     void Start()
     {
