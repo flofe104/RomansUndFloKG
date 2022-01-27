@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerHealth : BaseHealth
 {
+
     public GameObject player;
 
     public void OnDeath()

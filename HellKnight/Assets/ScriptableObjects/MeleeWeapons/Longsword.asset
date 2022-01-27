@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Longsword
   m_EditorClassIdentifier: 
   itemName: Longsword
+  uiImage: {fileID: 0}
   itemValue: 0
   prefab: {fileID: 8077994751767377509, guid: 17188011f163aeb47820d6c9a9d2263a, type: 3}
-  uiImage: {fileID: 0}
   equipPosition: {x: 0.5, y: 0, z: 0.25}
   equipEulerAngle: {x: 0, y: 90, z: 0}
   equipScale: {x: 1, y: 1, z: 1}
-  damage: 1
+  damage: 30
   attackAnimationDuration: 0.2
   attackCooldownAfterAnimation: 0.2
   range: 3

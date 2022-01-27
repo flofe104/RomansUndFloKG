@@ -17,27 +17,30 @@ public class DungeonTest : Dungeon
     [Test]
     public void TestNumberOfRooms()
     {
-        InitializeEnemyList();
-        int seed = 0;
-        InitializeDungeon(seed);
 
-        Assert.AreEqual(rooms.Length, NUMBER_OF_ROOMS);
+        DungeonTest d = TestableBehaviourSetup.GetInstance<DungeonTest>();
+        d.InitializeEnemyList();
+        int seed = 0;
+        d.InitializeDungeon(seed);
+
+        Assert.AreEqual(d.rooms.Length, NUMBER_OF_ROOMS);
     }
 
     [Test]
     public void TestRandomness()
     {
-        InitializeEnemyList();
+        DungeonTest d = TestableBehaviourSetup.GetInstance<DungeonTest>();
+        d.InitializeEnemyList();
         Vector3[][] vertices = new Vector3[5][];
         Vector3[][] colliderVerts = new Vector3[5][];
         for (int i = 0; i < 5; ++i)
         {
-            DisplayDungeonAction = delegate 
+            d.DisplayDungeonAction = delegate 
             { 
-                vertices[i] = base.vertices.ToArray(); 
-                colliderVerts[i] = colliderVertices.ToArray(); 
+                vertices[i] = d.vertices.ToArray(); 
+                colliderVerts[i] = d.colliderVertices.ToArray(); 
             };
-            InitializeDungeon(i);
+            d.InitializeDungeon(i);
         }
 
         for (int i = 0; i < 5; ++i)
@@ -60,15 +63,16 @@ public class DungeonTest : Dungeon
     [Test]
     public void TestNormals()
     {
-        InitializeEnemyList();
+        DungeonTest d = TestableBehaviourSetup.GetInstance<DungeonTest>();
+        d.InitializeEnemyList();
         List<int> triangles = null;
         List<Vector3> vertices = null;
-        DisplayDungeonAction = delegate 
+        d.DisplayDungeonAction = delegate 
         { 
-            triangles = base.triangles; 
-            vertices = base.vertices; 
+            triangles = d.triangles; 
+            vertices = d.vertices; 
         };
-        InitializeDungeon(0);
+        d.InitializeDungeon(0);
         for (int i=0; i<triangles.Count; i+=3)
         {
             var v0 = vertices[triangles[i]];
