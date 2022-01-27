@@ -32,7 +32,7 @@ public class MovementTest : Movement
         simulatedVertical = true;
         isGrounded = true;
         ApplyJumpForce();
-        Assert.AreEqual(GetJumpPower, velocity.y);
+        Assert.AreEqual(jumpPower, velocity.y);
     }
 
     [Test]

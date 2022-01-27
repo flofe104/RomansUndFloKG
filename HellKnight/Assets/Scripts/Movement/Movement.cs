@@ -33,20 +33,19 @@ public abstract class Movement : MonoBehaviour
 
 
     public float speed = 10;
-    public float jumpPower = 3.5f;
-    public float gravity = 0.3f;
+    public float jumpPower = 30f;
+    public float gravity = 80f;
     public float rotationSpeed = 1000;
     public AnimationCurve dashPattern;
     public float dashCooldown = 1;
     public float dashDistance= 0.1f;
     public float dashSpeed = 0.25f;
 
-    protected float GetJumpPower => Mathf.Sqrt(1000f * jumpPower * gravity);
     protected float GetDashEndTime => dashPattern.keys[dashPattern.keys.Length - 1].time;
 
     public void ApplyJumpForce()
     {
-        velocity.y = GetJumpPower;
+        velocity.y += jumpPower;
         isGrounded = false;
     }
 
@@ -67,7 +66,7 @@ public abstract class Movement : MonoBehaviour
 
     public void ApplyGravity()
     {
-        velocity.y -= gravity;
+        velocity.y -= gravity * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
