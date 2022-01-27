@@ -8,9 +8,8 @@ public class PlayerHealth : BaseHealth
 {
     public GameObject player;
 
-    protected override void OnDeath()
+    protected override void OnEntityDied()
     {
-        base.OnDeath();
         Destroy(player);
         //load the first scene of the game
         SceneManager.LoadScene(0);
