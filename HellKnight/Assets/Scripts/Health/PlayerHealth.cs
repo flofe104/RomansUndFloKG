@@ -8,12 +8,14 @@ public class PlayerHealth : BaseHealth
 {
     public GameObject player;
 
-    public void OnDeath()
+    protected override void OnDeath()
     {
-       Destroy(player);
-       //load the first scene of the game
-       SceneManager.LoadScene(0);
+        base.OnDeath();
+        Destroy(player);
+        //load the first scene of the game
+        SceneManager.LoadScene(0);
     }
+
 
     void Update()
     {
@@ -27,9 +29,5 @@ public class PlayerHealth : BaseHealth
             HealDamage(10);
         }
 
-        if(currentHealth < 1)
-        {
-            OnDeath();
-        }
     }
 }
