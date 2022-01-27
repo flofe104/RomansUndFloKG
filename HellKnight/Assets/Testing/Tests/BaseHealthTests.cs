@@ -20,6 +20,7 @@ public class BaseHealthTests : BaseHealth
     [Test]
     public void TestDamage()
     {
+        ResetWithMaxHealth(10);
         int previousHealth = currentHealth;
         int damage = currentHealth - 1;
 
