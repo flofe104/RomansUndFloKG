@@ -4,19 +4,9 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class DashMovementTest : Movement
+public class DashMovementTest : PlayerMovement
 {
-
-    public override float GetHorizontalInput()
-    {
-        return simulatedHorizontal;
-    }
-
-    public override bool GetVerticalInput()
-    {
-        return simulatedVertical;
-    }
-    public override bool GetDashInput()
+    protected override bool GetDashInput()
     {
         return simulatedDash;
     }

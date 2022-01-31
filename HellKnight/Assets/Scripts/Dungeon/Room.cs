@@ -69,14 +69,12 @@ public class Room : DungeonPart, IDeathListener
     protected System.Random rand;
 
 
-    protected const int MIN_ENEMIES = 2;
-    protected const int MAX_ENEMIES = 5;
+    protected const int ENEMY_SPREAD = 2;
+    protected const int MIN_WIDTH = 20;
+    protected const int MAX_WIDTH = 60;
 
-    protected const int MIN_WIDTH = 12;
-    protected const int MAX_WIDTH = 40;
-
-    protected const int MIN_HEIGHT = 8;
-    protected const int MAX_HEIGHT = 15;
+    protected const int MIN_HEIGHT = 10;
+    protected const int MAX_HEIGHT = 30;
 
     protected bool isCleared;
 
@@ -84,7 +82,9 @@ public class Room : DungeonPart, IDeathListener
 
     protected virtual void GenerateEnemies()
     {
-        int enemyCount = rand.Next(MIN_ENEMIES,MAX_ENEMIES);
+        var roomSize = GetRoomSize();
+        int enemyCountMean = Mathf.FloorToInt(roomSize.x / 10f);
+        int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
         aliveEnemies = new HashSet<IHealth>();
 
         for (int i = 0; i < enemyCount; i++)
