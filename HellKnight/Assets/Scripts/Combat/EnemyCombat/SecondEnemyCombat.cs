@@ -6,7 +6,7 @@ public class SecondEnemyCombat : MonoBehaviour
 {
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Hit: "+other.gameObject.name);
+        //Debug.Log("Hit: "+other.gameObject.name);
         BaseHealth health = other.gameObject.GetComponent<BaseHealth>();
         if (health != null && other != gameObject.GetComponent<Collider>())
         {

@@ -19,7 +19,7 @@ public class FirstEnemyCombat : MonoBehaviour
         Attack();
     }
 
-    private void Attack()
+    public void Attack()
     {
         timeSinceAttack += Time.deltaTime;
         if (timeSinceAttack >= attackCooldown)
@@ -27,7 +27,7 @@ public class FirstEnemyCombat : MonoBehaviour
             var playerPosition = player.transform.position;
             var startPosition = Vector3.MoveTowards(transform.position, playerPosition, transform.localScale.x);
             var projectile = Instantiate(projectilePrefab, startPosition, Quaternion.identity);
-            projectile.GetComponent<BaseProjectile>().TargetPosition = playerPosition;
+            projectile.GetComponent<Projectile>().TargetPosition = playerPosition;
             timeSinceAttack = 0;
         }
     }

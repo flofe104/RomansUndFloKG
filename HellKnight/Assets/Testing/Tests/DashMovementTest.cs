@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class DashMovementTest : PlayerMovement
+public class ThirdEnemyTest : PlayerMovement
 {
     protected override bool GetDashInput()
     {

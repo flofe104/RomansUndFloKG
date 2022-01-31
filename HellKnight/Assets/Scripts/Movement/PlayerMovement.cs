@@ -28,7 +28,7 @@ public class PlayerMovement : BaseMovement
 
     protected void ApplyJumpForce()
     {
-        velocity.y += jumpPower;
+        velocity.y = jumpPower;
         isGrounded = false;
     }
 
