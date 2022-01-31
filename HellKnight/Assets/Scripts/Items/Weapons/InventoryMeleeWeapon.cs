@@ -8,7 +8,7 @@ public class InventoryMeleeWeapon : InventoryWeapon<EquippedMeleeWeapon, Invento
     [Range(0, 2)]
     public float range;
 
-    [Range(45, 180)]
+    [Range(35, 360)]
     public float rotationAngle;
 
 }
