@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class EnemyHealth : BaseHealth
 {
-    public GameObject enemy;
 
-    public void OnDeath()
+    protected override void OnEntityDied()
     {
-        Destroy(enemy);
+        Destroy(gameObject);
     }
 
     void Update()
@@ -23,9 +22,5 @@ public class EnemyHealth : BaseHealth
             HealDamage(10);
         }
 
-        if (currentHealth < 1)
-        {
-            OnDeath();
-        }
     }
 }

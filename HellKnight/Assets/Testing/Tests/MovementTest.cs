@@ -12,7 +12,7 @@ public class MovementTest : Movement
         return simulatedHorizontal;
     }
 
-    public override float GetVerticalInput()
+    public override bool GetVerticalInput()
     {
         return simulatedVertical;
     }
@@ -23,16 +23,16 @@ public class MovementTest : Movement
 
     protected bool simulatedDash;
     protected float simulatedHorizontal;
-    protected float simulatedVertical;
+    protected bool simulatedVertical;
 
     // A Test behaves as an ordinary method
     [Test]
     public void MovementTestJumpPower()
     {
-        simulatedVertical = 1;
+        simulatedVertical = true;
         isGrounded = true;
         ApplyJumpForce();
-        Assert.AreEqual(GetJumpPower, velocity.y);
+        Assert.AreEqual(jumpPower, velocity.y);
     }
 
     [Test]

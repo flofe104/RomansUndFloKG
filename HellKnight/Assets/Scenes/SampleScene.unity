@@ -153,8 +153,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5f0246b2d43788b428a066001cd09a8a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   rooms: []
   possibleEnemies:
   - {fileID: 11400000, guid: 79e8c7535b4e30f41bce6b792d32aab6, type: 2}
@@ -380,8 +380,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 1, b: 0.04313922, a: 1}
   m_RaycastTarget: 1
@@ -583,8 +583,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0485cf91dcf6a6841ae9ae1ebc94855b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   player: {fileID: 1328100499}
   speed: 2
 --- !u!1 &1128185797
@@ -653,13 +653,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b42e136fe8b2618479a2a0f492dedf29, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   controller: {fileID: 0}
   speed: 10
-  jumpPower: 0.02
-  gravity: 0.2
-  rotationSpeed: 500
+  jumpPower: 30
+  gravity: 80
+  rotationSpeed: 1000
   dashPattern:
     serializedVersion: 2
     m_Curve:
@@ -673,8 +673,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0.027469376
     - serializedVersion: 3
-      time: 0.9972464
-      value: 0.00000067742076
+      time: 1
+      value: 0
       inSlope: -6.893846
       outSlope: -6.893846
       tangentMode: 0
@@ -686,7 +686,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   dashCooldown: 1
   dashDistance: 8
-  dashPower: 0.2
+  dashSpeed: 0.25
 --- !u!136 &1328100501
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -758,7 +758,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1328100499}
   m_LocalRotation: {x: -0, y: 0.70710737, z: -0, w: 0.70710623}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 7.4, y: 5.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2114979241}
@@ -777,8 +777,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7cbbbef944da2a54490c4ed33b8b1040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   startWeapon: {fileID: 11400000, guid: e931ca5c55c8d3748a34edfb7854ee7e, type: 2}
 --- !u!143 &1328100506
 CharacterController:
@@ -821,10 +821,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b3cdffcbb72992947bb0e02314a3c781, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   maxHealth: 100
   currentHealth: 0
+  player: {fileID: 0}
 --- !u!114 &1328100509
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -835,8 +836,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec3f3a263e2712340860bb5e6c39bdfc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   playerHealth: {fileID: 1328100508}
   fillImage: {fileID: 622540680}
 --- !u!1 &1472677497
@@ -1055,8 +1056,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4f231c4fb786f3946a6b90b886c48677, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_HorizontalAxis: Horizontal
   m_VerticalAxis: Vertical
   m_SubmitButton: Submit
@@ -1074,8 +1075,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
@@ -1135,8 +1136,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 618767d9b81e76340bddfd3f13672e77, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   controller: {fileID: 2007279561}
   speed: 10
   jumpPower: 0.02
@@ -1150,7 +1151,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   dashCooldown: 1
   dashDistance: 10
-  dashPower: 1
+  dashSpeed: 0.25
 --- !u!143 &2007279561
 CharacterController:
   m_ObjectHideFlags: 0
@@ -1198,8 +1199,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_IgnoreReversedGraphics: 1
   m_BlockingObjects: 0
   m_BlockingMask:
@@ -1215,8 +1216,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   m_UiScaleMode: 0
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1

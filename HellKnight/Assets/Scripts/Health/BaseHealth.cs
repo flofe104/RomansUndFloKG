@@ -11,6 +11,19 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public int currentHealth;
 
+    private void NotifyListenersOnDeath()
+    {
+        deathListeners.ForEach(deathListener => deathListener.OnDeath(this));
+    }
+
+    private void OnDeath()
+    {
+        NotifyListenersOnDeath();
+        OnEntityDied();
+    }
+
+    protected virtual void OnEntityDied() { }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -41,19 +54,26 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage)
     {
-        currentHealth -= damage;
-        if (currentHealth <= 0)
+        if (!IsDead)
         {
-            currentHealth = 0;
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                OnDeath();
+                currentHealth = 0;
+            }
         }
     }
 
     public void HealDamage(int damage)
     {
-        currentHealth += damage;
-        if (currentHealth >= maxHealth)
+        if (!IsDead)
         {
-            currentHealth = maxHealth;
+            currentHealth += damage;
+            if (currentHealth >= maxHealth)
+            {
+                currentHealth = maxHealth;
+            }
         }
     }
 

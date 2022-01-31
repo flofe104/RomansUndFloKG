@@ -7,12 +7,16 @@ public class PlayerMovement : Movement
 
     public override float GetHorizontalInput()
     {
-        return Input.GetAxis("Horizontal");
+        if (Input.GetKey(KeyCode.A))
+            return -1f;
+        else if (Input.GetKey(KeyCode.D))
+            return 1f;
+        else return 0f;
     }
 
-    public override float GetVerticalInput()
+    public override bool GetVerticalInput()
     {
-        return Mathf.Max(Input.GetAxis("Vertical"), Input.GetAxis("Jump"));
+        return Input.GetKey(KeyCode.Space) || Input.GetKey(KeyCode.W);
     }
 
     public override bool GetDashInput()

@@ -12,7 +12,7 @@ public class DashMovementTest : Movement
         return simulatedHorizontal;
     }
 
-    public override float GetVerticalInput()
+    public override bool GetVerticalInput()
     {
         return simulatedVertical;
     }
@@ -23,15 +23,15 @@ public class DashMovementTest : Movement
 
     protected bool simulatedDash;
     protected float simulatedHorizontal;
-    protected float simulatedVertical;
+    protected bool simulatedVertical;
 
     // A Test behaves as an ordinary method
     [Test]
-    public void MovementTestDashPower()
+    public void MovementTestdashSpeed()
     {
         base.Dash(Vector3.up);
-        Assert.AreEqual(velocity.magnitude, dashPower);
-        Assert.AreEqual(velocity.y, dashPower);
+        Assert.AreEqual(velocity.magnitude, dashSpeed);
+        Assert.AreEqual(velocity.y, dashSpeed);
     }
 
     [Test]

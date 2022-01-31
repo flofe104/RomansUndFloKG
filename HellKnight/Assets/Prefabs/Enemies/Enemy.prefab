@@ -11,8 +11,6 @@ GameObject:
   - component: {fileID: 6226302018422177666}
   - component: {fileID: 5875337487382385298}
   - component: {fileID: 6471685859624362420}
-  - component: {fileID: 3574298105395576688}
-  - component: {fileID: 7920295105799504384}
   m_Layer: 0
   m_Name: Sphere
   m_TagString: Untagged
@@ -83,31 +81,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &3574298105395576688
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2737611332524257312}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &7920295105799504384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2737611332524257312}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eccb11c00f8e09c46a6d26d5464bbe86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7598384814570994488
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +173,7 @@ GameObject:
   - component: {fileID: 2679621494065595842}
   - component: {fileID: 3616465244737499188}
   - component: {fileID: 7792984569402343584}
+  - component: {fileID: 4924369467853474989}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -236,6 +210,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b61df9ab47f7c604db7a56afab0a6e93, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0
+  enemy: {fileID: 0}
 --- !u!114 &7792984569402343584
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackCooldown: 2
   hoverSpeed: 10
+  hoverDistance: 0.8
   hoverPatternX:
     serializedVersion: 2
     m_Curve:
@@ -299,6 +277,19 @@ MonoBehaviour:
     m_PostInfinity: 1
     m_RotationOrder: 4
   projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+--- !u!135 &4924369467853474989
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064506378114716341}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &9178963391055457026
 GameObject:
   m_ObjectHideFlags: 0
