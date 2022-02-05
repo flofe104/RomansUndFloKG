@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FirstEnemyMovement : BaseMovement
+public class HoverEnemyMovement : BaseMovement
 {
     public float hoverDistance = 0.8f;
 

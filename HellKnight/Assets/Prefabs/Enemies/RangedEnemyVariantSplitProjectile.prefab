@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4380982772110995741
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2679621494065595842, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4826577795318160145, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cd43b08f528d67243b548b07dae15482, type: 2}
+    - target: {fileID: 6471685859624362420, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 62156073f0fef334b9f1032c20b50317, type: 2}
+    - target: {fileID: 9064506378114716341, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Name
+      value: RangedEnemyVariantSplitProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 9069394899881713001, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: cd43b08f528d67243b548b07dae15482, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+--- !u!1 &4685986722503353256 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9064506378114716341, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+  m_PrefabInstance: {fileID: 4380982772110995741}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &8989330291293975750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4685986722503353256}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45c0faa845dcb7a4d89498ec0be4cabe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackCooldown: 2
+  projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+  projectileSpeed: 10
+  aimAngleNextToPlayer: 15

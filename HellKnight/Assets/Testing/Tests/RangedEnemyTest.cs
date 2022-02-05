@@ -4,8 +4,10 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class RangedEnemyTest : FirstEnemyCombat
+public class RangedEnemyTest : RangedEnemySingleProjectileCombat
 {
+
+
     [Test]
     public void TestLowerCooldown()
     {

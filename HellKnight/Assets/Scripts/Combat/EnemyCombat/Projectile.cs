@@ -5,14 +5,19 @@ using UnityEngine;
 public class Projectile : MonoBehaviour, IProjectile
 {
 
-    protected Vector3 targetPosition;
-
     public Vector3 TargetPosition
     {
         set
         {
-            targetPosition = value;
-            targetDirection = (targetPosition - transform.position).normalized * projectileSpeed; 
+            targetDirection = (value - transform.position).normalized * projectileSpeed; 
+        }
+    }
+
+    public Vector3 TargetDirection
+    {
+        set
+        {
+            targetDirection = value.normalized * projectileSpeed;
         }
     }
 

@@ -158,6 +158,7 @@ MonoBehaviour:
   rooms: []
   possibleEnemies:
   - {fileID: 11400000, guid: d98a45602a86b9d42a1ec71a18ae879b, type: 2}
+  - {fileID: 11400000, guid: ecc3c870da296b146bd8a77eae8ef954, type: 2}
   - {fileID: 11400000, guid: 79e8c7535b4e30f41bce6b792d32aab6, type: 2}
   filter: {fileID: 302340227}
   meshRenderer: {fileID: 302340226}
@@ -256,7 +257,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  seed: 1
+  seed: 2
 --- !u!4 &302340224
 Transform:
   m_ObjectHideFlags: 0
