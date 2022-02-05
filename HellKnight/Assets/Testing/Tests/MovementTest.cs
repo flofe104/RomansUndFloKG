@@ -4,26 +4,13 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class MovementTest : Movement
+public class MovementTest : PlayerMovement
 {
-
-    public override float GetHorizontalInput()
-    {
-        return simulatedHorizontal;
-    }
-
-    public override bool GetVerticalInput()
+    bool simulatedVertical;
+    protected override bool GetVerticalInput()
     {
         return simulatedVertical;
     }
-    public override bool GetDashInput()
-    {
-        return simulatedDash;
-    }
-
-    protected bool simulatedDash;
-    protected float simulatedHorizontal;
-    protected bool simulatedVertical;
 
     // A Test behaves as an ordinary method
     [Test]
