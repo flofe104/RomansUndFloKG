@@ -18,7 +18,17 @@ public class Cube2D
 
     protected float width;
 
+    public Bounds GlobalBounds
+    {
+        get
+        {
+            return new Bounds(Center3D, new Vector3(width, height, 1)); 
+        }
+    }
+
     public float GetWidth() => width;
+
+    public float ExtendsWidth => width / 2;
 
     protected float height;
 
@@ -36,6 +46,8 @@ public class Cube2D
 
     public Vector2 Center => bottomLeftAnchor + new Vector2(width / 2, height / 2);
 
+    public Vector3 Center3D => new Vector3(Center.x, Center.y, 0);
+
     protected Material mat;
 
     protected GameObject box;
@@ -44,8 +56,11 @@ public class Cube2D
 
     public GameObject Create(Transform parent = null)
     {
-        this.parent = parent;
-        Display();
+        if (box == null) 
+        { 
+            this.parent = parent;
+            Display();
+        }
         return box;
     }
 

@@ -7,7 +7,7 @@ using System;
 public class PlattformTest
 {
 
-    protected const int TEST_ITERATIONS = 20;
+    protected const int TEST_ITERATIONS = 500;
 
     [Test]
     public void TestNoPlattformLowerThanPlayerHeight()
@@ -34,29 +34,40 @@ public class PlattformTest
     }
 
     [Test]
-    public void TestNoAdjacendPlattformsAreTouching()
+    public void TestNoAdjacendPlattformsAreNotTouching()
     {
-        Assert.IsTrue(IsTrueForListForAllIterations(
-            (ps) =>
-            {
-                BoxCollider coll = ps[0].Create().GetComponent<BoxCollider>();
-                BoxCollider next;
-                bool result = true;
-                for (int i = 1; i < ps.Count && result; i++)
-                {
-                    next = ps[i].Create().GetComponent<BoxCollider>();
-                    result = next.bounds.Intersects(coll.bounds);
-                    coll = next;
-                }
-                return result;
-            }, TEST_ITERATIONS));
+        Assert.IsTrue(TestAdjacentPlattforms(
+           (prev, next) =>
+           {
+               return !prev.GlobalBounds.Intersects(next.GlobalBounds);
+           }));
     }
 
+    [Test]
+    public void TestUpperPlattformDoesNotBlocksJumpFromLower()
+    {
+        Assert.IsTrue(TestAdjacentPlattforms(
+                (prev, next) =>
+                {
+                    float xCenterDiff = Mathf.Abs(next.GlobalBounds.center.x - prev.GlobalBounds.center.x);
+                    float widthDiff = prev.ExtendsWidth - next.ExtendsWidth;
+                    return widthDiff + xCenterDiff > 0;
+                }));
+    }
 
     [Test]
     public void TestPlattformsAreReachable()
     {
-        Assert.IsTrue(IsTrueForListForAllIterations(
+        Assert.IsTrue(TestAdjacentPlattforms((prev, next) =>
+        {
+            Vector2 distance = DistanceBetweenColliders(prev, next);
+            return distance.y <= PlattformGenerator.MAX_JUMP_HEIGHT && distance.x <= PlattformGenerator.MAX_JUMP_DISTANCE;
+        }));
+    }
+
+    public bool TestAdjacentPlattforms(Func<RoomPlattform, RoomPlattform, bool> p)
+    {
+        return IsTrueForListForAllIterations(
             (ps) =>
             {
                 RoomPlattform coll = ps[0];
@@ -65,12 +76,11 @@ public class PlattformTest
                 for (int i = 1; i < ps.Count && result; i++)
                 {
                     next = ps[i];
-                    Vector2 distance = DistanceBetweenColliders(coll, next);
-                    result = distance.y <= PlattformGenerator.MAX_JUMP_HEIGHT && distance.x <= PlattformGenerator.MAX_JUMP_DISTANCE;
+                    result = p(coll,next);
                     coll = next;
                 }
                 return result;
-            }, TEST_ITERATIONS));
+            }, TEST_ITERATIONS);
     }
 
     private Vector2 DistanceBetweenColliders(RoomPlattform p1, RoomPlattform p2)
