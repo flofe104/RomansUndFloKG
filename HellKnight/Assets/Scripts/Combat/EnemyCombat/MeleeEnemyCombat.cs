@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecondEnemyCombat : MonoBehaviour
+public class MeleeEnemyCombat : MonoBehaviour
 {
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Hit: "+other.gameObject.name);
-        BaseHealth health = other.gameObject.GetComponent<BaseHealth>();
+        PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
         if (health != null && other != gameObject.GetComponent<Collider>())
         {
             OnHealthHit(health);

@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 6849969180148626630}
   - component: {fileID: 2528202333920233026}
   m_Layer: 0
-  m_Name: SecondEnemy
+  m_Name: MeleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

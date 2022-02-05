@@ -48,19 +48,15 @@ public class PlattformGenerator
             float xOffset = Mathf.Lerp(MIN_X_OFFSET, MAX_JUMP_DISTANCE, (float)rand.NextDouble());
             float xPos = layerBaseWidth + xOffset;
             float width = Mathf.Lerp(MIN_WIDTH, MAX_WIDTH, (float)rand.NextDouble());
+
             if (xPos + width > size.x)
             {
-                if(layerBaseWidth - xOffset - width > 0)
-                {
-                    xPos = layerBaseWidth - xOffset - width;
-                }
-                else
-                {
-                    finished = true;
-                    xPos = size.x - width;
-                }
+                finished = true;
             }
-            layerBaseWidth = xPos + width;
+            else
+            {
+                layerBaseWidth = xPos + width;
+            }
 
             //Debug.Log("PS pos: " + xPos + " , " + yPos);
 

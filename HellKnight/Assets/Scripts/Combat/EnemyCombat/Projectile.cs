@@ -32,7 +32,7 @@ public class Projectile : MonoBehaviour, IProjectile
     {
         //Debug.Log("Hit " + other.gameObject.name);
         Destroy(gameObject);
-        BaseHealth health = other.gameObject.GetComponent<BaseHealth>();
+        PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
         if (health != null)
         {
             OnHealthHit(health);
