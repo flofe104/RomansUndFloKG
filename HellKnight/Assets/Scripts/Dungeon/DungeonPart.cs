@@ -5,19 +5,21 @@ using UnityEngine;
 public abstract class DungeonPart : MonoBehaviour
 {
 
-    protected const int MAX_DUNGEON_HEIGHT = 40;
-    protected const int MIN_DUNGEON_HEIGHT = -40;
+    protected const int MAX_DUNGEON_HEIGHT = 400;
+    protected const int MIN_DUNGEON_HEIGHT = -400;
     protected const float COLLISION_WIDTH = 1;
 
-    protected Vector2Int dungeonPartSize;
+    protected Vector2 dungeonPartSize;
 
     protected float entryHeightOffset = 0;
 
-    public int Width => dungeonPartSize.x;
+    public float Width => dungeonPartSize.x;
 
-    public int Height => dungeonPartSize.y;
+    public virtual float ExitHeight => 0;
 
-    protected abstract Vector2Int DetermineDungeonPartSize();
+    public float Height => dungeonPartSize.y;
+
+    protected abstract Vector2 DetermineDungeonPartSize();
 
     public void AddDungeonPartToMeshLayout(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
     {

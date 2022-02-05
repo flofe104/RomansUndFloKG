@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlattformGenerator
 {
 
-    public const float PLAYER_HEIGHT = 1.5f;
+    public const float PLAYER_HEIGHT = 2f;
 
     public const float MAX_JUMP_HEIGHT = 5f;
     public const float MAX_JUMP_DISTANCE = 4f;
@@ -16,7 +16,7 @@ public class PlattformGenerator
     private const float MIN_X_OFFSET = 1;
     private const float MIN_Y_OFFSET = 2;
 
-    public static List<RoomPlattform> GeneratePlattformsInSpace(Vector2Int size, System.Random rand)
+    public static List<RoomPlattform> GeneratePlattformsInSpace(Vector2 size, System.Random rand)
     {
         List<RoomPlattform> result = new List<RoomPlattform>();
 
