@@ -8,7 +8,7 @@ public class MeleeEnemyCombat : MonoBehaviour
     {
         //Debug.Log("Hit: "+other.gameObject.name);
         PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
-        if (health != null && other != gameObject.GetComponent<Collider>())
+        if (health != null && other)
         {
             OnHealthHit(health);
         }

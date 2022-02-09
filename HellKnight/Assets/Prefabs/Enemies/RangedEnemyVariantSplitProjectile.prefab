@@ -51,6 +51,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2737611332524257312, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4826577795318160145, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -59,14 +63,26 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 62156073f0fef334b9f1032c20b50317, type: 2}
+    - target: {fileID: 7598384814570994488, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 9064506378114716341, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
       propertyPath: m_Name
       value: RangedEnemyVariantSplitProjectile
+      objectReference: {fileID: 0}
+    - target: {fileID: 9064506378114716341, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Layer
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9069394899881713001, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: cd43b08f528d67243b548b07dae15482, type: 2}
+    - target: {fileID: 9178963391055457026, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c86fcfcc17bf18249becadd1f4339b31, type: 3}
 --- !u!1 &4685986722503353256 stripped

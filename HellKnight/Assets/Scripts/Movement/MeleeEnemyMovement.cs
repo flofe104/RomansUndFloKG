@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SecondEnemyMovement : BaseMovement
+public class MeleeEnemyMovement : BaseMovement
 {
     public float jumpCooldown = 2f;
     public float range = 10f;

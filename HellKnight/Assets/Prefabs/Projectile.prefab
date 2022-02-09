@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1360838742645177699}
   - component: {fileID: 7367259834250168805}
   - component: {fileID: 5852243106146207723}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5c7fa1e6f23a94d82ce827209b9da6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetPosition: {x: 0, y: 0, z: 0}
   projectileSpeed: 10
 --- !u!65 &5852243106146207723
 BoxCollider:

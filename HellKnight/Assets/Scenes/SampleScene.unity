@@ -257,7 +257,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  seed: 2
+  seed: 1
 --- !u!4 &302340224
 Transform:
   m_ObjectHideFlags: 0
