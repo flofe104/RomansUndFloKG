@@ -5,10 +5,22 @@ using UnityEngine;
 using UnityEngine.Assertions;
 
 /// <summary>
-/// Behaviour controller of a melee weapon
+/// Behaviour controller of a ranged weapon
 /// </summary>
-public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
+public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, InventoryRangedWeapon>
 {
+
+    private void Update()
+    {
+    Vector3 weaponPosition = transform.position;
+    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+    Vector3 direction = mousePosition - weaponPosition;
+
+    }
+
+   
+    public GameObject projectilePrefab;
+
 
     public void Attack(Func<IHealth, bool> healthDamageFilter)
     {
@@ -19,42 +31,13 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
     protected IEnumerator attackAnimation;
 
     /// <summary>
-    /// when the weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
+    /// when the projectile of a ranged weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
     /// this function will determine if the entity will get damage on contact
     /// </summary>
     protected Func<IHealth, bool> healthDamageFilter;
 
-    protected BoxCollider weaponCollider;
-
-    protected Rigidbody body;
-
-    protected BoxCollider WeaponCollider
-    {
-        get
-        {
-            if(weaponCollider == null)
-            {
-                weaponCollider = gameObject.AddComponent<BoxCollider>();
-                weaponCollider.isTrigger = true;
-                weaponCollider.enabled = false;
-                CreateRigidBodyIfNotExising();
-            }
-            return weaponCollider;
-        }
-    }
-
-    protected void CreateRigidBodyIfNotExising()
-    {
-        if (body == null)
-        {
-            body = gameObject.AddComponent<Rigidbody>();
-            body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
-            body.useGravity = false;
-        }
-    }
-
-
-    protected void AnimateMeleeWeaponAttack()
+    
+    protected void AnimateRangedWeaponAttack()
     {
         attackAnimation = RotateWeapon();
         StartCoroutine(attackAnimation);
@@ -63,7 +46,6 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
     protected IEnumerator RotateWeapon()
     {
         float timeInAttack = 0;
-        weaponCollider.enabled = true;
         do
         {
             yield return null;
@@ -78,25 +60,24 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         ///Check if the angle of the rotation of the weapon after the rotation time matches the expected rotation 
         ///with an allowed error (due to floating point precision) of 0.001 degree
         Assert.AreApproximatelyEqual(Quaternion.Angle(Quaternion.Euler(Weapon.EquipEulerAngle), transform.localRotation), Weapon.rotationAngle, 0.001f);
-
-        weaponCollider.enabled = false;
         yield return new WaitForSeconds(weapon.AttackCooldownAfterAnimation);
         EndAttack();
     }
 
-
     private void OnTriggerEnter(Collider other)
     {
-        EvaluateHitCollider(other);
-    }
-
-    protected void EvaluateHitCollider(Collider collider)
-    {
-        IHealth health = collider.GetComponent<IHealth>();
+        //Debug.Log("Hit " + other.gameObject.name);
+        Destroy(gameObject);
+        EnemyHealth health = other.gameObject.GetComponent<EnemyHealth>();
         if (health != null && healthDamageFilter(health))
         {
-            health.TakeDamage(weapon.Damage);
+            OnEnemyHit(health);
         }
+    }
+
+    private void OnEnemyHit(EnemyHealth health)
+    {
+        health.TakeDamage(weapon.Damage);
     }
 
     protected void StartAttack()
@@ -105,7 +86,7 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
             return;
 
         IsInAttack = true;
-        AnimateMeleeWeaponAttack();
+        AnimateRangedWeaponAttack();
     }
 
     protected void ResetWeaponRotation()
@@ -113,21 +94,9 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         transform.localEulerAngles = weapon.EquipEulerAngle;
     }
 
-    protected override void OnWeaponStatsAssigned(InventoryMeleeWeapon stats)
-    {
-        ApplyWeaponStatsToCollider();
-    }
-
-    public void ApplyWeaponStatsToCollider()
-    {
-        WeaponCollider.size = new Vector3(0.5f,weapon.range, 0.5f);
-        WeaponCollider.center = new Vector3(0, weapon.range / 2, 0);
-    }
-
     protected void OnAttackEnded()
     {
         IsInAttack = false;
-        weaponCollider.enabled = false;
 
         ResetWeaponRotation();
 

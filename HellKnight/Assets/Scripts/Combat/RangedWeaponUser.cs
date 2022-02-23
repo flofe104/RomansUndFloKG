@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MeleeWeaponUser : WeaponUser<EquippedMeleeWeapon, InventoryMeleeWeapon>
+public class RangedWeaponUser : WeaponUser<EquippedRangedWeapon, InventoryRangedWeapon>
 {
     
 }

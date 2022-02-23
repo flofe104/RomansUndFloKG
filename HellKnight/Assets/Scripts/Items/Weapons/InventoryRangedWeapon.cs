@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryMeleeWeapon : InventoryWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
+public class InventoryRangedWeapon : InventoryWeapon<EquippedRangedWeapon, InventoryRangedWeapon>
 {
 
     [Range(0, 2)]
