@@ -16,8 +16,6 @@ namespace Testing
 
         protected static readonly Type OBJECT_TYPE = typeof(object);
 
-        protected static readonly Type TEST_RESULT_TYPE = typeof(TestResult);
-
         protected static readonly Type IENUMERATOR_TYPE = typeof(IEnumerator);
 
         protected static PersistenEventNames eventNames;
@@ -72,7 +70,7 @@ namespace Testing
         {
             MethodInfo[] methods = GetMethodsFromType(t);
             object source = GetInstance(t);
-            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestOnceAttribute>(methods))
+            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestAttribute>(methods))
             {
                 TestMethodOnce(t, method, source);
             }
@@ -83,21 +81,24 @@ namespace Testing
         }
 
 
-        protected static void TestMethodOnce(Type t, MethodInfo method, object source)
+        protected static void TestMethodOnce(Type t, MethodInfo m, object source)
         {
-            if(method.ReturnType != TEST_RESULT_TYPE)
+            try
             {
-                Debug.LogError($"Methods that should be tested must have return type of {nameof(TestResult)}!");
+                m.Invoke(source, null);
+                Debug.Log($"Test in class {t.Name} for method {m.Name} sucessfull");
             }
-            TestResult result = (TestResult)method.Invoke(source, null);
-            EvaluateResultFor(t, method, result);
+            catch(Exception ex)
+            {
+                Debug.LogError($"Test in class {t.Name} for method {m.Name} unsucessfull: {ex.ToString()}, {ex.StackTrace} ");
+            }
         }
 
         protected static void TestEnumeratorMethod(Type t, MethodInfo method, object source)
         {
             if (method.ReturnType != IENUMERATOR_TYPE)
             {
-                Debug.LogError($"Methods that should be tested must have return type of {nameof(TestResult)}!");
+                Debug.LogError($"Methods that should be tested must have return type of {nameof(IEnumerator)}!");
             }
             ((MonoBehaviour)source).StartCoroutine(EnumerableTest(method, source));
         }
@@ -106,15 +107,6 @@ namespace Testing
         {
             yield return (IEnumerator)method.Invoke(source, null);
             yield return null;
-        }
-
-        protected static void EvaluateResultFor(Type t, MethodInfo m, TestResult r)
-        {
-            if (r.expectedValue != r.actualValue)
-            {
-                Debug.LogError($"Test failed in class {t.Name} for method {m.Name}!" +
-                    $"The expected result was {r.expectedValue} but the actual result was {r.actualValue}");
-            }
         }
 
 
@@ -135,10 +127,16 @@ namespace Testing
         {
             MethodInfo method = GetFunctionOfThisType(nameof(CreateGameObjectWithMonobheaviour));
 
-            method = method.MakeGenericMethod(t);
-            return method.Invoke(null, null);
+            return method.Invoke(null, new Type[] { t });
         }
        
+        public static T CreateNewInstanceOf<T>() where T : MonoBehaviour
+        {
+            GameObject g = new GameObject();
+            T result = g.AddComponent<T>();
+            return result;
+        }
+
 
         protected static MethodInfo GetFunctionOfThisType(string name)
         {
@@ -146,10 +144,10 @@ namespace Testing
                                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
         }
 
-        protected static T CreateGameObjectWithMonobheaviour<T>() where T : MonoBehaviour
+        protected static object CreateGameObjectWithMonobheaviour(Type t)
         {
             GameObject g = new GameObject();
-            T result = g.AddComponent<T>();
+            object result = g.AddComponent(t);
             return result;
         }
 
@@ -163,7 +161,7 @@ namespace Testing
         {
             List<MethodInfo> fields = new List<MethodInfo>();
 
-            ///add all protected and private fields of current type
+            ///add all protected and private methods of current type
             fields.AddRange(target.GetMethods((BindingFlags.Public
                 | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)));
 

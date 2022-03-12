@@ -7,7 +7,7 @@ namespace Testing
 {
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
-    public class TestOnceAttribute : Attribute
+    public class TestAttribute : Attribute
     {
         
     }
