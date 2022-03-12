@@ -7,6 +7,8 @@ namespace Testing
 {
     public class TestEnumeratorAttribute : Attribute
     {
-        
+
+        public float delayInSecondsBeforeTestStarts = -1;
+
     }
 }
