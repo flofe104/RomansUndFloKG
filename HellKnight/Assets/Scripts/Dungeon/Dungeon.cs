@@ -2,9 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Testing;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer),typeof(MeshCollider), typeof(MeshFilter))]
+[TestMonoBehaviour]
 public class Dungeon : MonoBehaviour
 {
 
@@ -140,5 +142,15 @@ public class Dungeon : MonoBehaviour
 
     public int seed;
 
+
+    #region Tests
+
+    [TestOnce]
+    public void TestNumberOfRooms()
+    {
+        //Assert.AreEqual(d.rooms.Length, NUMBER_OF_ROOMS);
+    }
+
+    #endregion
 
 }

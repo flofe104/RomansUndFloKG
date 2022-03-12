@@ -43,16 +43,16 @@ public class Room : DungeonPart, IDeathListener
 
     protected HashSet<IHealth> aliveEnemies;
 
-    protected BoxCollider collider;
+    protected BoxCollider c;
 
     protected void CreateEnemySpawnColliderForRoom()
     {
         if (!isCleared)
         {
-            collider = gameObject.AddComponent<BoxCollider>();
-            collider.isTrigger = true;
-            collider.size = DungeonPartSizeWithDefaultWidth3D;
-            collider.center = DungeonPartCenterPosition;
+            c = gameObject.AddComponent<BoxCollider>();
+            c.isTrigger = true;
+            c.size = DungeonPartSizeWithDefaultWidth3D;
+            c.center = DungeonPartCenterPosition;
         }
     }
 
@@ -61,7 +61,7 @@ public class Room : DungeonPart, IDeathListener
         if (other.GetComponent<PlayerHealth>() != null)
         {
             GenerateEnemies();
-            Destroy(collider);
+            Destroy(c);
         }
     }
 
