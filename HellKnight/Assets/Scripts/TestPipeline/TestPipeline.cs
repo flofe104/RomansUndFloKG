@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -21,6 +22,8 @@ namespace Testing
         protected static readonly Type TEST_MONOBEHAVIOUR_TYPE = typeof(TestMonoBehaviourAttribute);
 
         protected static readonly Type TEST_ENUMERATOR_TYPE = typeof(TestEnumeratorAttribute);
+
+        protected static readonly Type TEST_SINGLE_TYPE = typeof(TestAttribute);
 
         protected const string START_METHOD_NAME = "Start";
 
@@ -66,6 +69,7 @@ namespace Testing
             }
             return s != null;
         }
+
 
 
         [MenuItem("Testing/StartAllSingleTestsInPlaymode")]
@@ -309,7 +313,7 @@ namespace Testing
 
             ///add all private methods of parent types
             Type parentType = target;
-            while (parentType != OBJECT_TYPE)
+            while (parentType != OBJECT_TYPE && parentType.BaseType != null)
             {
                 parentType = parentType.BaseType;
                 fields.AddRange(parentType.GetMethods((
@@ -335,9 +339,85 @@ namespace Testing
         {
             foreach (Type type in assembly.GetTypes())
             {
-                if (type.GetCustomAttributes(typeof(Attr), true).Length > 0)
+                if (type.GetCustomAttributes(typeof(Attr), false).Length > 0)
                 {
                     yield return type;
+                }
+            }
+        }
+
+        protected static Type[] GetAllTypes()
+        {
+            return Assembly.GetExecutingAssembly().GetTypes();
+        }
+
+
+
+        [MenuItem("Testing/Why my Tests are not working")]
+        public static void CheckWhyTestsMightNotWork()
+        {
+            CheckMissingClassAttribute();
+            CheckWrongTestAttribute();
+        }
+
+
+        protected static void CheckWrongTestAttribute()
+        {
+            foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
+            {
+                CheckIfTypeHasWrongAttributes(t);
+            }
+        }
+
+        protected static void CheckIfTypeHasWrongAttributes(Type t)
+        {
+            MethodInfo[] methods = GetMethodsFromType(t);
+
+            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestAttribute>(methods))
+            {
+                if(method.ReturnType == IENUMERATOR_TYPE)
+                {
+                    Debug.LogWarning($"{GetClassAndMethodName(t, method)} should have the {TEST_ENUMERATOR_TYPE.Name} " +
+                        $"instead of the {TEST_SINGLE_TYPE.Name} since its returning an IEnumerator.");
+                }
+            }
+
+            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestEnumeratorAttribute>(methods))
+            {
+                if (method.ReturnType != IENUMERATOR_TYPE)
+                {
+                    Debug.LogWarning($"{GetClassAndMethodName(t, method)} should have the {TEST_SINGLE_TYPE.Name} " +
+                        $"instead of the {TEST_ENUMERATOR_TYPE.Name} since its not returning an IEnumerator.");
+                }
+            }
+        }
+
+        protected static string GetClassAndMethodName(Type t, MethodInfo i)
+        {
+            return $"The test {i.Name} in class {t.Name} ";
+        }
+
+        protected static void CheckMissingClassAttribute()
+        {
+            foreach (Type t in GetAllTypes())
+            {
+                if (t.GetCustomAttributes(typeof(TestMonoBehaviourAttribute), false).Length <= 0)
+                {
+                    CheckIfTypeHasTestsDefines(t);
+                }
+                
+            }
+        }
+
+        protected static void CheckIfTypeHasTestsDefines(Type t)
+        {
+            foreach(MethodInfo m in GetMethodsFromType(t))
+            {
+                if (m.IsDefined(typeof(TestAttribute), false) || m.IsDefined(typeof(TestEnumeratorAttribute), false))
+                {
+                    Debug.LogWarning($"{t.Name} defines tests but doesnt define {TEST_MONOBEHAVIOUR_TYPE.Name}. Add {TEST_MONOBEHAVIOUR_TYPE.Name} to the class.");
+                    CheckIfTypeHasWrongAttributes(t);
+                    break;
                 }
             }
         }
