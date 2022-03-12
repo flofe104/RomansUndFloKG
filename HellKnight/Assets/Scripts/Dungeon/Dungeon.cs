@@ -42,7 +42,6 @@ public class Dungeon : MonoBehaviour
             }
         }
         BuildWall(ref offset);
-        rooms[0].Generate();
         DisplayDungeon();
     }
 

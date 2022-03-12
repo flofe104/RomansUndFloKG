@@ -11,6 +11,7 @@ public class Room : DungeonPart, IDeathListener
         this.seed = seed;
         this.possibleEnemies = possibleEnemies;
         rand = new System.Random(seed);
+        CreateEnemySpawnColliderForRoom();
     }
 
     protected System.Random rand;
@@ -42,6 +43,27 @@ public class Room : DungeonPart, IDeathListener
 
     protected HashSet<IHealth> aliveEnemies;
 
+    protected BoxCollider c;
+
+    protected void CreateEnemySpawnColliderForRoom()
+    {
+        if (!isCleared)
+        {
+            c = gameObject.AddComponent<BoxCollider>();
+            c.isTrigger = true;
+            c.size = DungeonPartSizeWithDefaultWidth3D;
+            c.center = DungeonPartCenterPosition;
+        }
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerHealth>() != null)
+        {
+            GenerateEnemies();
+            Destroy(c);
+        }
+    }
 
     protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
     {
@@ -53,21 +75,23 @@ public class Room : DungeonPart, IDeathListener
         AddSquareToMesh(rightWallBottom, new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, ExitHeight, 0), tiling, colliderVerts, colliderTris, null);
     }
 
-    protected override Vector2 DetermineDungeonPartSize()
+    protected override void DetermineDungeonPartSize(out Vector2 dungeonPartSize)
     {
-       return GetRoomSize();
+        if (base.dungeonPartSize != default)
+        {
+            dungeonPartSize = base.dungeonPartSize;
+        }
+        else
+        {
+            Vector2 result = new Vector2();
+            result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
+            result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
+            GenerateInterior(result);
+            result = AdjustRoomSizeToPlattforms(result);
+            dungeonPartSize = result;
+        }
     }
 
-
-    protected virtual Vector2 GetRoomSize()
-    {
-        Vector2 result = new Vector2();
-        result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
-        result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
-        GenerateInterior(result);
-        result = AdjustRoomSizeToPlattforms(result);
-        return result;
-    }
 
     protected void SetExitHeight()
     {
@@ -105,8 +129,10 @@ public class Room : DungeonPart, IDeathListener
 
     protected virtual void GenerateEnemies()
     {
-        var roomSize = GetRoomSize();
-        int enemyCountMean = Mathf.FloorToInt(roomSize.x / 10f);
+        if (aliveEnemies != null)
+            return;
+
+        int enemyCountMean = Mathf.FloorToInt(DungeonPartSize.x / 10f);
         int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
         aliveEnemies = new HashSet<IHealth>();
 
