@@ -13,7 +13,6 @@ public class MeleeEnemyMovement : BaseMovement
     public void Start()
     {
         jumpPower = 30f;
-        gravity = 80f;
         isGrounded = true;
         facedForward = true;
         turning = false;

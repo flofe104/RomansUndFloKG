@@ -16,41 +16,13 @@ public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
 
     #region tests
 
-
-    [Test]
-    public void TestLowerCooldown()
-    {
-        var numObjectsBefore = UnityEngine.Resources.FindObjectsOfTypeAll<GameObject>().Length;
-        Attack(); // creates two objects/projectiles
-        Attack(); // creates none 
-        var numObjectsAfter = UnityEngine.Resources.FindObjectsOfTypeAll<GameObject>().Length;
-        Assert.AreEqual(numObjectsBefore + 2, numObjectsAfter);
-    }
-
     [TestEnumerator]
-    public IEnumerator TestUpperCooldown()
+    public IEnumerator TestCooldown()
     {
-        var numObjectsBefore = UnityEngine.Resources.FindObjectsOfTypeAll<GameObject>().Length;
-        Attack(); // creates two objects/projectiles
-        yield return new WaitForSeconds(4);
-        Attack(); // creates none 
-        var numObjectsAfter = UnityEngine.Resources.FindObjectsOfTypeAll<GameObject>().Length;
-        Assert.AreEqual(numObjectsBefore + 4, numObjectsAfter);
-    }
-
-    [TestEnumerator]
-    public IEnumerator TestHover()
-    {
-        var posBefore = transform.position;
-
-        yield return new WaitForSeconds(1);
-
-        var posAfer = transform.position;
-        Assert.AreNotEqual(posBefore, posAfer);
-
-        var distance = Vector3.Distance(posBefore, posAfer);
-        Assert.GreaterOrEqual(distance, 0.5f);
-        Assert.LessOrEqual(distance, 10);
+        float before = timeSinceAttack;
+        yield return new WaitForSeconds(ATTACK_COOLDOWN);
+        float after = timeSinceAttack;
+        Assert.ApproxEqual(after % ATTACK_COOLDOWN, before);
     }
 
     #endregion

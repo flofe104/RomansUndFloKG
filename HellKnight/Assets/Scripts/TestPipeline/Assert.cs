@@ -26,7 +26,11 @@ namespace Testing
                 throw new Exception($"Expected value was {expected} but actual value was {actual}.");
         }
 
-
+        public static void IsTrue(bool actual)
+        {
+            if (actual != true)
+                throw new Exception($"Expected value was {true} but actual value was {actual}.");
+        }
 
 
         public static void AreNotEqual(object actual, object expected)
@@ -50,17 +54,32 @@ namespace Testing
 
         public static void GreaterOrEqual(float first, float snd)
         {
-            if (first < snd)
+            if (first <= snd)
                 throw new Exception($"{first} was expected to be larger equal than {snd}.");
         }
 
         public static void LessOrEqual(float first, float snd)
         {
+            if (first >= snd)
+                throw new Exception($"{first} was expected to be smaller equal than {snd}.");
+        }
+        public static void Greater(float first, float snd)
+        {
+            if (first < snd)
+                throw new Exception($"{first} was expected to be larger equal than {snd}.");
+        }
+
+        public static void Lesser(float first, float snd)
+        {
             if (first > snd)
                 throw new Exception($"{first} was expected to be smaller equal than {snd}.");
         }
+        public static void ApproxEqual(float first, float snd, float e = 0.01f)
+        {
+            if(first > snd + e || first < snd - e)
+                throw new Exception($"{first} was expected to be approximately equal to {snd}.");
+        }
 
-        
 
     }
 }

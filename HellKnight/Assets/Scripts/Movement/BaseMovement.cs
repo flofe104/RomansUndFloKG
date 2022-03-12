@@ -28,13 +28,14 @@ public abstract class BaseMovement : MonoBehaviour
     protected Quaternion endRotation;
 
     public float speed;
-    public float jumpPower = 30f;
-    public float gravity = 80f;
-    public float rotationSpeed = 1000f;
+    public float jumpPower;
+    public float rotationSpeed;
+    public float turnDuration;
+    public const float GRAVITY = 80f;
 
     protected void ApplyGravity()
     {
-        velocity.y -= gravity * Time.deltaTime;
+        velocity.y -= GRAVITY * Time.deltaTime;
         if (isGrounded && velocity.y < 0)
             velocity.y = 0;
     }
@@ -75,9 +76,10 @@ public abstract class BaseMovement : MonoBehaviour
 
     protected void UpdateTurn()
     {
-        var q = Quaternion.RotateTowards(transform.rotation, endRotation, rotationSpeed * Time.deltaTime);
+        var step = 180f * Time.deltaTime / turnDuration;
+        var q = Quaternion.RotateTowards(transform.rotation, endRotation, step);
         transform.rotation = q;
-        if (System.Math.Abs(endRotation.eulerAngles.y - transform.rotation.eulerAngles.y) < 0.00001)
+        if (endRotation.eulerAngles.y == transform.rotation.eulerAngles.y)
         {
             turning = false;
         }

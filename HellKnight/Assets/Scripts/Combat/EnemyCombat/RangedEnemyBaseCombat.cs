@@ -5,13 +5,11 @@ using UnityEngine;
 
 public abstract class RangedEnemyBaseCombat : MonoBehaviour
 {
-    public float attackCooldown = 2;
+    public const float ATTACK_COOLDOWN = 2;
     public GameObject projectilePrefab;
 
     protected float timeSinceAttack = 0;
     protected Transform player;
-
-    public float projectileSpeed = 10;
 
 
     private void Start()
@@ -31,14 +29,13 @@ public abstract class RangedEnemyBaseCombat : MonoBehaviour
 
         GameObject projectileObject = Instantiate(projectilePrefab, startPosition, Quaternion.identity);
         Projectile projectile = projectileObject.GetComponent<Projectile>();
-        projectile.projectileSpeed = projectileSpeed;
         return projectile;
     }
 
     protected void Attack()
     {
         timeSinceAttack += Time.deltaTime;
-        if (timeSinceAttack >= attackCooldown)
+        if (timeSinceAttack >= ATTACK_COOLDOWN)
         {
             ExecuteAttack();
             timeSinceAttack = 0;
