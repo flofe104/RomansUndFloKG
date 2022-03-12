@@ -1,19 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Testing;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : BaseMovement
 {
+    protected const float dashDistance = 5;
+    protected const float dashDuration = 0.5f;
+    protected const float dashCooldown = 1;
 
     protected bool dashing = false;
     protected float dashTime = 0;
     protected float dashTimestamp = 0;
-
-    public AnimationCurve dashPattern;
-    public float dashCooldown = 1;
-    public float dashDistance = 0.1f;
-    public float dashSpeed = 0.25f;
+    protected Vector3 dashDirection;
 
 
     public void Start()
@@ -34,19 +34,16 @@ public class PlayerMovement : BaseMovement
 
     protected void Dash(Vector3 direction)
     {
-        if (dashing)
+        if (dashing && dashTime < dashDuration)
         {
             //Debug.Log("Direction: " + direction);
             dashTime += Time.deltaTime;
-            var currentVal = dashPattern.Evaluate(dashTime / dashSpeed);
-            if (currentVal == 0)
-            {
-                dashing = false;
-            }
-            else
-            {
-                Controller.Move(direction * 0.01f * dashDistance * currentVal);
-            }
+            Controller.Move(direction * (dashDistance / dashDuration) * Time.deltaTime);
+        }
+        else
+        {
+            dashing = false;
+            dashTime = 0;
         }
     }
 
@@ -91,12 +88,13 @@ public class PlayerMovement : BaseMovement
         {
             dashing = true;
             dashTimestamp = Time.time;
-            dashTime = 0;
+            if (horizontalInput < 0)
+                dashDirection = Vector3.left;
+            else if (horizontalInput > 0)
+                dashDirection = Vector3.right;
         }
-        if (horizontalInput < 0)
-            Dash(Vector3.left);
-        else if (horizontalInput > 0)
-            Dash(Vector3.right);
+        if(dashing)
+            Dash(dashDirection);
 
         Move(horizontalInput);
 
@@ -109,4 +107,23 @@ public class PlayerMovement : BaseMovement
 
         CheckGround();
     }
+
+
+    #region Tests
+    [Test]
+    public IEnumerator MovementTestDashDistance()
+    {
+        var preDistance = transform.position;
+        var preTime = Time.fixedTime;
+
+        dashing = true;
+        yield return new WaitForSeconds(dashDuration);
+
+        var postDistance = transform.position;
+        var postTime = Time.fixedTime;
+
+        Assert.AreEqual(postDistance.magnitude - dashDistance, preDistance.magnitude);
+        Assert.AreEqual(postTime - dashDuration, preTime);
+    }
+    #endregion
 }

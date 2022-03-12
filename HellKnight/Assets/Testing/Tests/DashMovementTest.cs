@@ -16,13 +16,12 @@ public class ThirdEnemyTest : PlayerMovement
     protected bool simulatedVertical;
 
     // A Test behaves as an ordinary method
-    [Test]
-    public void MovementTestdashSpeed()
-    {
-        base.Dash(Vector3.up);
-        Assert.AreEqual(velocity.magnitude, dashSpeed);
-        Assert.AreEqual(velocity.y, dashSpeed);
-    }
+    //public void MovementTestdashSpeed()
+    //{
+    //    base.Dash(Vector3.up);
+    //    Assert.AreEqual(velocity.magnitude, dashSpeed);
+    //    Assert.AreEqual(velocity.y, dashSpeed);
+    //}
 
     [Test]
     public void MovementTestGravity()
