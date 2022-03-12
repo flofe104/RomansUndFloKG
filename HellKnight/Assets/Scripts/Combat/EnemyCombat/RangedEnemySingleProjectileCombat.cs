@@ -13,6 +13,8 @@ public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
         p.TargetPosition = player.position;
     }
 
+    public static string prefabForTestName = "TestRangeEnemyPrefab";
+
 
     #region tests
 

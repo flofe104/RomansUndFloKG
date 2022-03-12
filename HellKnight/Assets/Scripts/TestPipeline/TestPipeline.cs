@@ -20,11 +20,28 @@ namespace Testing
 
         protected static readonly Type TEST_MONOBEHAVIOUR_TYPE = typeof(TestMonoBehaviourAttribute);
 
+        protected static readonly Type TEST_ENUMERATOR_TYPE = typeof(TestEnumeratorAttribute);
+
         protected const string START_METHOD_NAME = "Start";
 
-        protected const string PREFAB_FIELD_NAME = "prefabForTest";
+        protected static readonly string PREFAB_FIELD_NAME = nameof(RangedEnemySingleProjectileCombat.prefabForTestName);
 
         protected static PersistenEventNames eventNames;
+
+        protected static MonoBehaviour testRunner;
+
+        protected static MonoBehaviour TestRunner
+        {
+            get
+            {
+                if(testRunner == null)
+                {
+                    GameObject g = new GameObject("Test supervisor");
+                    testRunner = g.AddComponent<TestEnumeratorRunner>();
+                }
+                return testRunner;
+            }
+        }
 
         protected static PersistenEventNames EventNames
         {
@@ -36,6 +53,18 @@ namespace Testing
                 }
                 return eventNames;
             }
+        }
+
+        protected static bool TryLoadPrefabFromResource(Type t, string prefabName, out MonoBehaviour s)
+        {
+            s = null;
+            UnityEngine.Object o = Resources.Load(prefabName);
+            if(o != null)
+            {
+                GameObject g = (GameObject)GameObject.Instantiate(o);
+                s = (MonoBehaviour)g.GetComponent(t);
+            }
+            return s != null;
         }
 
 
@@ -84,8 +113,7 @@ namespace Testing
 
         protected static void TestAllEnumeratorTestMethods()
         {
-            MonoBehaviour m = GameObject.FindObjectOfType<MonoBehaviour>();
-            m.StartCoroutine(DelayEnumeratorTest());
+            TestRunner.StartCoroutine(DelayEnumeratorTest());
         }
 
 
@@ -97,22 +125,8 @@ namespace Testing
             {
                 CallEnumeratorTestOfType(t);
             }
-            
         }
 
-        protected static void CallAllTestsOfType(Type t)
-        {
-            MethodInfo[] methods = PrepareTypeForTests(t, out object source);
-
-            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestAttribute>(methods))
-            {
-                TestMethodOnce(t, method, source);
-            }
-            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestEnumeratorAttribute>(methods))
-            {
-                TestEnumeratorMethod(t, method, source);
-            }
-        }
 
         protected static void CallOnceTestsOfType(Type t)
         {
@@ -127,11 +141,10 @@ namespace Testing
         protected static void CallEnumeratorTestOfType(Type t)
         {
             MethodInfo[] methods = GetMethodsFromType(t);
-            object source = GetInstance(t);
 
             foreach (MethodInfo method in FilterForMethodsWithAttribute<TestEnumeratorAttribute>(methods))
             {
-                TestEnumeratorMethod(t, method, source);
+                TestEnumeratorMethod(t, method);
             }
         }
 
@@ -181,11 +194,11 @@ namespace Testing
             }
         }
 
-        protected static void TestEnumeratorMethod(Type t, MethodInfo method, object source)
+        protected static void TestEnumeratorMethod(Type t, MethodInfo method)
         {
             if (method.ReturnType == IENUMERATOR_TYPE)
             {
-                ((MonoBehaviour)source).StartCoroutine(EnumerableTest(t, method, source));
+                TestRunner.StartCoroutine(EnumerableTest(t, method));
             }
             else
             {
@@ -193,11 +206,23 @@ namespace Testing
             }
         }
 
-        protected static IEnumerator EnumerableTest(Type t, MethodInfo m, object source)
+        protected static IEnumerator EnumerableTest(Type t, MethodInfo m)
         {
-            //Wait a frame so update can be called
-            
-            yield return null;
+            TestEnumeratorAttribute enumeratorAttribute =
+                          (m.GetCustomAttributes(TEST_ENUMERATOR_TYPE, false).FirstOrDefault()) as TestEnumeratorAttribute;
+
+            if(enumeratorAttribute == null || enumeratorAttribute.delayInSecondsBeforeTestStarts < 0)
+            {
+                //Wait a frame so Start is called before test start
+                yield return null;
+            }
+            else
+            {
+                yield return new WaitForSeconds(enumeratorAttribute.delayInSecondsBeforeTestStarts);
+            }
+
+            object source = GetInstance(t);
+
             yield return (IEnumerator)m.Invoke(source, null);
             Debug.Log($"Enumerator Test in class {t.Name} for method {m.Name} sucessfull");
         }
@@ -206,14 +231,32 @@ namespace Testing
         protected static object GetInstance(Type t)
         {
             var o = GameObject.FindObjectOfType(t);
-            if(o == null)
+            if (o == null)
             {
-                return CreateGameObject(t);
+                if (HasPrefabName(t, out string prefabName) && TryLoadPrefabFromResource(t, prefabName, out MonoBehaviour m))
+                {
+                    return m;
+                }
+                else
+                {
+                    return CreateGameObject(t);
+                }
             }
             else
             {
                 return o;
             }
+        }
+
+        protected static bool HasPrefabName(Type t, out string s)
+        {
+            s = null;
+            FieldInfo f = t.GetField(PREFAB_FIELD_NAME);
+            if(f!=null)
+            {
+                s = f.GetValue(null) as string;
+            }
+            return s != null;
         }
 
         protected static object CreateGameObject(Type t)
@@ -222,7 +265,8 @@ namespace Testing
 
             return method.Invoke(null, new Type[] { t });
         }
-       
+         
+
         public static T CreateNewInstanceOf<T>() where T : MonoBehaviour
         {
             GameObject g = new GameObject();

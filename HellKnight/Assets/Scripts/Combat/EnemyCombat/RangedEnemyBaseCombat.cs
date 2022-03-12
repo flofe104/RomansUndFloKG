@@ -13,7 +13,6 @@ public abstract class RangedEnemyBaseCombat : MonoBehaviour
 
     public float projectileSpeed = 10;
 
-
     private void Start()
     {
         player = GameObject.Find("Player").transform;
