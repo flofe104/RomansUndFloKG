@@ -6,21 +6,27 @@ using Testing;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer),typeof(MeshCollider), typeof(MeshFilter))]
-[TestMonoBehaviour]
+[TestMonoBehaviour(CallStartBeforeUnitTesting = true)]
 public class Dungeon : MonoBehaviour
 {
 
     protected const int NUMBER_OF_ROOMS = 5;
 
 
-    private void Awake()
+    public void Start()
     {
         InitializeDungeon(seed);
-        DisplayDungeonAction = DisplayDungeon;
     }
 
     public void InitializeDungeon(int seed)
     {
+        if (rand != null)
+            return;
+
+        if (DisplayDungeonAction == null)
+        {
+            DisplayDungeonAction = DisplayDungeon;
+        }
         this.seed = seed;
         rand = new System.Random(seed);
         enemies = possibleEnemies.Select(e => e as ISpawnableEnemy).ToList();
@@ -44,7 +50,7 @@ public class Dungeon : MonoBehaviour
             }
         }
         BuildWall(ref offset);
-        DisplayDungeon();
+        DisplayDungeonAction();
     }
 
     private void AddConnector(ref Vector2 offset)
@@ -91,7 +97,7 @@ public class Dungeon : MonoBehaviour
         offset += new Vector2(dungeonPart.Width, dungeonPart.ExitHeight);
     }
 
-    protected virtual void DisplayDungeon()
+    protected void DisplayDungeon()
     {
         Mesh m = new Mesh();
         m.vertices = vertices.ToArray();
@@ -162,6 +168,7 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < 5; ++i)
         {
             Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+            d.possibleEnemies = possibleEnemies;
             d.DisplayDungeonAction = delegate
             {
                 vertices[i] = d.vertices.ToArray();
@@ -182,10 +189,22 @@ public class Dungeon : MonoBehaviour
     }
 
 
+    //[TestEnumerator]
+    //public IEnumerator TestTest()
+    //{
+    //    int i = 10;
+    //    while(i-- > 0)
+    //    {
+    //        yield return new WaitForSeconds(0.1f);
+    //        Assert.AreNotEqual(-1, i);
+    //    }
+    //}
+
     [Test]
     public void TestNormals()
     {
         Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+        d.possibleEnemies = possibleEnemies;
         List<int> triangles = null;
         List<Vector3> vertices = null;
         d.DisplayDungeonAction = delegate
@@ -205,6 +224,7 @@ public class Dungeon : MonoBehaviour
         }
         Destroy(d);
     }
+
 
     #endregion
 

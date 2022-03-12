@@ -18,6 +18,10 @@ namespace Testing
 
         protected static readonly Type IENUMERATOR_TYPE = typeof(IEnumerator);
 
+        protected static readonly Type TEST_MONOBEHAVIOUR_TYPE = typeof(TestMonoBehaviourAttribute);
+
+        protected const string START_METHOD_NAME = "Start";
+
         protected static PersistenEventNames eventNames;
         protected static PersistenEventNames EventNames
         {
@@ -31,10 +35,18 @@ namespace Testing
             }
         }
 
-        [MenuItem("Testing/StartAllTestsInPlaymode")]
-        public static void StartAllMethodTestInPlaymode()
+
+        [MenuItem("Testing/StartAllSingleTestsInPlaymode")]
+        public static void StartSingleMethodTestInPlaymode()
         {
-            AddEvent(nameof(TestAllMethods));
+            AddEvent(nameof(TestAllSingleTestMethods));
+            EditorApplication.isPlaying = true;
+        }
+
+        [MenuItem("Testing/StartAllEnumeratorTestsInPlaymode")]
+        public static void StartEnumeratorMethodTestInPlaymode()
+        {
+            AddEvent(nameof(TestAllEnumeratorTestMethods));
             EditorApplication.isPlaying = true;
         }
 
@@ -52,24 +64,34 @@ namespace Testing
         public static void CallActiveEventsWhenSceneLoaded()
         {
             foreach (string functionName in EventNames.EventNames)
-                GetFunctionOfThisType(functionName).Invoke(null, null);
+                GetFunctionOfThisTypeWithName(functionName).Invoke(null, null);
 
             ResetTestEvents();
         }
 
 
-        protected static void TestAllMethods()
+        protected static void TestAllSingleTestMethods()
         {
             foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
             {
-                CallTestsOfType(t);
+                CallOnceTestsOfType(t); 
+            }
+            EditorApplication.isPlaying = false;
+        }
+
+        protected static void TestAllEnumeratorTestMethods()
+        {
+            foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
+            {
+                CallEnumeratorTestOfType(t);
             }
         }
 
-        protected static void CallTestsOfType(Type t)
+
+        protected static void CallAllTestsOfType(Type t)
         {
-            MethodInfo[] methods = GetMethodsFromType(t);
-            object source = GetInstance(t);
+            MethodInfo[] methods = PrepareTypeForTests(t, out object source);
+
             foreach (MethodInfo method in FilterForMethodsWithAttribute<TestAttribute>(methods))
             {
                 TestMethodOnce(t, method, source);
@@ -80,6 +102,45 @@ namespace Testing
             }
         }
 
+        protected static void CallOnceTestsOfType(Type t)
+        {
+            MethodInfo[] methods = PrepareTypeForTests(t, out object source);
+
+            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestAttribute>(methods))
+            {
+                TestMethodOnce(t, method, source);
+            }
+        }
+
+        protected static void CallEnumeratorTestOfType(Type t)
+        {
+            MethodInfo[] methods = GetMethodsFromType(t);
+            object source = GetInstance(t);
+
+            foreach (MethodInfo method in FilterForMethodsWithAttribute<TestEnumeratorAttribute>(methods))
+            {
+                TestEnumeratorMethod(t, method, source);
+            }
+        }
+
+        protected static MethodInfo[] PrepareTypeForTests(Type t, out object source)
+        {
+            TestMonoBehaviourAttribute monoBehaviourTest = (TestMonoBehaviourAttribute)
+                               (t.GetCustomAttributes(TEST_MONOBEHAVIOUR_TYPE, false)[0]);
+
+            MethodInfo[] methods = GetMethodsFromType(t);
+            source = GetInstance(t);
+
+            if (monoBehaviourTest.CallStartBeforeUnitTesting)
+            {
+                MethodInfo m = GetFunctionOfAnyTypeWithName(t, START_METHOD_NAME);
+                if (m != null)
+                {
+                    m.Invoke(source, null);
+                }
+            }
+            return methods;
+        }
 
         protected static void TestMethodOnce(Type t, MethodInfo m, object source)
         {
@@ -90,23 +151,36 @@ namespace Testing
             }
             catch(Exception ex)
             {
-                Debug.LogError($"Test in class {t.Name} for method {m.Name} unsucessfull: {ex.ToString()}, {ex.StackTrace} ");
+                if(ex.InnerException != null)
+                {
+                    Debug.LogError($"Test in class {t.Name} for method {m.Name} unsucessfull: {ex.InnerException}");
+                }
+                else
+                {
+                    Debug.LogError($"Test in class {t.Name} for method {m.Name} unsucessfull: {ex}");
+                }
             }
         }
 
         protected static void TestEnumeratorMethod(Type t, MethodInfo method, object source)
         {
-            if (method.ReturnType != IENUMERATOR_TYPE)
+            if (method.ReturnType == IENUMERATOR_TYPE)
             {
-                Debug.LogError($"Methods that should be tested must have return type of {nameof(IEnumerator)}!");
+                ((MonoBehaviour)source).StartCoroutine(EnumerableTest(t, method, source));
             }
-            ((MonoBehaviour)source).StartCoroutine(EnumerableTest(method, source));
+            else
+            {
+                Debug.LogError($"Methods that should be tested as enumerator must have return type of {IENUMERATOR_TYPE.Name}!");
+            }
         }
 
-        protected static IEnumerator EnumerableTest(MethodInfo method, object source)
+        protected static IEnumerator EnumerableTest(Type t, MethodInfo m, object source)
         {
-            yield return (IEnumerator)method.Invoke(source, null);
+            //Wait a frame so update can be called
+            
             yield return null;
+            yield return (IEnumerator)m.Invoke(source, null);
+            Debug.Log($"Enumerator Test in class {t.Name} for method {m.Name} sucessfull");
         }
 
 
@@ -125,7 +199,7 @@ namespace Testing
 
         protected static object CreateGameObject(Type t)
         {
-            MethodInfo method = GetFunctionOfThisType(nameof(CreateGameObjectWithMonobheaviour));
+            MethodInfo method = GetFunctionOfThisTypeWithName(nameof(CreateGameObjectWithMonobheaviour));
 
             return method.Invoke(null, new Type[] { t });
         }
@@ -138,10 +212,15 @@ namespace Testing
         }
 
 
-        protected static MethodInfo GetFunctionOfThisType(string name)
+        protected static MethodInfo GetFunctionOfThisTypeWithName(string name)
         {
-            return typeof(TestPipeline).GetMethod(name,
-                               BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Static);
+            return GetFunctionOfAnyTypeWithName(typeof(TestPipeline), name);
+        }
+
+        protected static MethodInfo GetFunctionOfAnyTypeWithName(Type t, string name)
+        {
+            return t.GetMethod(name,
+                               BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static);
         }
 
         protected static object CreateGameObjectWithMonobheaviour(Type t)

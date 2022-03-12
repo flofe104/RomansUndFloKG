@@ -8,6 +8,6 @@ namespace Testing
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class TestMonoBehaviourAttribute : Attribute
     {
-
+        public bool CallStartBeforeUnitTesting = false;
     }
 }
