@@ -22,6 +22,8 @@ namespace Testing
 
         protected const string START_METHOD_NAME = "Start";
 
+        protected const string PREFAB_FIELD_NAME = "prefabForTest";
+
         protected static PersistenEventNames eventNames;
 
         protected static PersistenEventNames EventNames
@@ -156,8 +158,15 @@ namespace Testing
         {
             try
             {
-                m.Invoke(source, null);
-                Debug.Log($"Test in class {t.Name} for method {m.Name} sucessfull");
+                if (m.ReturnType == IENUMERATOR_TYPE)
+                {
+                    Debug.LogError($"Methods that should be tested as IEnumerator must be marked as \"[{nameof(TestEnumeratorAttribute)}]\"!");
+                }
+                else
+                {
+                    m.Invoke(source, null);
+                    Debug.Log($"Test in class {t.Name} for method {m.Name} sucessfull");
+                }
             }
             catch(Exception ex)
             {
