@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class PersistenEventNames : ScriptableObject
+public class PersistentEventNames : ScriptableObject
 {
 
     public List<string> EventNames;

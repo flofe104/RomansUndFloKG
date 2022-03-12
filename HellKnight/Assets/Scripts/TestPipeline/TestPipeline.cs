@@ -29,7 +29,7 @@ namespace Testing
 
         protected static readonly string PREFAB_FIELD_NAME = nameof(RangedEnemySingleProjectileCombat.prefabForTestName);
 
-        protected static PersistenEventNames eventNames;
+        protected static PersistentEventNames eventNames;
 
         protected static MonoBehaviour testRunner;
 
@@ -46,13 +46,13 @@ namespace Testing
             }
         }
 
-        protected static PersistenEventNames EventNames
+        protected static PersistentEventNames EventNames
         {
             get
             {
                 if(eventNames == null)
                 {
-                    eventNames = (PersistenEventNames)Resources.Load("TestEvents");
+                    eventNames = (PersistentEventNames)Resources.Load("TestEvents");
                 }
                 return eventNames;
             }
@@ -101,6 +101,11 @@ namespace Testing
         {
             foreach (string functionName in EventNames.EventNames)
                 GetFunctionOfThisTypeWithName(functionName).Invoke(null, null);
+
+            if(EventNames.EventNames.Count > 0)
+            {
+                CheckWhyTestsMightNotWork();
+            }
 
             ResetTestEvents();
         }
