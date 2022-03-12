@@ -23,6 +23,7 @@ namespace Testing
         protected const string START_METHOD_NAME = "Start";
 
         protected static PersistenEventNames eventNames;
+
         protected static PersistenEventNames EventNames
         {
             get
@@ -81,12 +82,21 @@ namespace Testing
 
         protected static void TestAllEnumeratorTestMethods()
         {
+            MonoBehaviour m = GameObject.FindObjectOfType<MonoBehaviour>();
+            m.StartCoroutine(DelayEnumeratorTest());
+        }
+
+
+        protected static IEnumerator DelayEnumeratorTest()
+        {
+            yield return new WaitForSeconds(1);
+           
             foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
             {
                 CallEnumeratorTestOfType(t);
             }
+            
         }
-
 
         protected static void CallAllTestsOfType(Type t)
         {
@@ -125,13 +135,13 @@ namespace Testing
 
         protected static MethodInfo[] PrepareTypeForTests(Type t, out object source)
         {
-            TestMonoBehaviourAttribute monoBehaviourTest = (TestMonoBehaviourAttribute)
-                               (t.GetCustomAttributes(TEST_MONOBEHAVIOUR_TYPE, false)[0]);
+            TestMonoBehaviourAttribute monoBehaviourTest = 
+                               (t.GetCustomAttributes(TEST_MONOBEHAVIOUR_TYPE, false).FirstOrDefault()) as TestMonoBehaviourAttribute;
 
             MethodInfo[] methods = GetMethodsFromType(t);
             source = GetInstance(t);
 
-            if (monoBehaviourTest.CallStartBeforeUnitTesting)
+            if (monoBehaviourTest != null && monoBehaviourTest.CallStartBeforeTesting)
             {
                 MethodInfo m = GetFunctionOfAnyTypeWithName(t, START_METHOD_NAME);
                 if (m != null)
@@ -262,13 +272,13 @@ namespace Testing
 
             //Assembly[] assemblies = AppDomain.CurrentDomain.GetAssemblies();
 
-            foreach (Type t in GetTypesWithHelpAttribute<Attr>(a))
+            foreach (Type t in GetTypesWithAttribute<Attr>(a))
             {
                 yield return t;
             }
         }
 
-        protected static IEnumerable<Type> GetTypesWithHelpAttribute<Attr>(Assembly assembly) where Attr : Attribute
+        protected static IEnumerable<Type> GetTypesWithAttribute<Attr>(Assembly assembly) where Attr : Attribute
         {
             foreach (Type type in assembly.GetTypes())
             {

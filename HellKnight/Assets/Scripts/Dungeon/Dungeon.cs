@@ -6,14 +6,14 @@ using Testing;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer),typeof(MeshCollider), typeof(MeshFilter))]
-[TestMonoBehaviour(CallStartBeforeUnitTesting = true)]
+[TestMonoBehaviour(CallStartBeforeTesting = true)]
 public class Dungeon : MonoBehaviour
 {
 
     protected const int NUMBER_OF_ROOMS = 5;
 
 
-    public void Start()
+    private void Start()
     {
         InitializeDungeon(seed);
     }
@@ -175,7 +175,6 @@ public class Dungeon : MonoBehaviour
                 colliderVerts[i] = d.colliderVertices.ToArray();
             };
             d.InitializeDungeon(i);
-            Destroy(d);
         }
 
         for (int i = 0; i < 5; ++i)
@@ -222,7 +221,6 @@ public class Dungeon : MonoBehaviour
 
             Assert.AreEqual(Vector3.Angle(normal, -Vector3.forward), 0);
         }
-        Destroy(d);
     }
 
 

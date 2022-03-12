@@ -8,8 +8,6 @@ namespace Testing
     public class Assert
     {
 
-
-
         public static void AreEqual(int actual, int expected)
         {
             if (!actual.Equals(expected))
@@ -48,6 +46,21 @@ namespace Testing
             if (actual.Equals(expected))
                 throw new Exception($"Values {expected} and {actual} should not match.");
         }
+
+
+        public static void GreaterOrEqual(float first, float snd)
+        {
+            if (first < snd)
+                throw new Exception($"{first} was expected to be larger equal than {snd}.");
+        }
+
+        public static void LessOrEqual(float first, float snd)
+        {
+            if (first > snd)
+                throw new Exception($"{first} was expected to be smaller equal than {snd}.");
+        }
+
+        
 
     }
 }
