@@ -1,25 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Testing;
 
+[TestMonoBehaviour]
 public class MeleeEnemyMovement : BaseMovement
 {
-    public float jumpCooldown = 2f;
+    public const float ATTACK_COOLDOWN = 2f;
+    public const float ROTATION_SPEED = 500f;
+    public const float JUMP_POWER = 30f;
     public float range = 10f;
 
     protected GameObject player;
-    protected float t;
+    protected float timeSinceAttack;
 
     public void Start()
     {
-        jumpPower = 30f;
+        jumpPower = JUMP_POWER;
         isGrounded = true;
         facedForward = true;
         turning = false;
-        rotationSpeed = 500;
+        rotationSpeed = ROTATION_SPEED;
         yOffset = 0.92f;
         player = GameObject.Find("Player");
-        t = Random.value * jumpCooldown;
+        timeSinceAttack = Random.value * ATTACK_COOLDOWN;
     }
 
     protected void JumpAtAngle()
@@ -39,12 +43,12 @@ public class MeleeEnemyMovement : BaseMovement
 
     public void Update()
     {
-        t += Time.deltaTime;
+        timeSinceAttack += Time.deltaTime;
         ApplyGravity();
-        if (isGrounded && t >= jumpCooldown)
+        if (isGrounded && timeSinceAttack >= ATTACK_COOLDOWN)
         {
             JumpAtAngle();
-            t = 0;
+            timeSinceAttack = 0;
         }
 
         if (player.transform.position.x < transform.position.x)
@@ -58,4 +62,24 @@ public class MeleeEnemyMovement : BaseMovement
         CheckGround();
         if (isGrounded) velocity = Vector3.zero;
     }
+
+    #region tests
+
+    [TestEnumerator]
+    public IEnumerator TestCooldown()
+    {
+        float before = timeSinceAttack;
+        yield return new WaitForSeconds(ATTACK_COOLDOWN);
+        float after = timeSinceAttack;
+        Assert.ApproxEqual(after, before);
+    }
+
+    [Test]
+    public void TestJump()
+    {
+        JumpAtAngle();
+        Assert.AreEqual(JUMP_POWER, velocity.magnitude);
+        Assert.AreEqual(velocity.x, velocity.y);
+    }
+    #endregion
 }

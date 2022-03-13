@@ -122,7 +122,7 @@ public class PlayerMovement : BaseMovement
         var posBefore = transform.position;
         Move(1.0f);
         var posAfter = transform.position;
-        var distance = Vector3.Distance(posBefore, posAfter);
+        var distance = posAfter.x - posBefore.x;
         Assert.ApproxEqual(distance, SPEED * Time.deltaTime);
     }
 

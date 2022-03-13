@@ -133,7 +133,11 @@ public class Room : DungeonPart, IDeathListener
             return;
 
         int enemyCountMean = Mathf.FloorToInt(DungeonPartSize.x / 10f);
+        int enemyCountMax = Mathf.FloorToInt(enemyCountMean / 2);
+        int enemyCountMin = Mathf.FloorToInt(enemyCountMean * 2);
         int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
+        if(enemyCount > enemyCountMax) enemyCount = enemyCountMax;
+        if(enemyCount < enemyCountMin) enemyCount = enemyCountMin;
         aliveEnemies = new HashSet<IHealth>();
 
         for (int i = 0; i < enemyCount; i++)
