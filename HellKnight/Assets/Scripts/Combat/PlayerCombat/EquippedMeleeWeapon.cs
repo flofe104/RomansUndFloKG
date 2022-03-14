@@ -56,8 +56,11 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
 
     protected void AnimateMeleeWeaponAttack()
     {
-        attackAnimation = RotateWeapon();
-        StartCoroutine(attackAnimation);
+        {
+            attackAnimation = RotateWeapon();
+            StartCoroutine(attackAnimation);
+        }
+        
     }
 
     protected IEnumerator RotateWeapon()

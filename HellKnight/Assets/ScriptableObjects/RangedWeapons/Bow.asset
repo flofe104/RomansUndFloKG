@@ -15,7 +15,7 @@ MonoBehaviour:
   itemName: 
   uiImage: {fileID: 0}
   itemValue: 0
-  prefab: {fileID: 4997268413096157687, guid: b86c4f68eb2aa4cbc9f3f8067123602e, type: 3}
+  prefab: {fileID: 0}
   equipPosition: {x: 0, y: 0, z: 0}
   equipEulerAngle: {x: 0, y: 0, z: 0}
   equipScale: {x: 1, y: 1, z: 1}
