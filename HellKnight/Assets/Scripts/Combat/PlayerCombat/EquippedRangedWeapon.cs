@@ -15,18 +15,37 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
 
     private void Update()
     {
-    Vector3 weaponPosition = transform.position;
-    Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    Vector3 direction = mousePosition - weaponPosition;
-    transform.right = direction;
+        Vector3 weaponPosition = transform.position;
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = -Camera.main.transform.position.z;
 
+        Vector3 worldPosition = Camera.main.ScreenToWorldPoint(mousePosition);
+
+        transform.LookAt(worldPosition);
+        transform.Rotate(0, -90, 0);
+
+        //Vector3 direction = worldPosition - weaponPosition;
+        Debug.Log($"pos:{worldPosition}");
+        ////Debug.Log($"viewport:{Camera.main.ViewportToScreenPoint(mousePosition)}");
+        //transform.forward = direction;
     }
 
     void Shoot()
     {
+        if(!canAttack)
+            return;
+
         GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation);
-        newArrow.GetComponent<Rigidbody>().velocity = transform.right * force;
+        Rigidbody r = newArrow.GetComponent<Rigidbody>();
+        r.isKinematic = false;
+        r.velocity = transform.right * force;
+        canAttack = false;
+        this.DoDelayed(attackCooldown, () => canAttack = true);
     }
+
+    protected float attackCooldown = 1;
+
+    protected bool canAttack = true;
    
     public void Attack(Func<IHealth, bool> healthDamageFilter)
     {
