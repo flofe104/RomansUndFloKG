@@ -1,29 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Testing;
 
 [RequireComponent(typeof(CharacterController))]
+[TestMonoBehaviour]
 public class PlayerMovement : BaseMovement
 {
+    protected const float DASH_DISTANCE = 5f;
+    protected const float DASH_DURATION = 0.5f;
+    protected const float DASH_COOLDOWN = 1f;
+    protected const float SPEED = 10f;
+    protected const float JUMP_POWER = 30f;
+    public const float ROTATION_SPEED = 1000f;
+    public const float TURN_DURATION = 0.5f;
 
     protected bool dashing = false;
     protected float dashTime = 0;
     protected float dashTimestamp = 0;
-
-    public AnimationCurve dashPattern;
-    public float dashCooldown = 1;
-    public float dashDistance = 0.1f;
-    public float dashSpeed = 0.25f;
+    protected Vector3 dashDirection = Vector3.right;
 
 
     public void Start()
     {
-        speed = 10;
-        jumpPower = 30f;
-        gravity = 80f;
+        speed = SPEED;
+        jumpPower = JUMP_POWER;
+        rotationSpeed = ROTATION_SPEED;
+        turnDuration = TURN_DURATION;
         isGrounded = true;
         yOffset = Controller.height / 2 + Controller.skinWidth;
-        rotationSpeed = 1000;
     }
 
     protected void ApplyJumpForce()
@@ -34,19 +38,16 @@ public class PlayerMovement : BaseMovement
 
     protected void Dash(Vector3 direction)
     {
-        if (dashing)
+        if (dashing && dashTime < DASH_DURATION)
         {
             //Debug.Log("Direction: " + direction);
             dashTime += Time.deltaTime;
-            var currentVal = dashPattern.Evaluate(dashTime / dashSpeed);
-            if (currentVal == 0)
-            {
-                dashing = false;
-            }
-            else
-            {
-                Controller.Move(direction * 0.01f * dashDistance * currentVal);
-            }
+            Controller.Move(direction * (DASH_DISTANCE / DASH_DURATION) * Time.deltaTime);
+        }
+        else
+        {
+            dashing = false;
+            dashTime = 0;
         }
     }
 
@@ -87,16 +88,17 @@ public class PlayerMovement : BaseMovement
             ApplyJumpForce();
 
         bool dashTriggered = GetDashInput();
-        if (dashTriggered && !dashing && dashTimestamp + dashCooldown < Time.time)
+        if (dashTriggered && !dashing && dashTimestamp + DASH_COOLDOWN < Time.time)
         {
             dashing = true;
             dashTimestamp = Time.time;
-            dashTime = 0;
+            if (horizontalInput < 0)
+                dashDirection = Vector3.left;
+            else if (horizontalInput > 0)
+                dashDirection = Vector3.right;
         }
-        if (horizontalInput < 0)
-            Dash(Vector3.left);
-        else if (horizontalInput > 0)
-            Dash(Vector3.right);
+        if(dashing)
+            Dash(dashDirection);
 
         Move(horizontalInput);
 
@@ -109,4 +111,81 @@ public class PlayerMovement : BaseMovement
 
         CheckGround();
     }
+
+
+    #region Tests
+
+    [Test]
+    public void TestHorizontalMovement()
+    {
+        
+        var posBefore = transform.position;
+        Move(1.0f);
+        var posAfter = transform.position;
+        var distance = posAfter.x - posBefore.x;
+        Assert.ApproxEqual(distance, SPEED * Time.deltaTime);
+    }
+
+    [Test]
+    public void TestJumpPower()
+    {
+        ApplyJumpForce();
+        Assert.AreEqual(jumpPower, velocity.y);
+    }
+
+    [TestEnumerator]
+    public IEnumerator TestDash()
+    {
+        var preDistance = transform.position;
+        var preTime = Time.fixedTime;
+
+        dashing = true;
+        yield return new WaitForSeconds(DASH_DURATION);
+
+        var postDistance = transform.position;
+        var postTime = Time.fixedTime;
+
+        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude);
+        Assert.ApproxEqual(postTime - DASH_DURATION, preTime);
+    }
+
+    [TestEnumerator]
+    public IEnumerator TestTurn()
+    {        
+        var startRotation = transform.rotation;
+        TurnLeft();
+        yield return new WaitForSeconds(TURN_DURATION / 2);
+        var middleRotation = transform.rotation;
+
+        var expectedRotation = startRotation * Quaternion.Euler(0, 90, 0);
+        Assert.LessOrEqual(Quaternion.Angle(middleRotation, expectedRotation), 1f);
+
+
+        yield return new WaitForSeconds(TURN_DURATION / 2);
+        var endRotation = transform.rotation;
+
+        expectedRotation = startRotation * Quaternion.Euler(0, 180, 0);
+        Assert.LessOrEqual(Quaternion.Angle(endRotation, expectedRotation), 1f);
+        Assert.IsTrue(!turning);
+
+
+        startRotation = transform.rotation;
+        TurnRight();
+        yield return new WaitForSeconds(TURN_DURATION);
+        endRotation = transform.rotation;
+
+        expectedRotation = startRotation * Quaternion.Inverse(Quaternion.Euler(0, 180, 0));
+        Assert.LessOrEqual(Quaternion.Angle(endRotation, expectedRotation), 1f);
+    }
+
+    [Test]
+    public void TestGravity()
+    {
+        isGrounded = false;
+        float velY = velocity.y;
+        ApplyGravity();
+        Assert.Lesser(velocity.y, velY);
+    }
+
+    #endregion
 }

@@ -11,6 +11,12 @@ public abstract class DungeonPart : MonoBehaviour
 
     protected Vector2 dungeonPartSize;
 
+    protected Vector3 DungeonPartSize3D => new Vector3(DungeonPartSize.x, DungeonPartSize.y, 0);
+
+    protected Vector3 DungeonPartSizeWithDefaultWidth3D => new Vector3(DungeonPartSize.x - 1, DungeonPartSize.y, 1);
+
+    protected Vector3 DungeonPartCenterPosition => DungeonPartSize3D / 2;
+
     protected float entryHeightOffset = 0;
 
     public float Width => dungeonPartSize.x;
@@ -19,12 +25,23 @@ public abstract class DungeonPart : MonoBehaviour
 
     public float Height => dungeonPartSize.y;
 
-    protected abstract Vector2 DetermineDungeonPartSize();
+    protected abstract void DetermineDungeonPartSize(out Vector2 dungeonPartSize);
+
+    protected Vector2 DungeonPartSize
+    {
+        get
+        {
+            if (dungeonPartSize == default)
+            {
+                DetermineDungeonPartSize(out dungeonPartSize);
+            }
+            return dungeonPartSize;
+        }
+    }
 
     public void AddDungeonPartToMeshLayout(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
     {
-        dungeonPartSize = DetermineDungeonPartSize();
-        float startHeight = transform.position.y + dungeonPartSize.y;
+        float startHeight = transform.position.y + DungeonPartSize.y;
         float distanceToLowestHeight = transform.position.y - MIN_DUNGEON_HEIGHT;
 
         ///build rendered mesh

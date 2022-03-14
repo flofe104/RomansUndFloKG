@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Testing;
 
+[TestMonoBehaviour]
 public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
 {
 
-    public float aimAngleNextToPlayer;
+    public const float FIRE_ANGLE = 15f;
 
     protected override void ExecuteAttack()
     {
-        AimAtAngle(GetProjectile(), aimAngleNextToPlayer);
-        AimAtAngle(GetProjectile(), -aimAngleNextToPlayer);
+        AimAtAngle(GetProjectile(), FIRE_ANGLE);
+        AimAtAngle(GetProjectile(), -FIRE_ANGLE);
     }
 
     protected void AimAtAngle(Projectile p, float angle)
@@ -21,4 +23,13 @@ public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
         p.TargetDirection = new Vector3(dir.x, dir.y, 0);
     }
 
+    #region Tests
+
+    [Test]
+    public void TestAttack()
+    {
+
+    }
+
+    #endregion
 }

@@ -7,9 +7,9 @@ public class DungeonWall : DungeonPart
 
     protected const float WALL_WIDTH = 20;
 
-    protected override Vector2 DetermineDungeonPartSize()
+    protected override void DetermineDungeonPartSize(out Vector2 dungeonPartSize)
     {
-        return new Vector2(WALL_WIDTH, 0);
+        dungeonPartSize = new Vector2(WALL_WIDTH, 0);
     }
 
     protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)

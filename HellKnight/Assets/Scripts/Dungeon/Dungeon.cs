@@ -2,23 +2,31 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Testing;
 using UnityEngine;
 
 [RequireComponent(typeof(MeshRenderer),typeof(MeshCollider), typeof(MeshFilter))]
+[TestMonoBehaviour(CallStartBeforeTesting = true)]
 public class Dungeon : MonoBehaviour
 {
 
     protected const int NUMBER_OF_ROOMS = 5;
 
+
     private void Start()
     {
-        InitializeDungeon(seed);   
+        InitializeDungeon(seed);
     }
-
-   
 
     public void InitializeDungeon(int seed)
     {
+        if (rand != null)
+            return;
+
+        if (DisplayDungeonAction == null)
+        {
+            DisplayDungeonAction = DisplayDungeon;
+        }
         this.seed = seed;
         rand = new System.Random(seed);
         enemies = possibleEnemies.Select(e => e as ISpawnableEnemy).ToList();
@@ -42,8 +50,7 @@ public class Dungeon : MonoBehaviour
             }
         }
         BuildWall(ref offset);
-        rooms[0].Generate();
-        DisplayDungeon();
+        DisplayDungeonAction();
     }
 
     private void AddConnector(ref Vector2 offset)
@@ -90,7 +97,7 @@ public class Dungeon : MonoBehaviour
         offset += new Vector2(dungeonPart.Width, dungeonPart.ExitHeight);
     }
 
-    protected virtual void DisplayDungeon()
+    protected void DisplayDungeon()
     {
         Mesh m = new Mesh();
         m.vertices = vertices.ToArray();
@@ -100,6 +107,9 @@ public class Dungeon : MonoBehaviour
 
         BuildCollider();
     }
+
+    protected Action DisplayDungeonAction;
+
 
     protected void BuildCollider()
     {
@@ -141,5 +151,79 @@ public class Dungeon : MonoBehaviour
 
     public int seed;
 
+
+    #region Tests
+
+    [Test]
+    public void TestNumberOfRooms()
+    {
+        Assert.AreEqual(rooms.Length, NUMBER_OF_ROOMS);
+    }
+
+    [Test]
+    public void TestRandomness()
+    {
+        Vector3[][] vertices = new Vector3[5][];
+        Vector3[][] colliderVerts = new Vector3[5][];
+        for (int i = 0; i < 5; ++i)
+        {
+            Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+            d.possibleEnemies = possibleEnemies;
+            d.DisplayDungeonAction = delegate
+            {
+                vertices[i] = d.vertices.ToArray();
+                colliderVerts[i] = d.colliderVertices.ToArray();
+            };
+            d.InitializeDungeon(i);
+        }
+
+        for (int i = 0; i < 5; ++i)
+        {
+            for (int j = i + 1; j < 5; ++j)
+            {
+                Assert.AreNotEqual(vertices[i], vertices[j]);
+                Assert.AreNotEqual(colliderVerts[i], colliderVerts[j]);
+            }
+        }
+    }
+
+
+    //[TestEnumerator]
+    //public IEnumerator TestTest()
+    //{
+    //    int i = 10;
+    //    while(i-- > 0)
+    //    {
+    //        yield return new WaitForSeconds(0.1f);
+    //        Assert.AreNotEqual(-1, i);
+    //    }
+    //}
+
+    [Test]
+    public void TestNormals()
+    {
+        Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+        d.possibleEnemies = possibleEnemies;
+        List<int> triangles = null;
+        List<Vector3> vertices = null;
+        d.DisplayDungeonAction = delegate
+        {
+            triangles = d.triangles;
+            vertices = d.vertices;
+        };
+        d.InitializeDungeon(0);
+        for (int i = 0; i < triangles.Count; i += 3)
+        {
+            var v0 = vertices[triangles[i]];
+            var v1 = vertices[triangles[i + 1]];
+            var v2 = vertices[triangles[i + 2]];
+            var normal = (Vector3.Cross(v1 - v0, v2 - v0)).normalized;
+
+            Assert.AreEqual(Vector3.Angle(normal, -Vector3.forward), 0);
+        }
+    }
+
+
+    #endregion
 
 }
