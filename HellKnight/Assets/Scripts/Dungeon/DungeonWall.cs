@@ -5,11 +5,11 @@ using UnityEngine;
 public class DungeonWall : DungeonPart
 {
 
-    protected const int WALL_WIDTH = 20;
+    protected const float WALL_WIDTH = 20;
 
-    protected override Vector2Int DetermineDungeonPartSize()
+    protected override Vector2 DetermineDungeonPartSize()
     {
-        return new Vector2Int(WALL_WIDTH, 0);
+        return new Vector2(WALL_WIDTH, 0);
     }
 
     protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)

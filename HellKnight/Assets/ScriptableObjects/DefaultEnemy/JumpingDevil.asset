@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ebcd394e8c812254698b28b77be175bc, type: 3}
+  m_Name: JumpingDevil
+  m_EditorClassIdentifier: 
+  health: 50
+  prefab: {fileID: 9064506378114716341, guid: 63888d6f683e6c4489804a379a0d091c, type: 3}
+  damage: 15

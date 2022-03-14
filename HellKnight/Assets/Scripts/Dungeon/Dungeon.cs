@@ -87,7 +87,7 @@ public class Dungeon : MonoBehaviour
 
     protected void MoveOffset(ref Vector2 offset, DungeonPart dungeonPart)
     {
-        offset += new Vector2(dungeonPart.Width, 0);
+        offset += new Vector2(dungeonPart.Width, dungeonPart.ExitHeight);
     }
 
     protected virtual void DisplayDungeon()

@@ -13,36 +13,28 @@ public class Room : DungeonPart, IDeathListener
         rand = new System.Random(seed);
     }
 
+    protected System.Random rand;
+
+
+    protected const int ENEMY_SPREAD = 2;
+    protected const int MIN_WIDTH = 30;
+    protected const int MAX_WIDTH = 60;
+
+    protected const int MIN_HEIGHT = 20;
+    protected const int MAX_HEIGHT = 40;
+
+    protected bool isCleared;
+
+    private int seed;
+
+
+    public override float ExitHeight => exitHeight;
+
+    protected float exitHeight;
+
 
     protected float entryHeight = 2.5f;
 
-    protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
-    {
-        Vector3 collisionOrigin = transform.position + new Vector3(0, 0, COLLISION_WIDTH);
-        ///left wall collider
-        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_DUNGEON_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
-        ///right wall collider
-        AddSquareToMesh(collisionOrigin + new Vector3(dungeonPartSize.x, entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, MAX_DUNGEON_HEIGHT - transform.position.y - entryHeight, 0), tiling, colliderVerts, colliderTris, null);
-    }
-
-    protected override Vector2Int DetermineDungeonPartSize()
-    {
-       return GetRoomSize();
-    }
-
-
-    protected virtual Vector2Int GetRoomSize()
-    {
-        Vector2Int result = new Vector2Int();
-        result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
-        result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
-        return result;
-    }
-
-    private void BuildRoomLayout()
-    {
-
-    }
 
     protected List<RoomPlattform> plattforms;
 
@@ -50,9 +42,48 @@ public class Room : DungeonPart, IDeathListener
 
     protected HashSet<IHealth> aliveEnemies;
 
+
+    protected override void OnAddedRoomPartToMesh(float tiling, List<Vector3> vertices, List<int> triangles, List<Vector3> colliderVerts, List<int> colliderTris, List<Vector2> materialCoordinates)
+    {
+        Vector3 collisionOrigin = transform.position + new Vector3(0, 0, COLLISION_WIDTH);
+        ///left wall collider
+        AddSquareToMesh(collisionOrigin + new Vector3(0, entryHeight, 0), new Vector3(0, MAX_DUNGEON_HEIGHT - transform.position.y - entryHeight, 0), new Vector3(0, 0, -2 * COLLISION_WIDTH), tiling, colliderVerts, colliderTris, null);
+        ///right wall collider
+        Vector3 rightWallBottom = collisionOrigin + new Vector3(dungeonPartSize.x, 0, 0);
+        AddSquareToMesh(rightWallBottom, new Vector3(0, 0, -2 * COLLISION_WIDTH), new Vector3(0, ExitHeight, 0), tiling, colliderVerts, colliderTris, null);
+    }
+
+    protected override Vector2 DetermineDungeonPartSize()
+    {
+       return GetRoomSize();
+    }
+
+
+    protected virtual Vector2 GetRoomSize()
+    {
+        Vector2 result = new Vector2();
+        result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
+        result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
+        GenerateInterior(result);
+        result = AdjustRoomSizeToPlattforms(result);
+        return result;
+    }
+
+    protected void SetExitHeight()
+    {
+        exitHeight = plattforms[plattforms.Count - 1].TopLeft.y;
+    }
+
+    protected Vector2 AdjustRoomSizeToPlattforms(Vector2 roomSize)
+    {
+        RoomPlattform last = plattforms[plattforms.Count - 1];
+        roomSize.x = last.BottomRight.x;
+        roomSize.y = last.TopLeft.y + RoomConnector.CONNECTOR_HEIGHT;
+        return roomSize;
+    }
+
     public void Generate()
     {
-        GenerateInterior();
         if (!isCleared) 
         {
             GenerateEnemies();
@@ -62,29 +93,21 @@ public class Room : DungeonPart, IDeathListener
 
     protected virtual void GenerateInterior()
     {
-        plattforms = PlattformGenerator.GeneratePlattformsInSpace(dungeonPartSize, rand);
+        GenerateInterior(dungeonPartSize);
+    }
+
+    protected virtual void GenerateInterior(Vector2 forSpace)
+    {
+        plattforms = PlattformGenerator.GeneratePlattformsInSpace(forSpace, rand);
+        SetExitHeight();
         plattforms.ForEach(p => p.Create(transform));
     }
 
-    protected System.Random rand;
-
-
-    protected const int MIN_ENEMIES = 2;
-    protected const int MAX_ENEMIES = 5;
-
-    protected const int MIN_WIDTH = 12;
-    protected const int MAX_WIDTH = 40;
-
-    protected const int MIN_HEIGHT = 8;
-    protected const int MAX_HEIGHT = 15;
-
-    protected bool isCleared;
-
-    private int seed;
-
     protected virtual void GenerateEnemies()
     {
-        int enemyCount = rand.Next(MIN_ENEMIES,MAX_ENEMIES);
+        var roomSize = GetRoomSize();
+        int enemyCountMean = Mathf.FloorToInt(roomSize.x / 10f);
+        int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
         aliveEnemies = new HashSet<IHealth>();
 
         for (int i = 0; i < enemyCount; i++)
