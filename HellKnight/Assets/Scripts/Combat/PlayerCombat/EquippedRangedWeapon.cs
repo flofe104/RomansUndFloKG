@@ -10,8 +10,11 @@ using UnityEngine.Assertions;
 public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, InventoryRangedWeapon>
 {
     public GameObject projectilePrefab;
-    public float force;
+    public float force = 10;
     public Transform shotPoint;
+    public float xArrowScale = (float)0.95578;
+    public float yArrowScale = (float)0.01943;
+    public float zArrowScale = (float)0.00069;
 
     private void Update()
     {
@@ -30,19 +33,26 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
         //transform.forward = direction;
     }
 
+    void InstantiateArrow()
+    {
+        GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation, transform);
+        newArrow.transform.localScale = new Vector3(xArrowScale,yArrowScale,zArrowScale);
+        Rigidbody r = newArrow.GetComponent<Rigidbody>();
+        r.isKinematic = false;
+        r.velocity = transform.right * force;
+    }
+
     void Shoot()
     {
         if(!canAttack)
             return;
 
-        GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation);
-        Rigidbody r = newArrow.GetComponent<Rigidbody>();
-        r.isKinematic = false;
-        r.velocity = transform.right * force;
+        InstantiateArrow();
         canAttack = false;
         this.DoDelayed(attackCooldown, () => canAttack = true);
     }
-
+   
+     
     protected float attackCooldown = 1;
 
     protected bool canAttack = true;
@@ -52,8 +62,6 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
         this.healthDamageFilter = healthDamageFilter;
         Shoot();
     }
-
-    protected IEnumerator attackAnimation;
 
     /// <summary>
     /// when the projectile of a ranged weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
