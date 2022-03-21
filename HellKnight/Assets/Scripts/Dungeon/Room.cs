@@ -6,10 +6,11 @@ using UnityEngine;
 public class Room : DungeonPart, IDeathListener
 {
 
-    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies)
+    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies, RoomConnector previous)
     {
         this.seed = seed;
         this.possibleEnemies = possibleEnemies;
+        this.previousConnector = previous;
         rand = new System.Random(seed);
         CreateEnemySpawnColliderForRoom();
     }
@@ -36,6 +37,9 @@ public class Room : DungeonPart, IDeathListener
 
     protected float entryHeight = 2.5f;
 
+    protected RoomConnector previousConnector;
+
+    protected RoomConnector nextConnector;
 
     protected List<RoomPlattform> plattforms;
 
@@ -44,6 +48,11 @@ public class Room : DungeonPart, IDeathListener
     protected HashSet<IHealth> aliveEnemies;
 
     protected BoxCollider c;
+
+    public void SetNextConnector(RoomConnector connector)
+    {
+        nextConnector = connector;
+    }
 
     protected void CreateEnemySpawnColliderForRoom()
     {

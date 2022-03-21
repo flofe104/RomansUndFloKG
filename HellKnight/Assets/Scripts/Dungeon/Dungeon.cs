@@ -11,6 +11,7 @@ public class Dungeon : MonoBehaviour
 {
 
     protected const int NUMBER_OF_ROOMS = 5;
+    protected const int NUMBER_OF_ROOM_CONNECTORS = NUMBER_OF_ROOMS - 1;
 
 
     private void Start()
@@ -39,6 +40,7 @@ public class Dungeon : MonoBehaviour
     private void Generate()
     {
         rooms = new Room[NUMBER_OF_ROOMS];
+        connectors = new RoomConnector[NUMBER_OF_ROOM_CONNECTORS];
         Vector2 offset = new Vector2();
         BuildWall(ref offset);
         for (int i = 0; i < NUMBER_OF_ROOMS; i++)
@@ -46,16 +48,17 @@ public class Dungeon : MonoBehaviour
             AddRoom(i, ref offset);
             if(i + 1 < NUMBER_OF_ROOMS)
             {
-                AddConnector(ref offset);
+                AddConnector(i,ref offset);
             }
         }
+
         BuildWall(ref offset);
         DisplayDungeonAction();
     }
 
-    private void AddConnector(ref Vector2 offset)
+    private void AddConnector(int index, ref Vector2 offset)
     {
-        CreateNewDungeonObject<RoomConnector>(ref offset);
+        CreateNewDungeonObject<RoomConnector>(ref offset, (c)=> HandleConnector(c, index));
     }
 
     private void BuildWall(ref Vector2 offset)
@@ -66,6 +69,13 @@ public class Dungeon : MonoBehaviour
     private void AddRoom(int index, ref Vector2 offset)
     {
         CreateNewDungeonObject<Room>(ref offset, (r) => HandleNewRoom(r, index));
+    }
+
+    protected void HandleConnector(RoomConnector c, int index)
+    {
+        connectors[index] = c;
+        if (TryGetAt(rooms, index, out Room r))
+            r.SetNextConnector(c);
     }
 
     protected T CreateNewDungeonObject<T>(ref Vector2 offset, Action<T> Initialize = null) where T : DungeonPart
@@ -80,10 +90,26 @@ public class Dungeon : MonoBehaviour
         return part;
     }
 
+    protected T GetAt<T>(T[] array, int index) where T : DungeonPart
+    {
+        if (index < 0 || index >= array.Length)
+            return null;
+        return array[index];
+    }
+
+    protected bool TryGetAt<T>(T[] array, int index, out T result) where T : DungeonPart
+    {
+        if (index < 0 || index >= array.Length)
+            result = null;
+        else
+            result = array[index];
+        return result != null;
+    }
+
     protected void HandleNewRoom(Room r, int index)
     {
         rooms[index] = r;
-        r.Initialize(rand.Next(), enemies);
+        r.Initialize(rand.Next(), enemies, GetAt(connectors, index - 1));
     }
 
     protected void AddDungeonPartToMesh(DungeonPart part, ref Vector2 offset)
@@ -122,6 +148,9 @@ public class Dungeon : MonoBehaviour
     protected System.Random rand;
 
     public Room[] rooms;
+    public RoomConnector[] connectors;
+
+
 
     public List<EnemySciptableObject> possibleEnemies;
     public List<ISpawnableEnemy> enemies;

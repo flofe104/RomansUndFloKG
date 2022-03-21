@@ -13,4 +13,7 @@ public class RoomConnector : DungeonPart
         dungeonPartSize = new Vector2(CONNECTOR_WIDTH, CONNECTOR_HEIGHT);
     }
 
+    protected RoomDoors entry;
+    protected RoomDoors exit;
+
 }
