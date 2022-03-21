@@ -13,6 +13,7 @@ public class Dungeon : MonoBehaviour
     protected const int NUMBER_OF_ROOMS = 5;
     protected const int NUMBER_OF_ROOM_CONNECTORS = NUMBER_OF_ROOMS - 1;
 
+    public GameObject dungeonDoorPrefab;
 
     private void Start()
     {
@@ -76,6 +77,7 @@ public class Dungeon : MonoBehaviour
         connectors[index] = c;
         if (TryGetAt(rooms, index, out Room r))
             r.SetNextConnector(c);
+        c.Initialize(dungeonDoorPrefab);
     }
 
     protected T CreateNewDungeonObject<T>(ref Vector2 offset, Action<T> Initialize = null) where T : DungeonPart
@@ -182,6 +184,59 @@ public class Dungeon : MonoBehaviour
 
 
     #region Tests
+
+    [Test]
+    protected void TestDoorInitialStates()
+    {
+        for (int i = 0; i < NUMBER_OF_ROOMS-1; i++)
+        {
+            Assert.IsTrue(!rooms[i].NextConnector.IsEntryOpen);
+            Assert.IsTrue(rooms[i].NextConnector.IsExitOpen);
+        }
+    }
+
+    [TestEnumerator]
+    protected IEnumerator TestExitOpensWhenRoomIsCleared()
+    {
+        yield return new WaitForFixedUpdate();
+        while (rooms[0].HasAliveEnemies)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        Assert.IsTrue(rooms[0].ExitDoor.IsOpen);
+    }
+
+
+    [TestEnumerator]
+    protected IEnumerator TestEntryClosesOnRoomEnter()
+    {
+        yield return new WaitForFixedUpdate();
+        while (!rooms[1].EnemiesSpawned)
+        {
+            yield return new WaitForSeconds(0.1f);
+        }
+        Assert.IsTrue(!rooms[1].EntryDoor.IsOpen);
+    }
+
+    [Test]
+    protected void TestRoomConnectorsNotNull()
+    {
+        Assert.IsTrue(rooms[0].PreviousConnector == null && rooms[0].NextConnector != null);
+        for (int i = 1; i < NUMBER_OF_ROOM_CONNECTORS; i++)
+        {
+            Assert.IsTrue(rooms[i].NextConnector != null && rooms[i].PreviousConnector != null);
+        }
+        Assert.IsTrue(rooms[NUMBER_OF_ROOM_CONNECTORS].PreviousConnector != null && rooms[NUMBER_OF_ROOM_CONNECTORS].NextConnector == null);
+    }
+
+    [Test]
+    protected void TestAdjacentRoomsShareConnector()
+    {       
+        for (int i = 0; i < NUMBER_OF_ROOM_CONNECTORS; i++)
+        {
+            Assert.IsTrue(rooms[i].NextConnector == rooms[i + 1].PreviousConnector);
+        }
+    }
 
     [Test]
     public void TestNumberOfRooms()

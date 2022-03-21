@@ -45,7 +45,13 @@ public class Room : DungeonPart, IDeathListener
 
     protected List<ISpawnableEnemy> possibleEnemies;
 
+    public bool EnemiesSpawned => aliveEnemies != null;
+
     protected HashSet<IHealth> aliveEnemies;
+
+    public bool HasAliveEnemies => aliveEnemies.Count > 0;
+
+    public bool IsRoomCleared => !HasAliveEnemies;
 
     protected BoxCollider c;
 
@@ -70,6 +76,7 @@ public class Room : DungeonPart, IDeathListener
         if (other.GetComponent<PlayerHealth>() != null)
         {
             GenerateEnemies();
+            EntryDoor.Close();
             Destroy(c);
         }
     }
@@ -167,5 +174,32 @@ public class Room : DungeonPart, IDeathListener
     public void OnDeath(IHealth died)
     {
         aliveEnemies.Remove(died);
+        if (IsRoomCleared)
+            OnRoomCleared();
     }
+
+    protected void OnRoomCleared()
+    {
+        OpenDoors();
+    }
+
+    public RoomConnector PreviousConnector => previousConnector;
+    public RoomConnector NextConnector => nextConnector;
+
+    public void OpenDoors()
+    {
+        ExitDoor?.Open();
+    }
+
+
+    public void CloseDoors()
+    {
+        EntryDoor?.Close();
+        ExitDoor?.Close();
+    }
+
+    public RoomDoors EntryDoor => previousConnector?.exitDoor;
+    public RoomDoors ExitDoor => nextConnector?.entryDoor;
+
+
 }
