@@ -188,11 +188,15 @@ public class Dungeon : MonoBehaviour
     [Test]
     protected void TestDoorInitialStates()
     {
-        for (int i = 0; i < NUMBER_OF_ROOMS-1; i++)
+        Assert.IsTrue(!rooms[0].ExitDoor.IsOpen);
+
+        for (int i = 1; i < NUMBER_OF_ROOM_CONNECTORS-1; i++)
         {
-            Assert.IsTrue(!rooms[i].NextConnector.IsEntryOpen);
-            Assert.IsTrue(rooms[i].NextConnector.IsExitOpen);
+            Assert.IsTrue(rooms[i].EntryDoor.IsOpen);
+            Assert.IsTrue(!rooms[i].ExitDoor.IsOpen);
         }
+        Assert.IsTrue(rooms[NUMBER_OF_ROOM_CONNECTORS - 1].EntryDoor.IsOpen);
+
     }
 
     [TestEnumerator]
@@ -252,6 +256,7 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < 5; ++i)
         {
             Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+            d.dungeonDoorPrefab = dungeonDoorPrefab;
             d.possibleEnemies = possibleEnemies;
             d.DisplayDungeonAction = delegate
             {
@@ -287,6 +292,7 @@ public class Dungeon : MonoBehaviour
     public void TestNormals()
     {
         Dungeon d = TestPipeline.CreateNewInstanceOf<Dungeon>();
+        d.dungeonDoorPrefab = dungeonDoorPrefab;
         d.possibleEnemies = possibleEnemies;
         List<int> triangles = null;
         List<Vector3> vertices = null;

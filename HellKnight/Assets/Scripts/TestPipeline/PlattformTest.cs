@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using NUnit.Framework;
 using System;
+using Testing;
 
-public class PlattformTest
+[TestMonoBehaviour]
+public class PlattformTest : MonoBehaviour
 {
 
     protected const int TEST_ITERATIONS = 500;

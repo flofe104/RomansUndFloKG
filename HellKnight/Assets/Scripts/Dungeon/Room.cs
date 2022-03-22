@@ -76,7 +76,7 @@ public class Room : DungeonPart, IDeathListener
         if (other.GetComponent<PlayerHealth>() != null)
         {
             GenerateEnemies();
-            EntryDoor.Close();
+            EntryDoor?.Close();
             Destroy(c);
         }
     }
