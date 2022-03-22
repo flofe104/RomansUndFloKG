@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692886, g: 0.49681598, b: 0.57502186, a: 1}
+  m_IndirectSpecularColor: {r: 0.44692838, g: 0.4968155, b: 0.57502097, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,7 +155,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0246b2d43788b428a066001cd09a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dungeonDoorPrefab: {fileID: 2315958046200481373, guid: eba822b6aba55a24ba7505d84294ec44, type: 3}
   rooms: []
+  connectors: []
   possibleEnemies:
   - {fileID: 11400000, guid: d98a45602a86b9d42a1ec71a18ae879b, type: 2}
   - {fileID: 11400000, guid: ecc3c870da296b146bd8a77eae8ef954, type: 2}
