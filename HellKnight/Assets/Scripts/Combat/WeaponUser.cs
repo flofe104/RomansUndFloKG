@@ -26,6 +26,8 @@ public abstract class WeaponUser<WeaponBehaviour, WeaponType> : MonoBehaviour
     /// </summary>
     protected GameObject equipedWeaponInstance;
 
+    public bool HasWeaponEquipped => equipedWeaponInstance != null && weaponBehaviour != null;
+
     private void Start()
     {
         if (startWeapon != null)
@@ -34,14 +36,14 @@ public abstract class WeaponUser<WeaponBehaviour, WeaponType> : MonoBehaviour
         }
     }
 
-    protected void EquipWeapon(InventoryWeapon<WeaponBehaviour, WeaponType> weapon)
+    public void EquipWeapon(InventoryWeapon<WeaponBehaviour, WeaponType> weapon)
     {
         DestroyEquipedWeapon();
         weaponBehaviour = weapon.CreateInstanceAndGetBehaviour(transform);
         equipedWeaponInstance = weaponBehaviour.gameObject;
     }
 
-    protected void DestroyEquipedWeapon()
+    public void DestroyEquipedWeapon()
     {
         if (equipedWeaponInstance != null)
         {

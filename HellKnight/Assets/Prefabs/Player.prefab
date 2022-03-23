@@ -175,10 +175,12 @@ GameObject:
   - component: {fileID: 6347607373476553823}
   - component: {fileID: 6347607373476553820}
   - component: {fileID: 6347607373476553821}
-  - component: {fileID: 6347607373476553808}
   - component: {fileID: 6347607373476553811}
   - component: {fileID: 6347607373476553812}
   - component: {fileID: 6347607373476553813}
+  - component: {fileID: 2352376955862308837}
+  - component: {fileID: 6347607373476553808}
+  - component: {fileID: 2791012687827317448}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -260,7 +262,7 @@ CapsuleCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6347607373476553818}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2
@@ -281,48 +283,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   speed: 10
   jumpPower: 30
-  gravity: 80
   rotationSpeed: 1000
-  dashPattern:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0.5199731
-      value: 0.70400476
-      inSlope: 2.272018
-      outSlope: 2.272018
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0.027469376
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -6.893846
-      outSlope: -6.893846
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.03984081
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  dashCooldown: 1
-  dashDistance: 8
-  dashSpeed: 0.25
---- !u!114 &6347607373476553808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6347607373476553818}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cbbbef944da2a54490c4ed33b8b1040, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startWeapon: {fileID: 11400000, guid: e931ca5c55c8d3748a34edfb7854ee7e, type: 2}
+  turnDuration: 0
 --- !u!143 &6347607373476553811
 CharacterController:
   m_ObjectHideFlags: 0
@@ -370,6 +332,50 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   player: {fileID: 0}
+--- !u!114 &2352376955862308837
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347607373476553818}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9891646efdff104598d30735e093a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeItems:
+  - {fileID: 11400000, guid: e931ca5c55c8d3748a34edfb7854ee7e, type: 2}
+  meleeBehaviour: {fileID: 6347607373476553808}
+  rangedWeapon:
+  - {fileID: 11400000, guid: b712fff10c6b047c18361dced4fc61a0, type: 2}
+  rangeBehaviour: {fileID: 2791012687827317448}
+--- !u!114 &6347607373476553808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347607373476553818}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cbbbef944da2a54490c4ed33b8b1040, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWeapon: {fileID: 0}
+--- !u!114 &2791012687827317448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6347607373476553818}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed296bb743db41fab74f30d129f6326, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startWeapon: {fileID: 0}
 --- !u!1 &8520352148096106030
 GameObject:
   m_ObjectHideFlags: 0
