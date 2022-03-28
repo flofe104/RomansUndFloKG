@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Testing;
 
-[TestMonoBehaviour]
+[TestMonoBehaviour(CallStartBeforeTesting =true)]
 public class MeleeEnemyMovement : BaseMovement
 {
     public const float ATTACK_COOLDOWN = 2f;
@@ -13,6 +13,10 @@ public class MeleeEnemyMovement : BaseMovement
 
     protected GameObject player;
     protected float timeSinceAttack;
+
+
+
+    public static string prefabForTestName = "TestMeleeEnemyPrefab";
 
     public void Start()
     {
@@ -28,12 +32,13 @@ public class MeleeEnemyMovement : BaseMovement
 
     protected void JumpAtAngle()
     {
-        velocity.y = jumpPower;
+        float power = Mathf.Sqrt(2 * jumpPower * jumpPower) / 2;
+        velocity.y = power;
         isGrounded = false;
         if (facedForward)
-            velocity.x = jumpPower / 2;
+            velocity.x = power;
         else
-            velocity.x = -jumpPower / 2;
+            velocity.x = -power;
     }
 
     protected void Move()

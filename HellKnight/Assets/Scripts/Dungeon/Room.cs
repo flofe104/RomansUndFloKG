@@ -6,10 +6,11 @@ using UnityEngine;
 public class Room : DungeonPart, IDeathListener
 {
 
-    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies)
+    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies, RoomConnector previous)
     {
         this.seed = seed;
         this.possibleEnemies = possibleEnemies;
+        this.previousConnector = previous;
         rand = new System.Random(seed);
         CreateEnemySpawnColliderForRoom();
     }
@@ -36,14 +37,28 @@ public class Room : DungeonPart, IDeathListener
 
     protected float entryHeight = 2.5f;
 
+    protected RoomConnector previousConnector;
+
+    protected RoomConnector nextConnector;
 
     protected List<RoomPlattform> plattforms;
 
     protected List<ISpawnableEnemy> possibleEnemies;
 
+    public bool EnemiesSpawned => aliveEnemies != null;
+
     protected HashSet<IHealth> aliveEnemies;
 
+    public bool HasAliveEnemies => aliveEnemies.Count > 0;
+
+    public bool IsRoomCleared => !HasAliveEnemies;
+
     protected BoxCollider c;
+
+    public void SetNextConnector(RoomConnector connector)
+    {
+        nextConnector = connector;
+    }
 
     protected void CreateEnemySpawnColliderForRoom()
     {
@@ -61,6 +76,7 @@ public class Room : DungeonPart, IDeathListener
         if (other.GetComponent<PlayerHealth>() != null)
         {
             GenerateEnemies();
+            EntryDoor?.Close();
             Destroy(c);
         }
     }
@@ -158,5 +174,32 @@ public class Room : DungeonPart, IDeathListener
     public void OnDeath(IHealth died)
     {
         aliveEnemies.Remove(died);
+        if (IsRoomCleared)
+            OnRoomCleared();
     }
+
+    protected void OnRoomCleared()
+    {
+        OpenDoors();
+    }
+
+    public RoomConnector PreviousConnector => previousConnector;
+    public RoomConnector NextConnector => nextConnector;
+
+    public void OpenDoors()
+    {
+        ExitDoor?.Open();
+    }
+
+
+    public void CloseDoors()
+    {
+        EntryDoor?.Close();
+        ExitDoor?.Close();
+    }
+
+    public RoomDoors EntryDoor => previousConnector?.exitDoor;
+    public RoomDoors ExitDoor => nextConnector?.entryDoor;
+
+
 }

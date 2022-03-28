@@ -308,24 +308,32 @@ namespace Testing
             return methods.Where(m => m.IsDefined(attrType, true));
         }
 
-        protected static MethodInfo[] GetMethodsFromType(Type target)
+        protected static MethodInfo[] GetMethodsFromType(Type target, bool checkBaseClasses = true)
         {
-            List<MethodInfo> fields = new List<MethodInfo>();
+            List<MethodInfo> methods = new List<MethodInfo>();
 
-            ///add all protected and private methods of current type
-            fields.AddRange(target.GetMethods((BindingFlags.Public
-                | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)));
+            if (checkBaseClasses)
+            {
+                ///add all protected and private methods of current type
+                methods.AddRange(target.GetMethods((BindingFlags.Public
+                    | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)));
+            }
+            else
+            {
+                methods.AddRange(target.GetMethods((BindingFlags.Public
+                    | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static | BindingFlags.DeclaredOnly)));
+            }
 
             ///add all private methods of parent types
             Type parentType = target;
-            while (parentType != OBJECT_TYPE && parentType.BaseType != null)
+            while (checkBaseClasses && parentType != OBJECT_TYPE && parentType.BaseType != null)
             {
                 parentType = parentType.BaseType;
-                fields.AddRange(parentType.GetMethods((
+                methods.AddRange(parentType.GetMethods((
                     BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)).Where(f => !f.IsFamily));
             }
 
-            return fields.ToArray();
+            return methods.ToArray();
         }
 
         protected static IEnumerable<Type> GetAllTypesWithAttribute<Attr>() where Attr : Attribute
@@ -416,7 +424,7 @@ namespace Testing
 
         protected static void CheckIfTypeHasTestsDefines(Type t)
         {
-            foreach(MethodInfo m in GetMethodsFromType(t))
+            foreach(MethodInfo m in GetMethodsFromType(t, false))
             {
                 if (m.IsDefined(typeof(TestAttribute), false) || m.IsDefined(typeof(TestEnumeratorAttribute), false))
                 {

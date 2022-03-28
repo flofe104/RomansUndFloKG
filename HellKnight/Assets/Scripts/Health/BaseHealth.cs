@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Testing;
 using UnityEngine;
 
+[TestMonoBehaviour]
 public class BaseHealth : MonoBehaviour, IHealth
 {
 
@@ -24,7 +26,7 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     protected virtual void OnEntityDied() { }
 
-    void Start()
+    protected void Awake()
     {
         currentHealth = maxHealth;
     }
@@ -76,5 +78,54 @@ public class BaseHealth : MonoBehaviour, IHealth
             }
         }
     }
+
+    #region tests
+
+    [Test]
+    public void TestHeal()
+    {
+        currentHealth = 1;
+        var previousHealth = currentHealth;
+        int heal = maxHealth - currentHealth - 1;
+        HealDamage(heal);
+
+        Assert.AreEqual(currentHealth, previousHealth + heal);
+    }
+
+    [Test]
+    public void TestDamage()
+    {
+        ResetWithMaxHealth(10);
+        int previousHealth = currentHealth;
+        int damage = currentHealth - 1;
+
+        TakeDamage(damage);
+
+        Assert.AreEqual(currentHealth, previousHealth - damage);
+        Assert.AreEqual(IsDead, false);
+    }
+
+    [Test]
+    public void TestFatalDamage()
+    {
+        int damage = maxHealth;
+
+        TakeDamage(damage);
+
+        Assert.AreEqual(currentHealth, 0);
+        Assert.AreEqual(IsDead, true);
+    }
+
+
+    [Test]
+    public void TestNoRevive()
+    {
+        int damage = maxHealth;
+
+        TakeDamage(damage);
+        HealDamage(1);
+        Assert.AreEqual(IsDead, true);
+    }
+    #endregion
 
 }
