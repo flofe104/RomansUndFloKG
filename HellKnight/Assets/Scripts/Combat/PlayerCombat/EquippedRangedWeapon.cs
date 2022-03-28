@@ -27,8 +27,9 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
         transform.LookAt(worldPosition);
         transform.Rotate(0, -90, 0);
 
+
         //Vector3 direction = worldPosition - weaponPosition;
-        Debug.Log($"pos:{worldPosition}");
+        //Debug.Log($"pos:{worldPosition}");
         ////Debug.Log($"viewport:{Camera.main.ViewportToScreenPoint(mousePosition)}");
         //transform.forward = direction;
     }
@@ -36,7 +37,7 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
     void InstantiateArrow()
     {
         GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation, transform);
-        newArrow.transform.localScale = new Vector3(xArrowScale,yArrowScale,zArrowScale);
+        newArrow.transform.localScale = new Vector3(xArrowScale, yArrowScale, zArrowScale);
         Rigidbody r = newArrow.GetComponent<Rigidbody>();
         r.isKinematic = false;
         r.velocity = transform.right * force;
@@ -44,19 +45,19 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
 
     void Shoot()
     {
-        if(!canAttack)
+        if (!canAttack)
             return;
 
         InstantiateArrow();
         canAttack = false;
         this.DoDelayed(attackCooldown, () => canAttack = true);
     }
-   
-     
+
+
     protected float attackCooldown = 1;
 
     protected bool canAttack = true;
-   
+
     public void Attack(Func<IHealth, bool> healthDamageFilter)
     {
         this.healthDamageFilter = healthDamageFilter;
@@ -69,7 +70,7 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
     /// </summary>
     protected Func<IHealth, bool> healthDamageFilter;
 
-    
+
     private void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Hit " + other.gameObject.name);
@@ -85,5 +86,4 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
     {
         health.TakeDamage(weapon.Damage);
     }
-
 }

@@ -237,9 +237,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8ad2a892a1ac4c51b1b336bedf66aa4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  projectilePrefab: {fileID: 1554088646521019449}
-  force: 0
+  projectilePrefab: {fileID: 887473004962549536, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
+  force: 10
   shotPoint: {fileID: 2551708147012293726}
+  xArrowScale: 0.95578
+  yArrowScale: 0.01943
+  zArrowScale: 0.00069
 --- !u!1 &8946093053013906284
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,17 +409,16 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3844679773078263361, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5733625130297864323, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
---- !u!1 &1554088646521019449 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 887473004962549536, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
-  m_PrefabInstance: {fileID: 1855998292862751513}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1367857786007073475 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 809046999367475674, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}

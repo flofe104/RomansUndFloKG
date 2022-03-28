@@ -439,17 +439,8 @@ MonoBehaviour:
   controller: {fileID: 0}
   speed: 10
   jumpPower: 0.02
-  gravity: 0.5
   rotationSpeed: 500
-  dashPattern:
-    serializedVersion: 2
-    m_Curve: []
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  dashCooldown: 1
-  dashDistance: 0.1
-  dashSpeed: 0.25
+  turnDuration: 0
 --- !u!136 &1673801958
 CapsuleCollider:
   m_ObjectHideFlags: 0
