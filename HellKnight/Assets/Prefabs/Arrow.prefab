@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5733625130297864323}
   - component: {fileID: 8693307939175712314}
   - component: {fileID: 3844679773078263361}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -138,7 +138,7 @@ GameObject:
   - component: {fileID: 1428107727414936486}
   - component: {fileID: 3495821228430294918}
   - component: {fileID: 2906822685056265867}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Tip
   m_TagString: Untagged
   m_Icon: {fileID: 0}

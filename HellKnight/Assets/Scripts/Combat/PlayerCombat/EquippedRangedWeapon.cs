@@ -10,8 +10,8 @@ using UnityEngine.Assertions;
 public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, InventoryRangedWeapon>
 {
     public GameObject projectilePrefab;
-    public float force = 10;
     public Transform shotPoint;
+    public float force = 10;
     public float xArrowScale = (float)0.95578;
     public float yArrowScale = (float)0.01943;
     public float zArrowScale = (float)0.00069;
@@ -36,7 +36,7 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
 
     void InstantiateArrow()
     {
-        GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation, transform);
+        GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation);
         newArrow.transform.localScale = new Vector3(xArrowScale, yArrowScale, zArrowScale);
         Rigidbody r = newArrow.GetComponent<Rigidbody>();
         r.isKinematic = false;
@@ -69,21 +69,4 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
     /// this function will determine if the entity will get damage on contact
     /// </summary>
     protected Func<IHealth, bool> healthDamageFilter;
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        //Debug.Log("Hit " + other.gameObject.name);
-        Destroy(gameObject);
-        EnemyHealth health = other.gameObject.GetComponent<EnemyHealth>();
-        if (health != null && healthDamageFilter(health))
-        {
-            OnEnemyHit(health);
-        }
-    }
-
-    private void OnEnemyHit(EnemyHealth health)
-    {
-        health.TakeDamage(weapon.Damage);
-    }
 }

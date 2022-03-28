@@ -13,8 +13,8 @@ public class Arrow : MonoBehaviour
     }
     
     // Update is called once per frame
-    void Update()
-    {
+    void FixedUpdate()
+    {  
         correctFlight();
     }
 
@@ -24,14 +24,19 @@ public class Arrow : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    void OnCollisionEnter(Collision collision)
+    private void OnCollisionEnter(Collision collision)
     {
-        //Check for a match with the specified name on any GameObject that collides with your GameObject
-        if (collision.gameObject.name == "Bow")
+        Debug.Log("Hit " + collision.gameObject.name);
+        Destroy(gameObject);
+        EnemyHealth health = collision.gameObject.GetComponent<EnemyHealth>();
+        if (health != null)
         {
-            //If the GameObject's name matches the one you suggest, output this message in the console
-            Debug.Log("Collision mit Bogen");
+            OnEnemyHit(health);
         }
+    }
 
+    private void OnEnemyHit(EnemyHealth health)
+    {
+        health.TakeDamage(25);
     }
 }
