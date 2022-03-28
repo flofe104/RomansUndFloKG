@@ -17,7 +17,6 @@ public class SwapWeapon : MonoBehaviour
 
     protected int activeWeaponIndex;
 
-    protected float scrollProgress;
 
     protected InstantiableInventoryItem ItemFromIndex()
     {
@@ -38,21 +37,28 @@ public class SwapWeapon : MonoBehaviour
 
     private void Start()
     {
-        scrollProgress = activeWeaponIndex;
         EquippWeapon(ItemFromIndex());
     }
 
     private void Update()
     {
-        if (Input.GetAxis("Mouse ScrollWheel") != 0f)
+        int nextWeaponIndex = activeWeaponIndex + GetMouseScrollDirection();
+        if(nextWeaponIndex != activeWeaponIndex)
         {
-            scrollProgress += Input.GetAxis("Mouse ScrollWheel");
-            if((int)scrollProgress != activeWeaponIndex)
-            {
-                activeWeaponIndex = (int)scrollProgress;
-                EquippWeapon(ItemFromIndex());
-            }
+            activeWeaponIndex = nextWeaponIndex;
+            EquippWeapon(ItemFromIndex());
         }
+    }
+
+    protected int GetMouseScrollDirection()
+    {
+        float scrollDir = Input.GetAxis("Mouse ScrollWheel");
+        if (scrollDir > 0f)
+            return 1;
+        else if (scrollDir < 0f)
+            return -1;
+        else
+            return 0;
     }
 
     protected void EquippWeapon(InstantiableInventoryItem weapon)
