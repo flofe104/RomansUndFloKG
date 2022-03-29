@@ -211,7 +211,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 887473004962549536, guid: 49ea252ee21924f2dae99f0f2ffe66a5, type: 3}
   shotPoint: {fileID: 2551708147012293726}
-  force: 20
+  force: 30
   xArrowScale: 0.95578
   yArrowScale: 0.01943
   zArrowScale: 0.00069

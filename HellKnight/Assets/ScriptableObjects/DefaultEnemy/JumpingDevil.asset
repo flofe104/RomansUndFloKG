@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 50
   prefab: {fileID: 9064506378114716341, guid: 63888d6f683e6c4489804a379a0d091c, type: 3}
+  spawnOnGround: 1
   damage: 15
