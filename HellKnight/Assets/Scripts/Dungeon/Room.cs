@@ -152,14 +152,13 @@ public class Room : DungeonPart, IDeathListener
         int enemyCountMax = Mathf.FloorToInt(enemyCountMean / 2);
         int enemyCountMin = Mathf.FloorToInt(enemyCountMean * 2);
         int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
-        if(enemyCount > enemyCountMax) enemyCount = enemyCountMax;
-        if(enemyCount < enemyCountMin) enemyCount = enemyCountMin;
+        enemyCount = Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax);
         aliveEnemies = new HashSet<IHealth>();
 
         for (int i = 0; i < enemyCount; i++)
         {
-            float x = Mathf.Lerp(0, dungeonPartSize.x, (float)rand.NextDouble());
-            float y = Mathf.Lerp(0, dungeonPartSize.y, (float)rand.NextDouble());
+            float x = Mathf.Lerp(1, dungeonPartSize.x - 1, (float)rand.NextDouble());
+            float y = Mathf.Lerp(1, dungeonPartSize.y - 1, (float)rand.NextDouble());
             Vector3 position = new Vector3(x, y, 0);
 
             int enemyIndex = rand.Next(possibleEnemies.Count);
