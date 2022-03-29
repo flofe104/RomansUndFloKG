@@ -243,6 +243,17 @@ public class Dungeon : MonoBehaviour
     }
 
     [Test]
+    public void TestRoomSizes()
+    {
+        IsTrueForForAllIterations(RoomHasMinSize, 500);
+    }
+
+    protected bool RoomHasMinSize(Room r)
+    {
+        return r.Width >= 20 && r.Height >= 20;
+    }
+
+    [Test]
     public void TestNumberOfRooms()
     {
         Assert.AreEqual(rooms.Length, NUMBER_OF_ROOMS);
@@ -313,6 +324,19 @@ public class Dungeon : MonoBehaviour
         }
     }
 
+    protected bool IsTrueForForAllIterations(Func<Room, bool> p, int iterations)
+    {
+        bool result = true;
+
+        System.Random rand = new System.Random();
+        for (int i = 0; i < iterations && result; i++)
+        {
+            Room r = TestPipeline.CreateNewInstanceOf<Room>();
+            r.Initialize(new System.Random().Next(), enemies, null);
+            result = p(r);
+        }
+        return result;
+    }
 
     #endregion
 
