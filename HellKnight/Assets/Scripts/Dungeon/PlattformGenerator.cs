@@ -56,15 +56,10 @@ public class PlattformGenerator
             else
             {
                 layerBaseWidth = xPos + width;
+                var platform = new RoomPlattform(new Vector2(xPos, yPos), width, HEIGHT);
+                result.Add(platform);
+                i++;
             }
-
-            //Debug.Log("PS pos: " + xPos + " , " + yPos);
-
-
-            var platform = new RoomPlattform(new Vector2(xPos, yPos), width, HEIGHT);
-            result.Add(platform);
-
-            i++;
         }
 
         return result;

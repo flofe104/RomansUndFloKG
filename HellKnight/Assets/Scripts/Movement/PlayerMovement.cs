@@ -145,7 +145,7 @@ public class PlayerMovement : BaseMovement
         var postDistance = transform.position;
         var postTime = Time.fixedTime;
 
-        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude);
+        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude, 0.2f);
         Assert.ApproxEqual(postTime - DASH_DURATION, preTime);
     }
 
@@ -154,18 +154,11 @@ public class PlayerMovement : BaseMovement
     {        
         var startRotation = transform.rotation;
         TurnLeft();
-        yield return new WaitForSeconds(TURN_DURATION / 2);
-        var middleRotation = transform.rotation;
-
-        var expectedRotation = startRotation * Quaternion.Euler(0, 90, 0);
-        Assert.LessOrEqual(Quaternion.Angle(middleRotation, expectedRotation), 1f);
-
-
-        yield return new WaitForSeconds(TURN_DURATION / 2);
+        yield return new WaitForSeconds(TURN_DURATION);
         var endRotation = transform.rotation;
 
-        expectedRotation = startRotation * Quaternion.Euler(0, 180, 0);
-        Assert.LessOrEqual(Quaternion.Angle(endRotation, expectedRotation), 1f);
+        var expectedRotation = startRotation * Quaternion.Euler(0, 180, 0);
+        Assert.LessOrEqual(Quaternion.Angle(endRotation, expectedRotation), 5f);
         Assert.IsTrue(!turning);
 
 

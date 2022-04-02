@@ -9,7 +9,7 @@ public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
 
     protected override void ExecuteAttack()
     {
-        Projectile p = GetProjectile();
+        p = GetProjectile();
         p.TargetPosition = player.position;
     }
 
@@ -17,6 +17,19 @@ public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
 
 
     #region tests
+    [TestEnumerator]
+    public IEnumerator TestSpeed()
+    {
+        if (p == null) //wait for projectile to spawn
+            yield return new WaitForSeconds(1f);
+
+        var positionBefore = p.transform.position;
+        yield return new WaitForSeconds(1f);
+        var positionAfter = p.transform.position;
+
+        var distanceTravelled = Vector3.Distance(positionBefore, positionAfter);
+        Assert.ApproxEqual(distanceTravelled, Projectile.PROJECTILE_SPEED);
+    }
 
     [TestEnumerator]
     public IEnumerator TestCooldown()

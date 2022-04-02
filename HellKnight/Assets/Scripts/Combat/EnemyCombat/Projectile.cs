@@ -63,16 +63,6 @@ public class Projectile : MonoBehaviour, IProjectile
 
     #region Tests
 
-    [TestEnumerator]
-    public IEnumerator TestSpeed() // fails; probably because not in intial scene
-    {
-        var positionBefore = transform.position;
-        yield return new WaitForSeconds(1f);
-        var positionAfter = transform.position;
-
-        var distanceTravelled = Vector3.Distance(positionBefore, positionAfter);
-        Assert.ApproxEqual(distanceTravelled, PROJECTILE_SPEED);
-    }
 
     [Test]
     public void TestDamage()

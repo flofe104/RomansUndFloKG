@@ -10,6 +10,7 @@ public abstract class RangedEnemyBaseCombat : MonoBehaviour
 
     protected float timeSinceAttack = 0;
     protected Transform player;
+    protected Projectile p;
 
 
     private void Start()

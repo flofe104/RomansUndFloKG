@@ -74,7 +74,7 @@ namespace Testing
             if (first > snd)
                 throw new Exception($"{first} was expected to be smaller equal than {snd}.");
         }
-        public static void ApproxEqual(float first, float snd, float e = 0.01f)
+        public static void ApproxEqual(float first, float snd, float e = 0.1f)
         {
             if(first > snd + e || first < snd - e)
                 throw new Exception($"{first} was expected to be approximately equal to {snd}.");
