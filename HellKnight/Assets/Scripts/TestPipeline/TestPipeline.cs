@@ -99,15 +99,24 @@ namespace Testing
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         public static void CallActiveEventsWhenSceneLoaded()
         {
-            foreach (string functionName in EventNames.EventNames)
-                GetFunctionOfThisTypeWithName(functionName).Invoke(null, null);
-
-            if(EventNames.EventNames.Count > 0)
+            try
             {
-                CheckWhyTestsMightNotWork();
-            }
+                foreach (string functionName in EventNames.EventNames)
+                    GetFunctionOfThisTypeWithName(functionName).Invoke(null, null);
 
-            ResetTestEvents();
+                if (EventNames.EventNames.Count > 0)
+                {
+                    CheckWhyTestsMightNotWork();
+                }
+            }
+            catch(Exception ex)
+            {
+                Debug.Log("Exception while executing test: " + ex.Message);
+            }
+            finally
+            {
+                ResetTestEvents();
+            }
         }
 
 
