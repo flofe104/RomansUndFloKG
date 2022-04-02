@@ -10,7 +10,7 @@ using UnityEngine;
 public class Dungeon : MonoBehaviour
 {
 
-    protected const int NUMBER_OF_ROOMS = 5;
+    public const int NUMBER_OF_ROOMS = 5;
     protected const int NUMBER_OF_ROOM_CONNECTORS = NUMBER_OF_ROOMS - 1;
 
     public GameObject dungeonDoorPrefab;

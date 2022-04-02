@@ -6,8 +6,8 @@ using Testing;
 [TestMonoBehaviour]
 public class PlayerMovement : BaseMovement
 {
-    protected const float DASH_DISTANCE = 5f;
-    protected const float DASH_DURATION = 0.5f;
+    protected const float DASH_DISTANCE = 3f;
+    protected const float DASH_DURATION = 0.15f;
     protected const float DASH_COOLDOWN = 1f;
     protected const float SPEED = 10f;
     protected const float JUMP_POWER = 30f;

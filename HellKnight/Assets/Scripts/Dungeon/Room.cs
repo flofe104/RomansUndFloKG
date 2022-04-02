@@ -158,19 +158,33 @@ public class Room : DungeonPart, IDeathListener
         enemyCount = Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax);
         aliveEnemies = new HashSet<IHealth>();
 
-        for (int i = 0; i < enemyCount; i++)
+        if(roomIndex == Dungeon.NUMBER_OF_ROOMS)
         {
             float x = Mathf.Lerp(1, dungeonPartSize.x - 1, (float)rand.NextDouble());
             float y = Mathf.Lerp(1, dungeonPartSize.y - 1, (float)rand.NextDouble());
             Vector3 position = new Vector3(x, y, 0);
-
-            int enemyIndex = rand.Next(possibleEnemies.Count);
-            ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
-            GameObject g = enemy.Spawn(position, transform);
+            ISpawnableEnemy boss = possibleEnemies[possibleEnemies.Count - 1];
+            GameObject g = boss.Spawn(position, transform);
             IHealth health = g.GetComponent<IHealth>();
             health.AddDeathListener(this);
             aliveEnemies.Add(health);
         }
+        else
+        {
+            for (int i = 0; i < enemyCount; i++)
+            {
+                float x = Mathf.Lerp(1, dungeonPartSize.x - 1, (float)rand.NextDouble());
+                float y = Mathf.Lerp(1, dungeonPartSize.y - 1, (float)rand.NextDouble());
+                Vector3 position = new Vector3(x, y, 0);
+
+                int enemyIndex = Mathf.Min(rand.Next(possibleEnemies.Count), possibleEnemies.Count - 2, roomIndex + 1); // every room allows additional enemy type (except boss)
+                ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
+                GameObject g = enemy.Spawn(position, transform);
+                IHealth health = g.GetComponent<IHealth>();
+                health.AddDeathListener(this);
+                aliveEnemies.Add(health);
+            }
+        }        
     }
 
     public void OnDeath(IHealth died)

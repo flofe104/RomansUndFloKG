@@ -4,7 +4,7 @@ using Testing;
 using UnityEngine;
 
 [TestMonoBehaviour]
-public class RangedEnemyMovement : BaseMovement
+public class RangedEnemyMovement : MonoBehaviour
 {
     public const float HOVER_RADIUS = 1f;
     public const float HOVER_SPEED = 2f;

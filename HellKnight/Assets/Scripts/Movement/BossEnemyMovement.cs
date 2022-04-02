@@ -4,7 +4,7 @@ using UnityEngine;
 using Testing;
 
 [TestMonoBehaviour(CallStartBeforeTesting =true)]
-public class MeleeEnemyMovement : BaseMovement
+public class BossEnemyMovement : BaseMovement
 {
     public const float ATTACK_COOLDOWN = 2f;
     public const float JUMP_POWER = 30f;
@@ -25,7 +25,7 @@ public class MeleeEnemyMovement : BaseMovement
         facedForward = true;
         turning = false;
         turnDuration = TURN_DURATION;
-        yOffset = transform.localScale.y - 0.5f - Controller.skinWidth;//0.92f;
+        yOffset = 0.92f;
         player = GameObject.Find("Player");
         timeSinceAttack = Random.value * ATTACK_COOLDOWN;
         baseColor = material.color;

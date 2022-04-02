@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d98a45602a86b9d42a1ec71a18ae879b, type: 2}
   - {fileID: 11400000, guid: ecc3c870da296b146bd8a77eae8ef954, type: 2}
   - {fileID: 11400000, guid: 79e8c7535b4e30f41bce6b792d32aab6, type: 2}
+  - {fileID: 11400000, guid: 85ea68e7ade15fb4db0a2c325678f516, type: 2}
   filter: {fileID: 302340227}
   meshRenderer: {fileID: 302340226}
   meshCollider: {fileID: 302340225}
