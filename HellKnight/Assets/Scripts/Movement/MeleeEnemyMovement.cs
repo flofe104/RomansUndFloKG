@@ -7,12 +7,16 @@ using Testing;
 public class MeleeEnemyMovement : BaseMovement
 {
     public const float ATTACK_COOLDOWN = 2f;
-    public const float ROTATION_SPEED = 500f;
     public const float JUMP_POWER = 30f;
+    public const float TURN_DURATION = 1f;
     public float range = 10f;
+    public Material material;
 
     protected GameObject player;
     protected float timeSinceAttack;
+    protected Color color;
+    protected Color baseColor;
+    protected float colorStep;
 
 
 
@@ -24,10 +28,12 @@ public class MeleeEnemyMovement : BaseMovement
         isGrounded = true;
         facedForward = true;
         turning = false;
-        rotationSpeed = ROTATION_SPEED;
+        turnDuration = TURN_DURATION;
         yOffset = 0.92f;
         player = GameObject.Find("Player");
         timeSinceAttack = Random.value * ATTACK_COOLDOWN;
+        baseColor = material.color;
+        color = baseColor;
     }
 
     protected void JumpAtAngle()
@@ -46,6 +52,20 @@ public class MeleeEnemyMovement : BaseMovement
         Controller.Move(velocity * Time.deltaTime);
     }
 
+    protected void UpdateColor()
+    {
+        if (isGrounded)
+        {
+            color.r += colorStep;
+        }
+        else
+        {
+            color = baseColor;
+        }
+        material.color = color;        
+        //Debug.Log("Redness: " + material.color.r);
+    }
+
     public void Update()
     {
         timeSinceAttack += Time.deltaTime;
@@ -55,6 +75,9 @@ public class MeleeEnemyMovement : BaseMovement
             JumpAtAngle();
             timeSinceAttack = 0;
         }
+
+        colorStep = 1f / ATTACK_COOLDOWN * Time.deltaTime;
+        UpdateColor();
 
         if (player.transform.position.x < transform.position.x)
             TurnLeft();
@@ -66,6 +89,11 @@ public class MeleeEnemyMovement : BaseMovement
         Move();
         CheckGround();
         if (isGrounded) velocity = Vector3.zero;
+    }
+
+    private void OnDestroy()
+    {
+        material.color = baseColor;
     }
 
     #region tests
@@ -85,6 +113,18 @@ public class MeleeEnemyMovement : BaseMovement
         JumpAtAngle();
         Assert.AreEqual(JUMP_POWER, velocity.magnitude);
         Assert.AreEqual(velocity.x, velocity.y);
+    }
+
+    [TestEnumerator]
+    public IEnumerator TestColorChange()
+    {
+        if(timeSinceAttack > Time.deltaTime)
+            yield return new WaitForSeconds(ATTACK_COOLDOWN - timeSinceAttack + Time.deltaTime);
+        Assert.ApproxEqual(material.color.r, baseColor.r + colorStep);
+        yield return new WaitForSeconds(5 * Time.deltaTime);
+        Assert.ApproxEqual(material.color.r, baseColor.r + 5 * colorStep);
+        yield return new WaitForSeconds(ATTACK_COOLDOWN - timeSinceAttack);
+        Assert.AreEqual(material.color.r, baseColor.r);
     }
     #endregion
 }

@@ -29,7 +29,6 @@ public abstract class BaseMovement : MonoBehaviour
 
     public float speed;
     public float jumpPower;
-    public float rotationSpeed;
     public float turnDuration;
     public const float GRAVITY = 80f;
 

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebcd394e8c812254698b28b77be175bc, type: 3}
   m_Name: FlyingDevil 2
   m_EditorClassIdentifier: 
-  health: 100
+  health: 50
   prefab: {fileID: 4685986722503353256, guid: f009e127daa1e8141bde3f3d879c25fc, type: 3}
+  spawnOnGround: 0
   damage: 10

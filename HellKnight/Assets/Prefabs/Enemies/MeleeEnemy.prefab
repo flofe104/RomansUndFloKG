@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 369536378090316877}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.582, y: 0.217, z: -0.254}
+  m_LocalPosition: {x: 0.496, y: 0.217, z: -0.254}
   m_LocalScale: {x: 0.2722, y: 0.2722, z: 0.2722}
   m_Children: []
   m_Father: {fileID: 2679621494065595842}
@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cd43b08f528d67243b548b07dae15482, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +107,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1962507762585950201}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.582, y: 0.217, z: 0.239}
+  m_LocalPosition: {x: 0.496, y: 0.217, z: 0.239}
   m_LocalScale: {x: 0.2722, y: 0.2722, z: 0.2722}
   m_Children: []
   m_Father: {fileID: 2679621494065595842}
@@ -140,7 +140,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: cd43b08f528d67243b548b07dae15482, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -188,8 +188,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3199485499682861765}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -7.0571e-10}
-  m_LocalScale: {x: 1.14, y: 1.14, z: 1.14}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2679621494065595842}
   m_RootOrder: 0
@@ -221,7 +221,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -320,7 +320,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9064506378114716341}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c5bc7f3d88f4e449adbd0295d924dab, type: 3}
   m_Name: 
@@ -328,9 +328,9 @@ MonoBehaviour:
   controller: {fileID: 0}
   speed: 10
   jumpPower: 30
-  rotationSpeed: 500
-  turnDuration: 0
+  turnDuration: 1
   range: 10
+  material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
 --- !u!114 &6849969180148626630
 MonoBehaviour:
   m_ObjectHideFlags: 0

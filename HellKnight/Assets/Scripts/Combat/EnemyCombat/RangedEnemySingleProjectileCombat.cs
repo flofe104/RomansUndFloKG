@@ -28,7 +28,7 @@ public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
         var positionAfter = p.transform.position;
 
         var distanceTravelled = Vector3.Distance(positionBefore, positionAfter);
-        Assert.ApproxEqual(distanceTravelled, Projectile.PROJECTILE_SPEED);
+        Assert.ApproxEqual(distanceTravelled, Projectile.PROJECTILE_SPEED, 0.5f);
     }
 
     [TestEnumerator]

@@ -11,7 +11,6 @@ public class PlayerMovement : BaseMovement
     protected const float DASH_COOLDOWN = 1f;
     protected const float SPEED = 10f;
     protected const float JUMP_POWER = 30f;
-    public const float ROTATION_SPEED = 1000f;
     public const float TURN_DURATION = 0.5f;
 
     protected bool dashing = false;
@@ -24,7 +23,6 @@ public class PlayerMovement : BaseMovement
     {
         speed = SPEED;
         jumpPower = JUMP_POWER;
-        rotationSpeed = ROTATION_SPEED;
         turnDuration = TURN_DURATION;
         isGrounded = true;
         yOffset = Controller.height / 2 + Controller.skinWidth;
@@ -145,7 +143,7 @@ public class PlayerMovement : BaseMovement
         var postDistance = transform.position;
         var postTime = Time.fixedTime;
 
-        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude, 0.2f);
+        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude, 0.5f);
         Assert.ApproxEqual(postTime - DASH_DURATION, preTime);
     }
 
