@@ -111,7 +111,7 @@ public class Dungeon : MonoBehaviour
     protected void HandleNewRoom(Room r, int index)
     {
         rooms[index] = r;
-        r.Initialize(rand.Next(), enemies, GetAt(connectors, index - 1));
+        r.Initialize(rand.Next(), enemies, GetAt(connectors, index - 1), index);
     }
 
     protected void AddDungeonPartToMesh(DungeonPart part, ref Vector2 offset)
@@ -332,7 +332,7 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < iterations && result; i++)
         {
             Room r = TestPipeline.CreateNewInstanceOf<Room>();
-            r.Initialize(new System.Random().Next(), enemies, null);
+            r.Initialize(new System.Random().Next(), enemies, null,0);
             result = p(r);
         }
         return result;

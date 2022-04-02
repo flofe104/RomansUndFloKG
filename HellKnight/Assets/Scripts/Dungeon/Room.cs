@@ -6,10 +6,11 @@ using UnityEngine;
 public class Room : DungeonPart, IDeathListener
 {
 
-    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies, RoomConnector previous)
+    public void Initialize(int seed, List<ISpawnableEnemy> possibleEnemies, RoomConnector previous, int index)
     {
         this.seed = seed;
         this.possibleEnemies = possibleEnemies;
+        this.roomIndex = index;
         this.previousConnector = previous;
         rand = new System.Random(seed);
         CreateEnemySpawnColliderForRoom();
@@ -17,6 +18,8 @@ public class Room : DungeonPart, IDeathListener
 
     protected System.Random rand;
 
+
+    protected int roomIndex;
 
     protected const int ENEMY_SPREAD = 2;
     protected const int MIN_WIDTH = 30;
