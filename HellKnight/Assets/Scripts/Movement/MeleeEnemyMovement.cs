@@ -18,10 +18,6 @@ public class MeleeEnemyMovement : BaseMovement
     protected Color baseColor;
     protected float colorStep;
 
-
-
-    public static string prefabForTestName = "TestMeleeEnemyPrefab";
-
     public void Start()
     {
         jumpPower = JUMP_POWER;
@@ -34,6 +30,11 @@ public class MeleeEnemyMovement : BaseMovement
         timeSinceAttack = Random.value * ATTACK_COOLDOWN;
         baseColor = material.color;
         color = baseColor;
+
+        Debug.Log("pos1: " + transform.position);
+        var pos = transform.position;
+        Move();
+        Debug.Log("pos2: " + transform.position);
     }
 
     protected void JumpAtAngle()

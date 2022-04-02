@@ -221,7 +221,7 @@ SphereCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9064506378114716341}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.5
@@ -241,9 +241,7 @@ MonoBehaviour:
   controller: {fileID: 4597217330523354336}
   speed: 10
   jumpPower: 30
-  gravity: 80
-  rotationSpeed: 0
-  hoverDistance: 0.8
+  turnDuration: 0
 --- !u!143 &4597217330523354336
 CharacterController:
   m_ObjectHideFlags: 0

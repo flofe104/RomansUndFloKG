@@ -45,7 +45,7 @@ public abstract class BaseMovement : MonoBehaviour
         if (Physics.SphereCast(transform.position, sphereRadius, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
         {
             //Debug.Log(gameObject.name+ " hit " + hit.collider.gameObject.name + " dist " + hit.distance + " isGrounded: " + isGrounded);
-            var hitName = hit.collider.gameObject.name;
+            //var hitName = hit.collider.gameObject.name;
             if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
             {
                 if (hit.distance <= yOffset - sphereRadius + 0.001f)
