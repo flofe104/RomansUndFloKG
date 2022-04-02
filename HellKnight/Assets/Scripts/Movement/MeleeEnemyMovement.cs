@@ -31,10 +31,10 @@ public class MeleeEnemyMovement : BaseMovement
         baseColor = material.color;
         color = baseColor;
 
-        Debug.Log("pos1: " + transform.position);
-        var pos = transform.position;
-        Move();
-        Debug.Log("pos2: " + transform.position);
+        //Debug.Log("pos1: " + transform.position);
+        //var pos = transform.position;
+        //Move();
+        //Debug.Log("pos2: " + transform.position);
     }
 
     protected void JumpAtAngle()
