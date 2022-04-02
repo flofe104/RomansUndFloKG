@@ -34,12 +34,17 @@ public class PlayerMovement : BaseMovement
         isGrounded = false;
     }
 
-    protected void Dash(Vector3 direction)
+    protected void Dash()
     {
         if (dashing && dashTime < DASH_DURATION)
         {
             //Debug.Log("Direction: " + direction);
             dashTime += Time.deltaTime;
+            Vector3 direction;
+            if (facedForward)
+                direction = Vector3.right;
+            else
+                direction = Vector3.left;
             Controller.Move(direction * (DASH_DISTANCE / DASH_DURATION) * Time.deltaTime);
         }
         else
@@ -96,7 +101,7 @@ public class PlayerMovement : BaseMovement
                 dashDirection = Vector3.right;
         }
         if(dashing)
-            Dash(dashDirection);
+            Dash();
 
         Move(horizontalInput);
 
@@ -136,7 +141,6 @@ public class PlayerMovement : BaseMovement
     {
         var preDistance = transform.position;
         var preTime = Time.fixedTime;
-
         dashing = true;
         yield return new WaitForSeconds(DASH_DURATION);
 
