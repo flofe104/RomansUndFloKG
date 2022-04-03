@@ -22,5 +22,5 @@ MonoBehaviour:
   damage: 50
   attackAnimationDuration: 0.2
   attackCooldownAfterAnimation: 0.2
-  range: 3
+  range: 3.5
   rotationAngle: 100

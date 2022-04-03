@@ -17,10 +17,10 @@ MonoBehaviour:
   itemValue: 0
   prefab: {fileID: 7477016147365027241, guid: 35ff0d3d3d549424a986077d4da96db5, type: 3}
   equipPosition: {x: 0, y: 0, z: -0.5}
-  equipEulerAngle: {x: 0, y: 0, z: 0}
+  equipEulerAngle: {x: 0, y: 90, z: 0}
   equipScale: {x: 1, y: 1, z: 1}
-  damage: 50
+  damage: 20
   attackAnimationDuration: 0.2
   attackCooldownAfterAnimation: 0
-  extendDistance: 3
-  length: 2
+  extendDistance: 4
+  length: 3.6

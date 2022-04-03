@@ -16,6 +16,8 @@ public class Room : DungeonPart, IDeathListener
         CreateEnemySpawnColliderForRoom();
     }
 
+
+
     protected System.Random rand;
 
 
@@ -102,9 +104,10 @@ public class Room : DungeonPart, IDeathListener
         }
         else
         {
+            float extraSize = 1 + (float)roomIndex / Dungeon.NUMBER_OF_ROOMS;
             Vector2 result = new Vector2();
-            result.x = rand.Next(MIN_WIDTH, MAX_WIDTH);
-            result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT);
+            result.x = rand.Next(MIN_WIDTH, MAX_WIDTH) * extraSize;
+            result.y = rand.Next(MIN_HEIGHT, MAX_HEIGHT) * extraSize;
             GenerateInterior(result);
             result = AdjustRoomSizeToPlattforms(result);
             dungeonPartSize = result;
@@ -151,11 +154,13 @@ public class Room : DungeonPart, IDeathListener
         if (aliveEnemies != null)
             return;
 
+        float extraEnemies = 1 + (float)roomIndex / Dungeon.NUMBER_OF_ROOMS;
+
         int enemyCountMean = Mathf.FloorToInt(DungeonPartSize.x / 10f);
         int enemyCountMax = Mathf.FloorToInt(enemyCountMean / 2);
         int enemyCountMin = Mathf.FloorToInt(enemyCountMean * 2);
         int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
-        enemyCount = Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax);
+        enemyCount = (int)(Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax) * extraEnemies);
         aliveEnemies = new HashSet<IHealth>();
 
         if(roomIndex == Dungeon.NUMBER_OF_ROOMS)
