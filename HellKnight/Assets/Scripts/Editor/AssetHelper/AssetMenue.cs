@@ -8,7 +8,7 @@ public class AssetMenue : MonoBehaviour
 
     private const string BASE_FOLDER_NAME = "ScriptableObjects/";
 
-    [MenuItem("Assets/Create/Custom/Weapons/MeleeWeapons")]
+    [MenuItem("Assets/Create/Custom/Weapons/SwingWeapons")]
     public static void NewMeleeWeapon()
     {
         AssetCreator.CreateAsset<InventoryMeleeWeapon>(BASE_FOLDER_NAME + "MeleeWeapons");
@@ -18,6 +18,12 @@ public class AssetMenue : MonoBehaviour
     public static void NewRangedWeapon()
     {
         AssetCreator.CreateAsset<InventoryRangedWeapon>(BASE_FOLDER_NAME + "RangedWeapons");
+    }
+
+    [MenuItem("Assets/Create/Custom/Weapons/SpearWeapon")]
+    public static void NewSpearWeapon()
+    {
+        AssetCreator.CreateAsset<InventorySpearWeapon>(BASE_FOLDER_NAME + "MeleeWeapons");
     }
 
     [MenuItem("Assets/Create/Custom/Enemies/Default")]

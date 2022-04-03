@@ -7,32 +7,22 @@ using UnityEngine;
 public class SwapWeapon : MonoBehaviour
 {
 
-    public PlayerMeleeCombat meleeBehaviour;
+    public PlayerWeaponUser player;
 
-    public PlayerRangedCombat rangeBehaviour;
+    public List<BaseInventoryWeapon> weapons;
 
-    public List<InventoryMeleeWeapon> meleeItems;
-
-    public List<InventoryRangedWeapon> rangedWeapon;
 
     protected int activeWeaponIndex;
 
 
-    protected InstantiableInventoryItem ItemFromIndex()
+    protected BaseInventoryWeapon ItemFromIndex()
     {
-        int totalItems = meleeItems.Count + rangedWeapon.Count;
+        int totalItems = weapons.Count;
         //modulo but turn negative index into positive
         activeWeaponIndex %= totalItems;
         activeWeaponIndex += totalItems;
         activeWeaponIndex %= totalItems;
-        if(activeWeaponIndex >= meleeItems.Count)
-        {
-            return rangedWeapon[activeWeaponIndex - meleeItems.Count];
-        }
-        else
-        {
-            return meleeItems[activeWeaponIndex];
-        }
+        return weapons[activeWeaponIndex];
     }
 
     private void Start()
@@ -61,32 +51,10 @@ public class SwapWeapon : MonoBehaviour
             return 0;
     }
 
-    protected void EquippWeapon(InstantiableInventoryItem weapon)
+    protected void EquippWeapon(BaseInventoryWeapon weapon)
     {
-        if (weapon is InventoryMeleeWeapon m)
-            EquippWeapon(m);
-        else
-            EquippWeapon(weapon as InventoryRangedWeapon);
-    }
-
-    protected void EquippWeapon(InventoryMeleeWeapon weapon)
-    {
-        SetEnabledAndDestroyEquipedWeapons(true);
-        meleeBehaviour.EquipWeapon(weapon);
-    }
-
-    protected void EquippWeapon(InventoryRangedWeapon weapon)
-    {
-        SetEnabledAndDestroyEquipedWeapons(false);
-        rangeBehaviour.EquipWeapon(weapon);
-    }
-
-    public void SetEnabledAndDestroyEquipedWeapons(bool meleeEnabled)
-    {
-        meleeBehaviour.enabled = meleeEnabled;
-        rangeBehaviour.enabled = !meleeEnabled;
-        rangeBehaviour.DestroyEquipedWeapon();
-        meleeBehaviour.DestroyEquipedWeapon();
+        player.DestroyEquipedWeapon();
+        player.EquipWeapon(weapon);
     }
 
     #region tests
@@ -94,9 +62,7 @@ public class SwapWeapon : MonoBehaviour
     [Test]
     protected void TestHasInitialWeaponEquipped()
     {
-
-        Assert.IsTrue(!rangeBehaviour.enabled && !rangeBehaviour.HasWeaponEquipped);
-        Assert.IsTrue(meleeBehaviour.enabled && meleeBehaviour.HasWeaponEquipped);
+        Assert.IsTrue(player.enabled && player.HasWeaponEquipped);
     }
 
 
@@ -108,8 +74,7 @@ public class SwapWeapon : MonoBehaviour
             yield return null;
         } while (ItemFromIndex() is InventoryMeleeWeapon);
 
-        Assert.IsTrue(rangeBehaviour.enabled && rangeBehaviour.HasWeaponEquipped);
-        Assert.IsTrue(!meleeBehaviour.enabled && !meleeBehaviour.HasWeaponEquipped);
+        Assert.IsTrue(player.enabled && player.HasWeaponEquipped);
     }
 
 

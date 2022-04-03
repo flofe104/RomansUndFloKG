@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0170eab6512b084448ec922d3a6981f5, type: 3}
+  m_Name: Spear
+  m_EditorClassIdentifier: 
+  itemName: Spear
+  uiImage: {fileID: 0}
+  itemValue: 0
+  prefab: {fileID: 7477016147365027241, guid: 35ff0d3d3d549424a986077d4da96db5, type: 3}
+  equipPosition: {x: 0, y: 0, z: -0.5}
+  equipEulerAngle: {x: 0, y: 0, z: 0}
+  equipScale: {x: 1, y: 1, z: 1}
+  damage: 50
+  attackAnimationDuration: 0.2
+  attackCooldownAfterAnimation: 0
+  extendDistance: 3
+  length: 2

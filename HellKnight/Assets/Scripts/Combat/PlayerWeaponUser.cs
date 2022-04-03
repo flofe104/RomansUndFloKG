@@ -7,19 +7,13 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The behaviour to controll the weapon with</typeparam>
 /// <typeparam name="WeaponType">the weapontype to control</typeparam>
-public abstract class WeaponUser<WeaponBehaviour, WeaponType> : MonoBehaviour 
-    where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponType> 
-    where WeaponType : InventoryWeapon<WeaponBehaviour, WeaponType>
+public class PlayerWeaponUser : MonoBehaviour 
 {
-
-    [Tooltip("Weapon to equip when the object is spawned")]
-    [SerializeField]
-    protected InventoryWeapon<WeaponBehaviour, WeaponType> startWeapon;
 
     /// <summary>
     /// the behaviour to controll the weapon
     /// </summary>
-    protected WeaponBehaviour weaponBehaviour;
+    protected IWeapon weaponBehaviour;
 
     /// <summary>
     /// instance of the currently equiped item
@@ -28,18 +22,25 @@ public abstract class WeaponUser<WeaponBehaviour, WeaponType> : MonoBehaviour
 
     public bool HasWeaponEquipped => equipedWeaponInstance != null && weaponBehaviour != null;
 
-    private void Start()
+    public const string ATTACK_BUTTON_NAME = "PrimaryAttack";
+
+    private void Update()
     {
-        if (startWeapon != null)
+        if (Input.GetButton(ATTACK_BUTTON_NAME))
         {
-            EquipWeapon(startWeapon);
+            weaponBehaviour.Attack(DamageEnemiesFilter);
         }
     }
 
-    public void EquipWeapon(InventoryWeapon<WeaponBehaviour, WeaponType> weapon)
+    protected bool DamageEnemiesFilter(IHealth health)
+    {
+        return !(health is PlayerHealth);
+    }
+
+    public void EquipWeapon(BaseInventoryWeapon weapon)
     {
         DestroyEquipedWeapon();
-        weaponBehaviour = weapon.CreateInstanceAndGetBehaviour(transform);
+        weaponBehaviour = weapon.EquipWeapon(transform);
         equipedWeaponInstance = weaponBehaviour.gameObject;
     }
 

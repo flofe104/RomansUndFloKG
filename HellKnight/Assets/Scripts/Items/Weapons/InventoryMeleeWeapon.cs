@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InventoryMeleeWeapon : InventoryWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
+public class InventoryMeleeWeapon : InventoryWeapon<EquippedSwingWeapon, InventoryMeleeWeapon>
 {
 
-    [Range(0, 2)]
+    [Range(0, 4)]
     public float range;
 
     [Range(35, 360)]

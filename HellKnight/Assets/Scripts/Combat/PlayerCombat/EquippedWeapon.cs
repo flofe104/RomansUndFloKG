@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,7 +8,7 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The type that controlls the inventory weapon. Choose always the type that inherits from this class</typeparam>
 /// <typeparam name="WeaponStats"></typeparam>
-public abstract class EquippedWeapon<WeaponBehaviour, WeaponStats> : MonoBehaviour 
+public abstract class EquippedWeapon<WeaponBehaviour, WeaponStats> : MonoBehaviour, IWeapon
     where WeaponStats : InventoryWeapon<WeaponBehaviour, WeaponStats> 
     where WeaponBehaviour : EquippedWeapon<WeaponBehaviour, WeaponStats>
 {
@@ -28,6 +29,8 @@ public abstract class EquippedWeapon<WeaponBehaviour, WeaponStats> : MonoBehavio
     }
 
     protected virtual void OnWeaponStatsAssigned(WeaponStats stats) { }
+
+    public abstract void Attack(Func<IHealth, bool> damageFilter);
 
     public bool IsInAttack { get; protected set; }
 

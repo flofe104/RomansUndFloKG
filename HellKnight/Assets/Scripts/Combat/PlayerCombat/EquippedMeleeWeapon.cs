@@ -7,10 +7,12 @@ using UnityEngine.Assertions;
 /// <summary>
 /// Behaviour controller of a melee weapon
 /// </summary>
-public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, InventoryMeleeWeapon>
+public abstract class EquippedMeleeWeapon<WeaponBehaviour, WeaponStats> : EquippedWeapon<WeaponBehaviour, WeaponStats>
+    where WeaponBehaviour : EquippedMeleeWeapon<WeaponBehaviour, WeaponStats>
+    where WeaponStats : InventoryWeapon<WeaponBehaviour, WeaponStats>
 {
 
-    public void Attack(Func<IHealth, bool> healthDamageFilter)
+    public override void Attack(Func<IHealth, bool> healthDamageFilter)
     {
         this.healthDamageFilter = healthDamageFilter;
         StartAttack();
@@ -53,17 +55,14 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         }
     }
 
-
     protected void AnimateMeleeWeaponAttack()
     {
-        {
-            attackAnimation = RotateWeapon();
-            StartCoroutine(attackAnimation);
-        }
-        
+        attackAnimation = WeaponAttackAnimation();
+        StartCoroutine(attackAnimation);
     }
 
-    protected IEnumerator RotateWeapon()
+
+    protected IEnumerator WeaponAttackAnimation()
     {
         float timeInAttack = 0;
         weaponCollider.enabled = true;
@@ -72,21 +71,17 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
             yield return null;
             timeInAttack += Time.deltaTime;
             float attackProgress = timeInAttack / weapon.AttackAnimationDuration;
-            float rotateProgress = Mathf.Lerp(0, weapon.rotationAngle, attackProgress);
-            ResetWeaponRotation();
-            transform.Rotate(0, 0, rotateProgress, Space.Self);
+            ResetWeaponTransform();
+            AnimateWeaponInAttackProgress(attackProgress);
         } while (timeInAttack < weapon.AttackAnimationDuration);
 
-
-        ///Check if the angle of the rotation of the weapon after the rotation time matches the expected rotation 
-        ///with an allowed error (due to floating point precision) of 0.001 degree
-        Assert.AreApproximatelyEqual(Quaternion.Angle(Quaternion.Euler(Weapon.EquipEulerAngle), transform.localRotation), Weapon.rotationAngle, 0.001f);
 
         weaponCollider.enabled = false;
         yield return new WaitForSeconds(weapon.AttackCooldownAfterAnimation);
         EndAttack();
     }
 
+    protected abstract void AnimateWeaponInAttackProgress(float progress);
 
     private void OnTriggerEnter(Collider other)
     {
@@ -108,23 +103,18 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
             return;
 
         IsInAttack = true;
+        OnStartAttack();
         AnimateMeleeWeaponAttack();
     }
 
-    protected void ResetWeaponRotation()
+    protected virtual void OnStartAttack() { }
+    protected virtual void AfterAttackEnded() { }
+
+    protected void ResetWeaponTransform()
     {
         transform.localEulerAngles = weapon.EquipEulerAngle;
-    }
-
-    protected override void OnWeaponStatsAssigned(InventoryMeleeWeapon stats)
-    {
-        ApplyWeaponStatsToCollider();
-    }
-
-    public void ApplyWeaponStatsToCollider()
-    {
-        WeaponCollider.size = new Vector3(0.5f,weapon.range, 0.5f);
-        WeaponCollider.center = new Vector3(0, weapon.range / 2, 0);
+        transform.localPosition = weapon.EquipPosition;
+        transform.localScale = weapon.EquipScale;
     }
 
     protected void OnAttackEnded()
@@ -132,10 +122,14 @@ public class EquippedMeleeWeapon : EquippedWeapon<EquippedMeleeWeapon, Inventory
         IsInAttack = false;
         weaponCollider.enabled = false;
 
-        ResetWeaponRotation();
+        ResetWeaponTransform();
+
+        AfterAttackEnded();
 
         ///Check if the weapon rotation matches its start rotation after the attack ended
         Assert.AreEqual(transform.localEulerAngles, Weapon.EquipEulerAngle);
+        Assert.AreEqual(transform.localPosition, Weapon.EquipPosition);
+        Assert.AreEqual(transform.localScale, Weapon.EquipScale);
     }
 
     protected void EndAttack()

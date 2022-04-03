@@ -27,11 +27,6 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
         transform.LookAt(worldPosition);
         transform.Rotate(0, -90, 0);
 
-
-        //Vector3 direction = worldPosition - weaponPosition;
-        //Debug.Log($"pos:{worldPosition}");
-        ////Debug.Log($"viewport:{Camera.main.ViewportToScreenPoint(mousePosition)}");
-        //transform.forward = direction;
     }
 
     void InstantiateArrow()
@@ -58,7 +53,7 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
 
     protected bool canAttack = true;
 
-    public void Attack(Func<IHealth, bool> healthDamageFilter)
+    public override void Attack(Func<IHealth, bool> healthDamageFilter)
     {
         this.healthDamageFilter = healthDamageFilter;
         Shoot();
