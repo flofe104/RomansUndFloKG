@@ -32,8 +32,11 @@ public class EnemySciptableObject : ScriptableObject, ISpawnableEnemy
             position.y = 1.14f;
         }
         GameObject gameObject = Instantiate(prefab, position, Prefab.transform.rotation);
+        var controller = gameObject.GetComponent<CharacterController>();
+        controller.enabled = false;
         gameObject.transform.SetParent(parent, false);
         gameObject.transform.localPosition = position;
+        controller.enabled = true;
         BaseHealth health = gameObject.GetComponent<BaseHealth>();
         health.ResetWithMaxHealth(Health);
         return gameObject;

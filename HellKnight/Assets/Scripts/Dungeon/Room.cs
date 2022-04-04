@@ -163,10 +163,10 @@ public class Room : DungeonPart, IDeathListener
         enemyCount = (int)(Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax) * extraEnemies);
         aliveEnemies = new HashSet<IHealth>();
 
-        if(roomIndex == Dungeon.NUMBER_OF_ROOMS)
+        if(roomIndex == Dungeon.NUMBER_OF_ROOMS - 1)
         {
-            float x = Mathf.Lerp(1, dungeonPartSize.x - 1, (float)rand.NextDouble());
-            float y = Mathf.Lerp(1, dungeonPartSize.y - 1, (float)rand.NextDouble());
+            float x = Mathf.Lerp(10, dungeonPartSize.x - 1, (float)rand.NextDouble());
+            float y = Mathf.Lerp(10, dungeonPartSize.y - 1, (float)rand.NextDouble());
             Vector3 position = new Vector3(x, y, 0);
             ISpawnableEnemy boss = possibleEnemies[possibleEnemies.Count - 1];
             GameObject g = boss.Spawn(position, transform);
@@ -178,8 +178,8 @@ public class Room : DungeonPart, IDeathListener
         {
             for (int i = 0; i < enemyCount; i++)
             {
-                float x = Mathf.Lerp(1, dungeonPartSize.x - 1, (float)rand.NextDouble());
-                float y = Mathf.Lerp(1, dungeonPartSize.y - 1, (float)rand.NextDouble());
+                float x = Mathf.Lerp(3, dungeonPartSize.x - 1, (float)rand.NextDouble());
+                float y = Mathf.Lerp(3, dungeonPartSize.y - 1, (float)rand.NextDouble());
                 Vector3 position = new Vector3(x, y, 0);
 
                 int enemyIndex = Mathf.Min(rand.Next(possibleEnemies.Count), possibleEnemies.Count - 2, roomIndex + 1); // every room allows additional enemy type (except boss)

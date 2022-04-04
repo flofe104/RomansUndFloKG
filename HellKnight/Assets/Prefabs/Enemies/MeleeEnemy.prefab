@@ -273,7 +273,7 @@ Transform:
   m_GameObject: {fileID: 9064506378114716341}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.4223578, y: 1.3276105, z: 1.3196888}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_Children:
   - {fileID: 8972574781854161454}
   - {fileID: 2350975151840453940}
@@ -331,6 +331,7 @@ MonoBehaviour:
   turnDuration: 1
   range: 10
   material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
+  yOffset: 0
 --- !u!114 &6849969180148626630
 MonoBehaviour:
   m_ObjectHideFlags: 0

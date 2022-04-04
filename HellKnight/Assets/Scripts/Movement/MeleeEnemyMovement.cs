@@ -25,16 +25,12 @@ public class MeleeEnemyMovement : BaseMovement
         facedForward = true;
         turning = false;
         turnDuration = TURN_DURATION;
-        yOffset = transform.localScale.y - 0.5f - Controller.skinWidth;//0.92f;
+        yOffset = GetComponent<BoxCollider>().size.y - Controller.skinWidth;
+        //Debug.Log("yOffset: " + yOffset);
         player = GameObject.Find("Player");
         timeSinceAttack = Random.value * ATTACK_COOLDOWN;
         baseColor = material.color;
         color = baseColor;
-
-        //Debug.Log("pos1: " + transform.position);
-        //var pos = transform.position;
-        //Move();
-        //Debug.Log("pos2: " + transform.position);
     }
 
     protected void JumpAtAngle()
