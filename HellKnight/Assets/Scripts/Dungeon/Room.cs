@@ -182,7 +182,7 @@ public class Room : DungeonPart, IDeathListener
                 float y = Mathf.Lerp(3, dungeonPartSize.y - 1, (float)rand.NextDouble());
                 Vector3 position = new Vector3(x, y, 0);
 
-                int enemyIndex = Mathf.Min(rand.Next(possibleEnemies.Count), possibleEnemies.Count - 2, roomIndex + 1); // every room allows additional enemy type (except boss)
+                int enemyIndex = Mathf.Min(rand.Next(possibleEnemies.Count), possibleEnemies.Count - 2, roomIndex); // every room allows additional enemy type (except boss)
                 ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
                 GameObject g = enemy.Spawn(position, transform);
                 IHealth health = g.GetComponent<IHealth>();
