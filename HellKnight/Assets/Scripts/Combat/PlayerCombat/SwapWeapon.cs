@@ -33,7 +33,18 @@ public class SwapWeapon : MonoBehaviour
     private void Update()
     {
         int nextWeaponIndex = activeWeaponIndex + GetMouseScrollDirection();
-        if(nextWeaponIndex != activeWeaponIndex)
+       
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            nextWeaponIndex -= 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            nextWeaponIndex += 1;
+        }
+
+        if (nextWeaponIndex != activeWeaponIndex)
         {
             activeWeaponIndex = nextWeaponIndex;
             EquippWeapon(ItemFromIndex());
