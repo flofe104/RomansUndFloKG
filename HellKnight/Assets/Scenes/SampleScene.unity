@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44692886, g: 0.49681598, b: 0.57502186, a: 1}
+  m_IndirectSpecularColor: {r: 0.4469282, g: 0.49681538, b: 0.57502085, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -155,6 +155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f0246b2d43788b428a066001cd09a8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heartPrefab: {fileID: 926839183836948353, guid: b068309a1dff941fbbc372f46382ba7e, type: 3}
   dungeonDoorPrefab: {fileID: 2315958046200481373, guid: eba822b6aba55a24ba7505d84294ec44, type: 3}
   rooms: []
   connectors: []

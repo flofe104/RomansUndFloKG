@@ -12,7 +12,7 @@ public class Dungeon : MonoBehaviour
 
     public const int NUMBER_OF_ROOMS = 5;
     protected const int NUMBER_OF_ROOM_CONNECTORS = NUMBER_OF_ROOMS - 1;
-
+    public GameObject heartPrefab;
     public GameObject dungeonDoorPrefab;
 
     private void Start()
@@ -47,6 +47,7 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < NUMBER_OF_ROOMS; i++)
         {
             AddRoom(i, ref offset);
+            Room.setHeartPrefab(heartPrefab);
             if(i + 1 < NUMBER_OF_ROOMS)
             {
                 AddConnector(i,ref offset);

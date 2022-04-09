@@ -19,15 +19,15 @@ public class PlayerHealth : BaseHealth
 
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    TakeDamage(10);
+        /*if (Input.GetKeyDown(KeyCode.Space))
+        {
+           TakeDamage(10);
         //}
-
-        //if (Input.GetKeyDown(KeyCode.H))
-        //{
-        //    HealDamage(10);
-        //}
+        */
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            HealDamage(100);
+        }
 
     }
 }

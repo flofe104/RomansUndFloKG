@@ -60,7 +60,7 @@ public class Room : DungeonPart, IDeathListener
 
     protected BoxCollider c;
 
-    public GameObject heartPrefab;
+    public static GameObject heartPrefab;
 
     public void SetNextConnector(RoomConnector connector)
     {
@@ -218,10 +218,15 @@ public class Room : DungeonPart, IDeathListener
     public void SpawnHeart()
 
     {
-        float  yCoord = EntryDoor.transform.position.y;
-        float xCoord = EntryDoor.transform.position.x + 5;
+        float  yCoord = ExitDoor.transform.position.y;
+        float xCoord = ExitDoor.transform.position.x + 5;
         Vector3 spawnPosition = new Vector3(xCoord, yCoord, 0);
-        GameObject heart = Instantiate(heartPrefab, spawnPosition, transform.rotation); 
+        GameObject heart = Instantiate(heartPrefab, spawnPosition, Quaternion.identity); 
+    }
+
+    public static void setHeartPrefab(GameObject prefab)
+    {
+        heartPrefab = prefab;
     }
 
     public void CloseDoors()
