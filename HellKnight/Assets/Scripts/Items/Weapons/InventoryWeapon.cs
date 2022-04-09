@@ -45,7 +45,7 @@ public abstract class InventoryWeapon<WeaponBehaviour, WeaponStats> : BaseInvent
 
     protected WeaponBehaviour AddWeaponBehaviour(GameObject instance)
     {
-        WeaponBehaviour weapon = instance.AddComponent<WeaponBehaviour>();
+        WeaponBehaviour weapon = instance.GetOrAddComponent<WeaponBehaviour>();
         weapon.Weapon = (WeaponStats)this;
         return weapon;
     }
