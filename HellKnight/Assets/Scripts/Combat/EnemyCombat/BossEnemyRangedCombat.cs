@@ -4,7 +4,7 @@ using Testing;
 using UnityEngine;
 
 [TestMonoBehaviour]
-public class BossEnemyCombat : RangedEnemyBaseCombat
+public class BossEnemyRangedCombat : RangedEnemyBaseCombat
 {
     public const float FIRE_ANGLE = 30f;
 

@@ -419,6 +419,7 @@ GameObject:
   - component: {fileID: -7537006462900548363}
   - component: {fileID: 2528202333920233026}
   - component: {fileID: 6116607406738904890}
+  - component: {fileID: 2425616355065554305}
   m_Layer: 3
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -494,7 +495,6 @@ MonoBehaviour:
   jumpPower: 30
   turnDuration: 1
   range: 10
-  material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
 --- !u!65 &2528202333920233026
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -517,7 +517,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 9064506378114716341}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ab7986e875cd6334dae58a8c911f17d3, type: 3}
+  m_Script: {fileID: 11500000, guid: ef6cbb5427e9aab48abc803aeb07c8db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   projectilePrefab: {fileID: 2252601025875229173, guid: dcfdefd6c34f5294c9c3b57a491dc9ef, type: 3}
+--- !u!114 &2425616355065554305
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064506378114716341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f0476b9059e244f823970b593ba82a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 0}
