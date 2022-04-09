@@ -31,6 +31,7 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
 
     void InstantiateArrow()
     {
+        Debug.Log("Pfeil spawnt");
         GameObject newArrow = Instantiate(projectilePrefab, shotPoint.position, shotPoint.rotation);
         newArrow.transform.localScale = new Vector3(xArrowScale, yArrowScale, zArrowScale);
         Rigidbody r = newArrow.GetComponent<Rigidbody>();

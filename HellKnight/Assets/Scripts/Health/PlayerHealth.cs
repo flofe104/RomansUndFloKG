@@ -13,7 +13,7 @@ public class PlayerHealth : BaseHealth
     {
         Destroy(player);
         //load the first scene of the game
-        SceneManager.LoadScene(0);
+        SceneManager.LoadScene(2);
     }
 
 
