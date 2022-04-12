@@ -20,9 +20,22 @@ public abstract class BaseMovement : MonoBehaviour
             return controller;
         }
     }
+    [SerializeField]
+    protected new Collider collider;
+
+    protected Collider Collider
+    {
+        get
+        {
+            if (collider == null)
+            {
+                collider = GetComponent<Collider>();
+            }
+            return collider;
+        }
+    }
     protected Vector3 velocity;
     protected bool isGrounded;
-    protected float yOffset;
     protected bool turning = false;
     protected bool facedForward;
     protected Quaternion endRotation;
@@ -41,16 +54,18 @@ public abstract class BaseMovement : MonoBehaviour
     protected void CheckGround()
     {
         RaycastHit hit;
-        float sphereRadius = gameObject.GetComponent<Collider>().transform.localScale.x / 2;
-        if (Physics.SphereCast(transform.position, sphereRadius, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity))
+
+        var sphereRadius = (Collider.bounds.max.x - Collider.bounds.min.x) / 2;
+        var distanceToFoot = transform.position.y - Collider.bounds.min.y;
+
+        if (Physics.SphereCast(transform.position, sphereRadius, transform.TransformDirection(Vector3.down), out hit))
         {
-            //Debug.Log(gameObject.name+ " hit " + hit.collider.gameObject.name + " dist " + hit.distance + " isGrounded: " + isGrounded);
-            //var hitName = hit.collider.gameObject.name;
-            if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger)
+            if (hit.collider.gameObject != gameObject && !hit.collider.isTrigger && hit.collider.gameObject.layer != gameObject.layer)
             {
-                if (hit.distance <= yOffset - sphereRadius + 0.001f)
+                var minDistanceToGround = Mathf.Max(distanceToFoot - sphereRadius, 0f) + Controller.skinWidth + 0.1f;
+                if (hit.distance <= minDistanceToGround)
                 {
-                    //Debug.Log("Distance when grounded: " + hit.distance);
+                    Debug.Log(gameObject.name+" grounded at " + hit.distance);
                     isGrounded = true;
                 }
                 else

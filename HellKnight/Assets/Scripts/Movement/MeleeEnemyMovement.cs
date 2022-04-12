@@ -19,7 +19,6 @@ public class MeleeEnemyMovement : BaseMovement
         facedForward = true;
         turning = false;
         turnDuration = TURN_DURATION;
-        yOffset = GetComponent<BoxCollider>().size.y - Controller.skinWidth;
         //Debug.Log("yOffset: " + yOffset);
         player = GameObject.Find("Player");
     }

@@ -25,7 +25,6 @@ public class PlayerMovement : BaseMovement
         jumpPower = JUMP_POWER;
         turnDuration = TURN_DURATION;
         isGrounded = true;
-        yOffset = Controller.height / 2 + Controller.skinWidth;
     }
 
     protected void ApplyJumpForce()
