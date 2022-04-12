@@ -65,7 +65,7 @@ public abstract class BaseMovement : MonoBehaviour
                 var minDistanceToGround = Mathf.Max(distanceToFoot - sphereRadius, 0f) + Controller.skinWidth + 0.1f;
                 if (hit.distance <= minDistanceToGround)
                 {
-                    Debug.Log(gameObject.name+" grounded at " + hit.distance);
+                    //Debug.Log(gameObject.name+" grounded at " + hit.distance);
                     isGrounded = true;
                 }
                 else

@@ -61,6 +61,7 @@ public class Room : DungeonPart, IDeathListener
     protected BoxCollider c;
 
     public static GameObject heartPrefab;
+    public static Material platformMaterial;
 
     public void SetNextConnector(RoomConnector connector)
     {
@@ -148,7 +149,14 @@ public class Room : DungeonPart, IDeathListener
     {
         plattforms = PlattformGenerator.GeneratePlattformsInSpace(forSpace, rand);
         SetExitHeight();
-        plattforms.ForEach(p => p.Create(transform));
+        foreach (var p in plattforms)
+        {
+            var cube = p.Create(transform);
+            cube.layer = 9;
+            cube.AddComponent<Rigidbody>().isKinematic=true;
+            var renderer = cube.GetComponent<Renderer>();            
+            renderer.material = platformMaterial;
+        }
     }
 
     protected virtual void GenerateEnemies()
@@ -227,6 +235,10 @@ public class Room : DungeonPart, IDeathListener
     public static void setHeartPrefab(GameObject prefab)
     {
         heartPrefab = prefab;
+    }
+    public static void setPlatformMaterial(Material material)
+    {
+        platformMaterial = material;
     }
 
     public void CloseDoors()

@@ -157,6 +157,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   heartPrefab: {fileID: 926839183836948353, guid: b068309a1dff941fbbc372f46382ba7e, type: 3}
   dungeonDoorPrefab: {fileID: 2315958046200481373, guid: eba822b6aba55a24ba7505d84294ec44, type: 3}
+  platformMaterial: {fileID: 2100000, guid: 076387e0b17c48849b70267597013468, type: 2}
   rooms: []
   connectors: []
   possibleEnemies:
@@ -622,8 +623,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1472677497}
   m_LocalRotation: {x: -0.70710707, y: -0, z: -0, w: 0.70710653}
-  m_LocalPosition: {x: 0, y: 25, z: 25}
-  m_LocalScale: {x: 1999, y: 1999, z: 1999}
+  m_LocalPosition: {x: 202, y: 282, z: 5}
+  m_LocalScale: {x: 85.30435, y: 160.23462, z: 126.15272}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -900,11 +901,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6347607373476553809, guid: c5b59c6904ac8424287b92bea2ecaa62, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 275
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 6347607373476553809, guid: c5b59c6904ac8424287b92bea2ecaa62, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 144
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6347607373476553809, guid: c5b59c6904ac8424287b92bea2ecaa62, type: 3}
       propertyPath: m_LocalPosition.z

@@ -14,6 +14,7 @@ public class Dungeon : MonoBehaviour
     protected const int NUMBER_OF_ROOM_CONNECTORS = NUMBER_OF_ROOMS - 1;
     public GameObject heartPrefab;
     public GameObject dungeonDoorPrefab;
+    public Material platformMaterial;
 
     private void Start()
     {
@@ -40,6 +41,9 @@ public class Dungeon : MonoBehaviour
 
     private void Generate()
     {
+        Room.setPlatformMaterial(platformMaterial);
+        Room.setHeartPrefab(heartPrefab);
+
         rooms = new Room[NUMBER_OF_ROOMS];
         connectors = new RoomConnector[NUMBER_OF_ROOM_CONNECTORS];
         Vector2 offset = new Vector2();
@@ -47,8 +51,7 @@ public class Dungeon : MonoBehaviour
         for (int i = 0; i < NUMBER_OF_ROOMS; i++)
         {
             AddRoom(i, ref offset);
-            Room.setHeartPrefab(heartPrefab);
-            if(i + 1 < NUMBER_OF_ROOMS)
+            if (i + 1 < NUMBER_OF_ROOMS)
             {
                 AddConnector(i,ref offset);
             }

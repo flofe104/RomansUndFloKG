@@ -30,16 +30,16 @@ public class Projectile : MonoBehaviour, IProjectile
     protected float aliveTime = 0;
 
     protected const float MAX_ALIVE_TIME = 5.0f;
-
-    protected void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log("Hit " + other.gameObject.name);
+        //Debug.Log("Hit " + collision.gameObject.name);
         Destroy(gameObject);
-        PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
+        PlayerHealth health = collision.gameObject.GetComponent<PlayerHealth>();
         if (health != null)
         {
             OnHealthHit(health);
         }
+
     }
 
     public void OnHealthHit(BaseHealth health)
