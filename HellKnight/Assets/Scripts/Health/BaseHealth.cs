@@ -11,6 +11,8 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public int maxHealth = 100;
 
+    protected bool isImmune = false;
+    protected float timeSinceDamage;
     public int currentHealth;
 
     private void NotifyListenersOnDeath()
@@ -56,9 +58,10 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage)
     {
-        if (!IsDead)
+        if (!IsDead && !isImmune)
         {
             currentHealth -= damage;
+            timeSinceDamage = 0f;
             if (currentHealth <= 0)
             {
                 OnDeath();
