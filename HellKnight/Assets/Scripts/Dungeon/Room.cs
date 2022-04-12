@@ -179,10 +179,7 @@ public class Room : DungeonPart, IDeathListener
             float y = Mathf.Lerp(10, dungeonPartSize.y - 1, (float)rand.NextDouble());
             Vector3 position = new Vector3(x, y, 0);
             ISpawnableEnemy boss = possibleEnemies[possibleEnemies.Count - 1];
-            GameObject g = boss.Spawn(position, transform);
-            IHealth health = g.GetComponent<IHealth>();
-            health.AddDeathListener(this);
-            aliveEnemies.Add(health);
+            SpawnEnemy(boss, position);
         }
         else
         {
@@ -194,12 +191,17 @@ public class Room : DungeonPart, IDeathListener
 
                 int enemyIndex = Mathf.Min(rand.Next(possibleEnemies.Count), possibleEnemies.Count - 2, roomIndex); // every room allows additional enemy type (except boss)
                 ISpawnableEnemy enemy = possibleEnemies[enemyIndex];
-                GameObject g = enemy.Spawn(position, transform);
-                IHealth health = g.GetComponent<IHealth>();
-                health.AddDeathListener(this);
-                aliveEnemies.Add(health);
+                SpawnEnemy(enemy, position);
             }
         }        
+    }
+
+    private void SpawnEnemy(ISpawnableEnemy enemy, Vector3 position)
+    {
+        GameObject g = enemy.Spawn(position, transform);
+        IHealth health = g.GetComponent<IHealth>();
+        health.AddDeathListener(this);
+        aliveEnemies.Add(health);
     }
 
     public void OnDeath(IHealth died)

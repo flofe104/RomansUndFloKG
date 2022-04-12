@@ -7,6 +7,7 @@ using Testing;
 public class MeleeEnemyCombat : MonoBehaviour
 {
     public const float ATTACK_COOLDOWN = 2f;
+    public const int ATTACK_DAMAGE = 10;
     protected float timeSinceAttack;
     protected Color color;
     protected Color baseColor;
@@ -38,7 +39,7 @@ public class MeleeEnemyCombat : MonoBehaviour
 
     private void OnHealthHit(BaseHealth health)
     {
-        health.TakeDamage(15);
+        health.TakeDamage(ATTACK_DAMAGE);
         hasDamaged = true;
     }
 

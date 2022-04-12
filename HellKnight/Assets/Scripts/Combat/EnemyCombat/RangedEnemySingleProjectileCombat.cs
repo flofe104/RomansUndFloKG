@@ -6,11 +6,13 @@ using UnityEngine;
 [TestMonoBehaviour]
 public class RangedEnemySingleProjectileCombat : RangedEnemyBaseCombat
 {
+    public static int PROJECTILE_DAMAGE = 5;
 
     protected override void ExecuteAttack()
     {
         p = GetProjectile();
         p.TargetPosition = player.position;
+        p.ProjectileDamage = PROJECTILE_DAMAGE;
     }
 
     public static string prefabForTestName = "TestRangeEnemyPrefab";

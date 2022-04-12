@@ -22,10 +22,17 @@ public class Projectile : MonoBehaviour, IProjectile
             targetDirection = value.normalized * PROJECTILE_SPEED;
         }
     }
+    public int ProjectileDamage
+    {
+        set
+        {
+            projectileDamage = value;
+        }
+    }
 
     public const float PROJECTILE_SPEED = 10f;
-    public const int PROJECTILE_DAMAGE = 15;
 
+    protected int projectileDamage;
     protected Vector3 targetDirection = Vector3.zero;
     protected float aliveTime = 0;
 
@@ -44,7 +51,7 @@ public class Projectile : MonoBehaviour, IProjectile
 
     public void OnHealthHit(BaseHealth health)
     {
-        health.TakeDamage(PROJECTILE_DAMAGE);
+        health.TakeDamage(projectileDamage);
     }
 
     public void Move()
@@ -74,7 +81,7 @@ public class Projectile : MonoBehaviour, IProjectile
         OnHealthHit(health);
         var healthAfter = health.currentHealth;
 
-        Assert.AreEqual(healthBefore - healthAfter == PROJECTILE_DAMAGE, true);
+        Assert.AreEqual(healthBefore - healthAfter == projectileDamage, true);
     }
 
     #endregion

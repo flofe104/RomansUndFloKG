@@ -6,8 +6,8 @@ using Testing;
 [TestMonoBehaviour]
 public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
 {
-
     public const float FIRE_ANGLE = 15f;
+    public static int PROJECTILE_DAMAGE = 10;
 
     protected override void ExecuteAttack()
     {
@@ -21,6 +21,7 @@ public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
         dir.Normalize();
         dir = dir.Rotate(angle);
         p.TargetDirection = new Vector3(dir.x, dir.y, 0);
+        p.ProjectileDamage = PROJECTILE_DAMAGE;
     }
 
     #region Tests
