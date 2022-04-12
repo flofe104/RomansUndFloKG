@@ -5,26 +5,16 @@ using UnityEngine;
 public class Heart : MonoBehaviour
 {
     
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
-    }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        Debug.Log("Hit by" + collision.gameObject.name);
-        PlayerHealth playerHealth = collision.gameObject.GetComponent<PlayerHealth>();
+        Debug.Log("Hit by" + other.gameObject.name);
+        PlayerHealth playerHealth = other.gameObject.GetComponent<PlayerHealth>();
         if (playerHealth != null)
         {
             playerHealth.HealDamage(33);
         }
         Destroy(gameObject);
     }
+
 }
