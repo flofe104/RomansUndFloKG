@@ -330,8 +330,6 @@ MonoBehaviour:
   jumpPower: 30
   turnDuration: 1
   range: 10
-  material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
-  yOffset: 0
 --- !u!114 &6849969180148626630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +342,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78f0476b9059e244f823970b593ba82a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
 --- !u!65 &2528202333920233026
 BoxCollider:
   m_ObjectHideFlags: 0
