@@ -172,6 +172,12 @@ namespace Testing
                                (t.GetCustomAttributes(TEST_MONOBEHAVIOUR_TYPE, false).FirstOrDefault()) as TestMonoBehaviourAttribute;
 
             MethodInfo[] methods = GetMethodsFromType(t);
+            if (methods.Length == 0)
+            {
+                source = null;
+                return Array.Empty<MethodInfo>();
+            }
+
             source = GetInstance(t);
 
             if (monoBehaviourTest != null && monoBehaviourTest.CallStartBeforeTesting)

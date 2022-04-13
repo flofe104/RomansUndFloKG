@@ -11,7 +11,7 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public int maxHealth = 100;
 
-    protected bool isImmune = false;
+    protected virtual bool IsImmune => false;
     protected float timeSinceDamage;
     public int currentHealth;
 
@@ -27,6 +27,8 @@ public class BaseHealth : MonoBehaviour, IHealth
     }
 
     protected virtual void OnEntityDied() { }
+
+    protected virtual void OnResetHealth() { }
 
     protected void Awake()
     {
@@ -44,6 +46,7 @@ public class BaseHealth : MonoBehaviour, IHealth
     {
         SetMaxHealth(maxHealth);
         currentHealth = this.maxHealth;
+        OnResetHealth();
     }
 
     public int GetCurrentHealth()
@@ -58,7 +61,7 @@ public class BaseHealth : MonoBehaviour, IHealth
 
     public void TakeDamage(int damage)
     {
-        if (!IsDead && !isImmune)
+        if (!IsDead && !IsImmune)
         {
             currentHealth -= damage;
             timeSinceDamage = 0f;
@@ -67,8 +70,14 @@ public class BaseHealth : MonoBehaviour, IHealth
                 OnDeath();
                 currentHealth = 0;
             }
+            else
+            {
+                OnTakeNonLethalDamage();
+            }
         }
     }
+
+    protected virtual void OnTakeNonLethalDamage() { }
 
     public void HealDamage(int damage)
     {
@@ -111,6 +120,7 @@ public class BaseHealth : MonoBehaviour, IHealth
     [Test]
     public void TestFatalDamage()
     {
+        ResetWithMaxHealth(10);
         int damage = maxHealth;
 
         TakeDamage(damage);
@@ -123,6 +133,7 @@ public class BaseHealth : MonoBehaviour, IHealth
     [Test]
     public void TestNoRevive()
     {
+        ResetWithMaxHealth(10);
         int damage = maxHealth;
 
         TakeDamage(damage);

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Testing;
 using UnityEngine;
 
-[TestMonoBehaviour]
 public class BossEnemyRangedCombat : RangedEnemyBaseCombat
 {
     public const float FIRE_ANGLE = 30f;

@@ -4,11 +4,16 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Testing;
 
+[TestMonoBehaviour]
 public class PlayerHealth : BaseHealth
 {
     public const float IMMUNE_TIME = 0.5f;
 
     public GameObject player;
+
+    protected bool isImmune;
+
+    protected override bool IsImmune => isImmune;
 
     protected override void OnEntityDied()
     {
@@ -17,33 +22,22 @@ public class PlayerHealth : BaseHealth
         SceneManager.LoadScene(2);
     }
 
-    void Update()
+    protected override void OnResetHealth()
     {
-        timeSinceDamage += Time.deltaTime;
-        if(timeSinceDamage < IMMUNE_TIME)
-        {
-            isImmune = true;
-        }
-        else
-        {
-            isImmune = false;
-        }
+        StopAllCoroutines();
+        isImmune = false;
+    }
 
-        /*if (Input.GetKeyDown(KeyCode.Space))
-        {
-           TakeDamage(10);
-        //}
-        */
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            HealDamage(100);
-        }
-
+    protected override void OnTakeNonLethalDamage()
+    {
+        isImmune = true;
+        this.DoDelayed(IMMUNE_TIME, () => isImmune = false);
     }
 
     [Test]
     public void TestImmunity()
     {
+        OnResetHealth();
         var preHealth = currentHealth;
         TakeDamage(1);
         TakeDamage(1);

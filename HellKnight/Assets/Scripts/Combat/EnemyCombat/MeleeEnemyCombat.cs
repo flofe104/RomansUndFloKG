@@ -16,6 +16,9 @@ public class MeleeEnemyCombat : MonoBehaviour
     protected MeleeEnemyMovement movementScript;
     protected bool hasDamaged;
 
+    public static string prefabForTestName = "TestMeleeEnemyPrefab";
+
+
     private void Start()
     {
         timeSinceAttack = Random.value * ATTACK_COOLDOWN;
