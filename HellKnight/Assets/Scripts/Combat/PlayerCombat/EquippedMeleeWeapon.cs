@@ -124,12 +124,14 @@ public abstract class EquippedMeleeWeapon<WeaponBehaviour, WeaponStats> : Equipp
 
         ResetWeaponTransform();
 
-        AfterAttackEnded();
 
         ///Check if the weapon rotation matches its start rotation after the attack ended
         Assert.AreEqual(transform.localEulerAngles, Weapon.EquipEulerAngle);
         Assert.AreEqual(transform.localPosition, Weapon.EquipPosition);
         Assert.AreEqual(transform.localScale, Weapon.EquipScale);
+
+
+        AfterAttackEnded();
     }
 
     protected void EndAttack()

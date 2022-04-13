@@ -85,7 +85,9 @@ public class MeleeEnemyCombat : MonoBehaviour
     public IEnumerator TestCooldown()
     {
         float before = timeSinceAttack;
+
         yield return new WaitForSeconds(ATTACK_COOLDOWN);
+        yield return null;
         float after = timeSinceAttack;
         Assert.ApproxEqual(after, before);
     }
