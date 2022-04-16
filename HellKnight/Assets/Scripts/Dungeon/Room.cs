@@ -164,7 +164,7 @@ public class Room : DungeonPart, IDeathListener
         if (aliveEnemies != null)
             return;
 
-        float extraEnemies = 1 + (float)roomIndex / Dungeon.NUMBER_OF_ROOMS;
+        float extraEnemies = 1 + ((float)roomIndex / Dungeon.NUMBER_OF_ROOMS) / 2;
 
         int enemyCountMean = Mathf.FloorToInt(DungeonPartSize.x / 10f);
         int enemyCountMax = Mathf.FloorToInt(enemyCountMean / 2);

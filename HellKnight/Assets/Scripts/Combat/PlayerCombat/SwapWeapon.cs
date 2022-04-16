@@ -88,7 +88,6 @@ public class SwapWeapon : MonoBehaviour
         Assert.IsTrue(player.enabled && player.HasWeaponEquipped);
     }
 
-
     #endregion
 
 }

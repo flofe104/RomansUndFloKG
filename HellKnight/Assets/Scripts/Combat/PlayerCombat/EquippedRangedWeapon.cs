@@ -9,6 +9,7 @@ using UnityEngine.Assertions;
 /// </summary>
 public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, InventoryRangedWeapon>
 {
+
     public GameObject projectilePrefab;
     public Transform shotPoint;
     public float force = 10;
@@ -39,30 +40,17 @@ public class EquippedRangedWeapon : EquippedWeapon<EquippedRangedWeapon, Invento
         r.velocity = transform.right * force;
     }
 
-    void Shoot()
-    {
-        if (!canAttack)
-            return;
-
-        InstantiateArrow();
-        canAttack = false;
-        this.DoDelayed(attackCooldown, () => canAttack = true);
-    }
-
-
     protected float attackCooldown = 1;
 
-    protected bool canAttack = true;
 
-    public override void Attack(Func<IHealth, bool> healthDamageFilter)
+    protected override void ExecuteAttack()
     {
-        this.healthDamageFilter = healthDamageFilter;
-        Shoot();
+        InstantiateArrow();
     }
 
-    /// <summary>
-    /// when the projectile of a ranged weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
-    /// this function will determine if the entity will get damage on contact
-    /// </summary>
-    protected Func<IHealth, bool> healthDamageFilter;
+    protected override void OnStartAttack()
+    {
+        this.DoDelayed(attackCooldown, () => IsInAttack = false);
+    }
+
 }

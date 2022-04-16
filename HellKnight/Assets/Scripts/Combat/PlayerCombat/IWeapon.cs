@@ -5,7 +5,12 @@ using UnityEngine;
 
 public interface IWeapon
 {
-    void Attack(Func<IHealth, bool> damageFilter);
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="damageFilter"></param>
+    /// <returns>returns true if attack could be started</returns>
+    bool Attack(Func<IHealth, bool> damageFilter);
 
     GameObject gameObject { get; }
 

@@ -12,19 +12,13 @@ public abstract class EquippedMeleeWeapon<WeaponBehaviour, WeaponStats> : Equipp
     where WeaponStats : InventoryWeapon<WeaponBehaviour, WeaponStats>
 {
 
-    public override void Attack(Func<IHealth, bool> healthDamageFilter)
+    protected override void ExecuteAttack()
     {
-        this.healthDamageFilter = healthDamageFilter;
-        StartAttack();
+        attackAnimation = WeaponAttackAnimation();
+        StartCoroutine(attackAnimation);
     }
 
     protected IEnumerator attackAnimation;
-
-    /// <summary>
-    /// when the weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
-    /// this function will determine if the entity will get damage on contact
-    /// </summary>
-    protected Func<IHealth, bool> healthDamageFilter;
 
     protected BoxCollider weaponCollider;
 
@@ -53,12 +47,6 @@ public abstract class EquippedMeleeWeapon<WeaponBehaviour, WeaponStats> : Equipp
             body.collisionDetectionMode = CollisionDetectionMode.ContinuousDynamic;
             body.useGravity = false;
         }
-    }
-
-    protected void AnimateMeleeWeaponAttack()
-    {
-        attackAnimation = WeaponAttackAnimation();
-        StartCoroutine(attackAnimation);
     }
 
 
@@ -97,17 +85,7 @@ public abstract class EquippedMeleeWeapon<WeaponBehaviour, WeaponStats> : Equipp
         }
     }
 
-    protected void StartAttack()
-    {
-        if (!CanStartAttack)
-            return;
 
-        IsInAttack = true;
-        OnStartAttack();
-        AnimateMeleeWeaponAttack();
-    }
-
-    protected virtual void OnStartAttack() { }
     protected virtual void AfterAttackEnded() { }
 
     protected void ResetWeaponTransform()

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Testing;
 using UnityEngine;
 
 /// <summary>
@@ -7,6 +8,7 @@ using UnityEngine;
 /// </summary>
 /// <typeparam name="WeaponBehaviour">The behaviour to controll the weapon with</typeparam>
 /// <typeparam name="WeaponType">the weapontype to control</typeparam>
+[TestMonoBehaviour]
 public class PlayerWeaponUser : MonoBehaviour 
 {
 
@@ -53,4 +55,5 @@ public class PlayerWeaponUser : MonoBehaviour
             equipedWeaponInstance = null;
         }
     }
+
 }

@@ -28,9 +28,31 @@ public abstract class EquippedWeapon<WeaponBehaviour, WeaponStats> : MonoBehavio
         }
     }
 
+
+    /// <summary>
+    /// when the weapon encounters a collision with an entitiy which has IHealth attached to any of its scripts
+    /// this function will determine if the entity will get damage on contact
+    /// </summary>
+    protected Func<IHealth, bool> healthDamageFilter;
+
     protected virtual void OnWeaponStatsAssigned(WeaponStats stats) { }
 
-    public abstract void Attack(Func<IHealth, bool> damageFilter);
+    public bool Attack(Func<IHealth, bool> damageFilter)
+    {
+        if (!CanStartAttack)
+            return false;
+
+        healthDamageFilter = damageFilter;
+        IsInAttack = true;
+
+        OnStartAttack();
+        ExecuteAttack();
+        return true;
+    }
+
+    protected virtual void OnStartAttack() { }
+
+    protected abstract void ExecuteAttack();
 
     public bool IsInAttack { get; protected set; }
 
