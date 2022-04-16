@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Testing;
 
-[TestMonoBehaviour]
 public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
 {
     public const float FIRE_ANGLE = 15f;
@@ -23,14 +21,4 @@ public class RangeEnemySplitProjectileCombat : RangedEnemyBaseCombat
         p.TargetDirection = new Vector3(dir.x, dir.y, 0);
         p.ProjectileDamage = PROJECTILE_DAMAGE;
     }
-
-    #region Tests
-
-    [Test]
-    public void TestAttack()
-    {
-
-    }
-
-    #endregion
 }

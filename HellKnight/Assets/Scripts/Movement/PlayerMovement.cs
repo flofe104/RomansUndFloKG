@@ -138,15 +138,15 @@ public class PlayerMovement : BaseMovement
     [TestEnumerator]
     public IEnumerator TestDash()
     {
-        var preDistance = transform.position;
+        var preDistance = transform.position.x;
         var preTime = Time.fixedTime;
         dashing = true;
         yield return new WaitForSeconds(DASH_DURATION);
 
-        var postDistance = transform.position;
+        var postDistance = transform.position.x;
         var postTime = Time.fixedTime;
 
-        Assert.ApproxEqual(postDistance.magnitude - DASH_DISTANCE, preDistance.magnitude, 0.5f);
+        Assert.ApproxEqual(Mathf.Abs(postDistance - preDistance), DASH_DISTANCE , 0.5f);
         Assert.ApproxEqual(postTime - DASH_DURATION, preTime);
     }
 

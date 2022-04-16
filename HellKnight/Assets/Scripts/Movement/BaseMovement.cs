@@ -37,7 +37,7 @@ public abstract class BaseMovement : MonoBehaviour
     protected Vector3 velocity;
     protected bool isGrounded;
     protected bool turning = false;
-    protected bool facedForward;
+    protected bool facedForward = true;
     protected Quaternion endRotation;
 
     public float speed;
