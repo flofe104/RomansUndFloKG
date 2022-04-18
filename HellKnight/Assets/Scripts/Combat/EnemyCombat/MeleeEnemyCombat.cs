@@ -30,6 +30,7 @@ public class MeleeEnemyCombat : MonoBehaviour
         hasDamaged = false;
     }
 
+
     public void OnTriggerEnter(Collider other)
     {
         //Debug.Log("Hit: "+other.gameObject.name);

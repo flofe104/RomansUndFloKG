@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class BossEnemyRangedCombat : RangedEnemyBaseCombat
 {
+
     public const float FIRE_ANGLE = 30f;
     public static int PROJECTILE_DAMAGE = 10;
 
