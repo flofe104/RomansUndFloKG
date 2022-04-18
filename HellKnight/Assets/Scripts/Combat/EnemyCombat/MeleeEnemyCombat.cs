@@ -14,7 +14,6 @@ public class MeleeEnemyCombat : MonoBehaviour
     protected float colorStep;
     public Material material;
     protected MeleeEnemyMovement movementScript;
-    protected bool hasDamaged;
 
     public static string prefabForTestName = "TestMeleeEnemyPrefab";
 
@@ -26,16 +25,13 @@ public class MeleeEnemyCombat : MonoBehaviour
         movementScript = GetComponent<MeleeEnemyMovement>();
         baseColor = material.color;
         color = baseColor;
-
-        hasDamaged = false;
     }
-
 
     public void OnTriggerEnter(Collider other)
     {
-        //Debug.Log("Hit: "+other.gameObject.name);
+        //Debug.Log("Hit: "+ other.gameObject.name);
         PlayerHealth health = other.gameObject.GetComponent<PlayerHealth>();
-        if (health != null && other && !hasDamaged)
+        if (health != null)
         {
             OnHealthHit(health);
         }
@@ -44,7 +40,6 @@ public class MeleeEnemyCombat : MonoBehaviour
     private void OnHealthHit(BaseHealth health)
     {
         health.TakeDamage(ATTACK_DAMAGE);
-        hasDamaged = true;
     }
 
     protected void UpdateColor()
@@ -66,7 +61,6 @@ public class MeleeEnemyCombat : MonoBehaviour
         timeSinceAttack += Time.deltaTime;
         if (movementScript.GetIsGrounded() && timeSinceAttack >= ATTACK_COOLDOWN)
         {
-            hasDamaged = false;
             movementScript.JumpAtAngle();
             timeSinceAttack = 0;
         }

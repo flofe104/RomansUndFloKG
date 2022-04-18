@@ -26,7 +26,7 @@ public class Arrow : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("Hit " + collision.gameObject.name);
+        //Debug.Log("Hit " + collision.gameObject.name);
         Destroy(gameObject);
         BaseHealth health = collision.gameObject.GetComponent<BaseHealth>();
         if (health != null && !(health is PlayerHealth))
