@@ -131,6 +131,7 @@ namespace Testing
 
         protected static void TestAllEnumeratorTestMethods()
         {
+            GameObject.Find("Player").transform.position = new Vector3(-100, -100, -100);
             TestRunner.StartCoroutine(DelayEnumeratorTest());
         }
 
