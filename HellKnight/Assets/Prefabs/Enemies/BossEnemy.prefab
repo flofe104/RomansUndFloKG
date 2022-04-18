@@ -414,12 +414,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2679621494065595842}
-  - component: {fileID: 3616465244737499188}
   - component: {fileID: 9217614365755597924}
   - component: {fileID: -7537006462900548363}
   - component: {fileID: 2528202333920233026}
   - component: {fileID: 6116607406738904890}
   - component: {fileID: 2425616355065554305}
+  - component: {fileID: 8736270417055345441}
   m_Layer: 3
   m_Name: BossEnemy
   m_TagString: Untagged
@@ -446,20 +446,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3616465244737499188
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9064506378114716341}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b61df9ab47f7c604db7a56afab0a6e93, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 100
-  currentHealth: 0
 --- !u!143 &9217614365755597924
 CharacterController:
   m_ObjectHideFlags: 0
@@ -535,3 +521,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 2100000, guid: 8b69192d828339f44a9f070b2264cb80, type: 2}
+--- !u!114 &8736270417055345441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9064506378114716341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1bbf74971353dcb4a9f26ab6e55bf365, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  currentHealth: 0

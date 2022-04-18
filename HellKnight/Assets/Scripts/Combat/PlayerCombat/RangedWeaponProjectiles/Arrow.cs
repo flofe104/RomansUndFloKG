@@ -28,14 +28,14 @@ public class Arrow : MonoBehaviour
     {
         Debug.Log("Hit " + collision.gameObject.name);
         Destroy(gameObject);
-        EnemyHealth health = collision.gameObject.GetComponent<EnemyHealth>();
-        if (health != null)
+        BaseHealth health = collision.gameObject.GetComponent<BaseHealth>();
+        if (health != null && !(health is PlayerHealth))
         {
             OnEnemyHit(health);
         }
     }
 
-    private void OnEnemyHit(EnemyHealth health)
+    private void OnEnemyHit(BaseHealth health)
     {
         health.TakeDamage(25);
     }

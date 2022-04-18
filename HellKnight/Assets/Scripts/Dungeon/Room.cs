@@ -226,19 +226,21 @@ public class Room : DungeonPart, IDeathListener
     }
 
     public void SpawnHeart()
-
     {
-        float  yCoord = ExitDoor.transform.position.y;
+        if (ExitDoor == null)
+            return;
+
+        float yCoord = ExitDoor.transform.position.y;
         float xCoord = ExitDoor.transform.position.x + 5;
         Vector3 spawnPosition = new Vector3(xCoord, yCoord, 0);
-        GameObject heart = Instantiate(heartPrefab, spawnPosition, Quaternion.identity); 
+        Instantiate(heartPrefab, spawnPosition, Quaternion.identity); 
     }
 
-    public static void setHeartPrefab(GameObject prefab)
+    public static void SetHeartPrefab(GameObject prefab)
     {
         heartPrefab = prefab;
     }
-    public static void setPlatformMaterial(Material material)
+    public static void SetPlatformMaterial(Material material)
     {
         platformMaterial = material;
     }

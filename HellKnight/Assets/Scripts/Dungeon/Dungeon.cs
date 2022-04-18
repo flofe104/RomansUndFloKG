@@ -41,8 +41,8 @@ public class Dungeon : MonoBehaviour
 
     private void Generate()
     {
-        Room.setPlatformMaterial(platformMaterial);
-        Room.setHeartPrefab(heartPrefab);
+        Room.SetPlatformMaterial(platformMaterial);
+        Room.SetHeartPrefab(heartPrefab);
 
         rooms = new Room[NUMBER_OF_ROOMS];
         connectors = new RoomConnector[NUMBER_OF_ROOM_CONNECTORS];
