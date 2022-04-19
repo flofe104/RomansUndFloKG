@@ -157,7 +157,7 @@ namespace Testing
 
         protected static void CallEnumeratorTestOfType(Type t)
         {
-            PrepareTypeForTests(t, out object source);
+           // PrepareTypeForTests(t, out object source);
             MethodInfo[] methods = GetMethodsFromType(t);
 
             foreach (MethodInfo method in FilterForMethodsWithAttribute<TestEnumeratorAttribute>(methods))
