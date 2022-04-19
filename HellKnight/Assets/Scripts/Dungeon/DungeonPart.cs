@@ -15,7 +15,9 @@ public abstract class DungeonPart : MonoBehaviour
 
     protected Vector3 DungeonPartSizeWithDefaultWidth3D => new Vector3(DungeonPartSize.x - 2, DungeonPartSize.y, 1);
 
-    protected Vector3 DungeonPartCenterPosition => DungeonPartSize3D / 2;
+    protected Vector3 DungeonPartLocalCenterPosition => DungeonPartSize3D / 2;
+
+    public Vector3 DungenPartGlobalAnchorPosition => transform.position;
 
     protected float entryHeightOffset = 0;
 

@@ -44,4 +44,12 @@ public class PlayerHealth : BaseHealth
         var postHealth = currentHealth;
         Assert.IsTrue(postHealth == preHealth - 1);
     }
+
+    [Test]
+    public void TestStartHealth()
+    {
+        ///Reset health, in case other tests changed current health
+        Awake();
+        Assert.Equals(currentHealth, 100);
+    }
 }

@@ -24,6 +24,7 @@ public class Room : DungeonPart, IDeathListener
     protected int roomIndex;
 
     protected const int ENEMY_SPREAD = 2;
+    protected const int MAX_ENEMIES = 20;
     protected const int MIN_WIDTH = 30;
     protected const int MAX_WIDTH = 60;
 
@@ -54,7 +55,7 @@ public class Room : DungeonPart, IDeathListener
 
     protected HashSet<IHealth> aliveEnemies;
 
-    public bool HasAliveEnemies => aliveEnemies.Count > 0;
+    public bool HasAliveEnemies => aliveEnemies != null && aliveEnemies.Count > 0;
 
     public bool IsRoomCleared => !HasAliveEnemies;
 
@@ -75,7 +76,7 @@ public class Room : DungeonPart, IDeathListener
             c = gameObject.AddComponent<BoxCollider>();
             c.isTrigger = true;
             c.size = DungeonPartSizeWithDefaultWidth3D;
-            c.center = DungeonPartCenterPosition;
+            c.center = DungeonPartLocalCenterPosition;
         }
     }
 
@@ -170,7 +171,7 @@ public class Room : DungeonPart, IDeathListener
         int enemyCountMax = Mathf.FloorToInt(enemyCountMean / 2);
         int enemyCountMin = Mathf.FloorToInt(enemyCountMean * 2);
         int enemyCount = rand.Next(enemyCountMean - ENEMY_SPREAD, enemyCountMean + ENEMY_SPREAD);
-        enemyCount = (int)(Mathf.Clamp(enemyCount, enemyCountMin, enemyCountMax) * extraEnemies);
+        enemyCount = (int)(Mathf.Clamp(enemyCount, enemyCountMin, Mathf.Min(MAX_ENEMIES, enemyCountMax)) * extraEnemies);
         aliveEnemies = new HashSet<IHealth>();
 
         if(roomIndex == Dungeon.NUMBER_OF_ROOMS - 1)

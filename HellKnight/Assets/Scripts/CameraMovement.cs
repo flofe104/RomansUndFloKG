@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Testing;
 using UnityEngine;
 
+[TestMonoBehaviour]
 public class CameraMovement : MonoBehaviour
 {
     public GameObject player;
@@ -18,4 +20,14 @@ public class CameraMovement : MonoBehaviour
     {
         transform.position += 2 * Time.deltaTime * (player.transform.position + offset - transform.position); 
     }
+
+
+    [Test]
+    public void TestInitialCameraDistance()
+    {
+        Vector3 playerPos = GameObject.Find("Player").transform.position;
+        Assert.ApproxEqual(transform.position.y - playerPos.y, 5, 0.2f);
+        Assert.ApproxEqual(transform.position.z - playerPos.z, -20, 0.2f);
+    }
+
 }

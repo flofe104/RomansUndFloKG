@@ -214,6 +214,7 @@ public class Dungeon : MonoBehaviour
         Assert.IsTrue(rooms[0].ExitDoor.IsOpen);
     }
 
+  
 
     [TestEnumerator]
     protected IEnumerator TestEntryClosesOnRoomEnter()
@@ -258,9 +259,44 @@ public class Dungeon : MonoBehaviour
     }
 
     [Test]
+    protected void TestPlayerStartPosition()
+    {
+        Vector3 playerStartPos = GameObject.Find("Player").transform.position;
+        float distanceFromFirstRoomAnchor = Vector3.Distance(playerStartPos, rooms[0].DungenPartGlobalAnchorPosition);
+        Assert.ApproxEqual(distanceFromFirstRoomAnchor, 0, 3);
+    }
+
+    [Test]
+    protected void DontSpawnEnemiesTooEarly()
+    {
+        for (int i = 1; i < NUMBER_OF_ROOMS; i++)
+        {
+            Assert.IsTrue(!rooms[i].HasAliveEnemies);
+        }
+    }
+
+    [TestEnumerator]
+    protected IEnumerator FirstRoomHasEnemies()
+    {
+        yield return new WaitForFixedUpdate();
+
+        Assert.IsTrue(rooms[0].HasAliveEnemies);
+    }
+
+    [Test]
     public void TestNumberOfRooms()
     {
         Assert.AreEqual(rooms.Length, NUMBER_OF_ROOMS);
+    }
+
+    [Test]
+    public void TestConnectorHeight()
+    {
+        for (int i = 0; i < NUMBER_OF_ROOM_CONNECTORS; i++)
+        {
+            Assert.Equals(connectors[i].Height, 2.5f);
+            Assert.Equals(connectors[i].Width, 20);
+        }
     }
 
     [Test]

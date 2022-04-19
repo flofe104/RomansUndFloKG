@@ -36,7 +36,7 @@ public class Projectile : MonoBehaviour, IProjectile
     protected Vector3 targetDirection = Vector3.zero;
     protected float aliveTime = 0;
 
-    protected const float MAX_ALIVE_TIME = 5.0f;
+    protected const float MAX_ALIVE_TIME = 20.0f;
     private void OnCollisionEnter(Collision collision)
     {
         //Debug.Log("Hit " + collision.gameObject.name);
