@@ -59,7 +59,7 @@ public class MeleeEnemyCombat : MonoBehaviour
     private void Update()
     {
         timeSinceAttack += Time.deltaTime;
-        if (movementScript.GetIsGrounded() && timeSinceAttack >= ATTACK_COOLDOWN)
+        if (timeSinceAttack >= ATTACK_COOLDOWN)
         {
             movementScript.JumpAtAngle();
             timeSinceAttack = 0;
