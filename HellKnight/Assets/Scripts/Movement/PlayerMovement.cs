@@ -138,6 +138,8 @@ public class PlayerMovement : BaseMovement
     [TestEnumerator]
     public IEnumerator TestDash()
     {
+        Controller.transform.position += Vector3.right * DASH_DISTANCE;
+
         var preDistance = transform.position.x;
         var preTime = Time.fixedTime;
         dashing = true;
