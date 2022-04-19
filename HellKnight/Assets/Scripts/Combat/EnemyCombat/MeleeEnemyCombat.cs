@@ -92,9 +92,16 @@ public class MeleeEnemyCombat : MonoBehaviour
     {
         if (timeSinceAttack > Time.deltaTime)
             yield return new WaitForSeconds(ATTACK_COOLDOWN - timeSinceAttack + Time.deltaTime);
+        
         Assert.ApproxEqual(material.color.r, baseColor.r + colorStep);
-        yield return new WaitForSeconds(5 * Time.deltaTime);
-        Assert.ApproxEqual(material.color.r, baseColor.r + 5 * colorStep);
+        float r = baseColor.r;
+        for (int i = 0; i < 5; i++)
+        {
+            yield return null;
+            r+=colorStep;
+            Assert.ApproxEqual(material.color.r, r);
+
+        }
         yield return new WaitForSeconds(ATTACK_COOLDOWN - timeSinceAttack);
         Assert.AreEqual(material.color.r, baseColor.r);
     }
