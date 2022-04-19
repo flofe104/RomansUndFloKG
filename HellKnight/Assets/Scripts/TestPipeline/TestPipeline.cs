@@ -137,8 +137,7 @@ namespace Testing
 
         protected static IEnumerator DelayEnumeratorTest()
         {
-            yield return new WaitForSeconds(1);
-           
+            yield return null;
             foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
             {
                 CallEnumeratorTestOfType(t);
@@ -247,6 +246,8 @@ namespace Testing
             }
 
             object source = GetInstance(t);
+
+            yield return new WaitForSeconds(1);
 
             yield return (IEnumerator)m.Invoke(source, null);
             Debug.Log($"Enumerator Test in class {t.Name} for method {m.Name} sucessfull");
