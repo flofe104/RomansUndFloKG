@@ -18,7 +18,7 @@ public class Dungeon : MonoBehaviour
 
     private void Start()
     {
-        InitializeDungeon(seed);
+        InitializeDungeon(UnityEngine.Random.Range(0,9999999));
     }
 
     public void InitializeDungeon(int seed)
