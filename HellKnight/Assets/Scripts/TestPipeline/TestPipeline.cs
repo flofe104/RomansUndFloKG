@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -71,6 +73,7 @@ namespace Testing
         }
 
 
+#if UNITY_EDITOR
 
         [MenuItem("Testing/StartAllSingleTestsInPlaymode")]
         public static void StartSingleMethodTestInPlaymode()
@@ -85,6 +88,7 @@ namespace Testing
             AddEvent(nameof(TestAllEnumeratorTestMethods));
             EditorApplication.isPlaying = true;
         }
+#endif
 
         protected static void ResetTestEvents()
         {
@@ -95,6 +99,8 @@ namespace Testing
         {
             EventNames.EventNames.Add(name);
         }
+
+#if UNITY_EDITOR
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.AfterSceneLoad)]
         public static void CallActiveEventsWhenSceneLoaded()
@@ -119,7 +125,6 @@ namespace Testing
             }
         }
 
-
         protected static void TestAllSingleTestMethods()
         {
             foreach (Type t in GetAllTypesWithAttribute<TestMonoBehaviourAttribute>())
@@ -128,6 +133,7 @@ namespace Testing
             }
             EditorApplication.isPlaying = false;
         }
+#endif
 
         protected static void TestAllEnumeratorTestMethods()
         {
@@ -382,7 +388,7 @@ namespace Testing
         }
 
 
-
+#if UNITY_EDITOR
         [MenuItem("Testing/Why my Tests are not working")]
         public static void CheckWhyTestsMightNotWork()
         {
@@ -390,6 +396,7 @@ namespace Testing
             CheckWrongTestAttribute();
         }
 
+#endif
 
         protected static void CheckWrongTestAttribute()
         {
