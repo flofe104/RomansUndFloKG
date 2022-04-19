@@ -148,6 +148,10 @@ public class PlayerMovement : BaseMovement
 
         Assert.ApproxEqual(Mathf.Abs(postDistance - preDistance), DASH_DISTANCE , 0.5f);
         Assert.ApproxEqual(postTime - DASH_DURATION, preTime);
+        controller.enabled = false;
+        transform.position = new Vector3(21,2,0);
+        yield return null;
+        controller.enabled = true;
     }
 
     [TestEnumerator]
